@@ -1,0 +1,14 @@
+stages:
+  - build
+
+services:
+  - docker:dind
+
+images:
+  stage: build
+  image: tmaier/docker-compose
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose build
+    - docker-compose push
+
