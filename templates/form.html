@@ -1,0 +1,15 @@
+<form action="/" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="definitons_file">Definition file</label>
+        <input type="file" name="definition" id="definitons_file">
+    </div>
+    <div>
+        <label for="weights_file">Weights file</label>
+        <input type="file" name="weights" id="weights_file">
+    </div>
+    <div>
+        <label for="compile_flags">Compile flags</label>
+        <input type="text" style="width: 90%" value="-ip U8 -VPU_MYRIAD_PLATFORM VPU_MYRIAD_2480 -VPU_NUMBER_OF_SHAVES 4 -VPU_NUMBER_OF_CMX_SLICES 4" name="compile_flags" id="compile_flags">
+    </div>
+    <input type="submit" value="Convert">
+</form>
