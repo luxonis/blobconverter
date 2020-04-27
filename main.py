@@ -23,7 +23,9 @@ UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 @app.route("/", methods=['GET', 'POST'])
 def parse():
     if request.method == 'GET':
-        return render_template('form.html')
+        with open("/opt/intel/openvino/deployment_tools/inference_engine/version.txt") as version_f:
+            version = version_f.readlines()
+        return render_template('form.html', version=version)
 
     definition_file = request.files.get('definition', None)
     weights_file = request.files.get('weights', None)
