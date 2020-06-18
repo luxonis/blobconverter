@@ -113,6 +113,52 @@ def request_zoo(workdir):
     return send_file(f"{workdir}/model.blob", as_attachment=True, attachment_filename=f"{model_name}.blob")
 
 
+def request_model(workdir):
+    model_type = request.form.get('model_type', '')
+    intermediate_compiler_params = request.form.get('intermediate_compiler_params', '')
+    model_file = request.files.get('model', None)
+    proto_file = request.files.get('proto', None)
+
+    model_path = workdir / Path(secure_filename(model_file.filename))
+    definitions_path = model_path.with_suffix('.xml')
+    output_path = model_path.with_suffix('.blob')
+    output_filename = model_path.with_suffix('.bin').name
+
+    if model_type == "caffe":
+        if model_file is None:
+            return "File named \"model\" must be present in the request form", 400
+        if proto_file is None:
+            return "File named \"proto\" must be present in the request form", 400
+
+        if Path(model_file.filename).suffix != ".caffemodel":
+            return "Model file must have .caffemodel extension", 400
+        if Path(proto_file.filename).suffix != ".prototxt":
+            return "Definitions file must have .prototxt extension", 400
+
+        proto_path = model_path.with_suffix('.prototxt')
+        model_file.save(model_path)
+        proto_file.save(proto_path)
+        command = f"{intermediate_compiler_path} --output_dir {workdir} --input_model {model_path} --input_proto {proto_path} {intermediate_compiler_params}"
+        run_command(command)
+    elif model_type == "tf":
+        if model_file is None:
+            return "File named \"model\" must be present in the request form", 400
+
+        if Path(model_file.filename).suffix != ".pb":
+            return "Model file must have .pb extension", 400
+
+        model_file.save(model_path)
+        command = f"{intermediate_compiler_path} --output_dir {workdir} --framework tf --input_model {model_path} {intermediate_compiler_params}"
+        run_command(command)
+    else:
+        return jsonify(error=f"Invalid model type: {model_type}, supported: tf, caffe")
+
+    compiler_params = request.form.get('compiler_params', '')
+    command = f"{compiler_path} -m {definitions_path} -o {output_path} {compiler_params}"
+    run_command(command)
+    return send_file(output_path, as_attachment=True, attachment_filename=output_filename)
+
+
 @app.errorhandler(CommandFailed)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
@@ -132,6 +178,8 @@ def parse():
     compile_type = request.form.get('compile_type', 'myriad')
     if compile_type == "myriad":
         return request_myriad(workdir)
+    if compile_type == "model":
+        return request_model(workdir)
     if compile_type == "zoo":
         return request_zoo(workdir)
     else:
