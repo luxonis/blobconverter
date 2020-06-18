@@ -1,4 +1,5 @@
-FROM openvino/ubuntu18_dev
+ARG VERSION=2020.1
+FROM openvino/ubuntu18_dev:${VERSION}
 
 USER root
 RUN apt-get update && apt-get -y upgrade

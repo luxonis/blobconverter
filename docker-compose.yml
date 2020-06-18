@@ -1,10 +1,30 @@
 version: '2'
 
 services:
-  api:
-    build: .
-    image: registry.gitlab.com/luxonis/blobconverter/api:latest
+  api20201:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        VERSION: 2020.1
+    image: registry.gitlab.com/luxonis/blobconverter/api:2020.1
     ports:
       - 8080:8080
-    volumes:
-      - ./:/app
+  api20202:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        VERSION: 2020.2
+    image: registry.gitlab.com/luxonis/blobconverter/api:2020.2
+    ports:
+      - 8081:8080
+  api20193:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        VERSION: 2019_R3.1
+    image: registry.gitlab.com/luxonis/blobconverter/api:2019_R3.1
+    ports:
+      - 8082:8080
