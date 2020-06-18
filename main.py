@@ -1,5 +1,6 @@
 import os
 import subprocess
+import traceback
 import uuid
 from pathlib import Path
 
@@ -8,25 +9,70 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-
 compiler_path = "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/myriad_compile"
+intermediate_compiler_path = "/opt/intel/openvino/deployment_tools/model_optimizer/mo.py"
+model_downloader_path = "/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/downloader.py"
 
-# if not Path(compiler_path).exists():
-#     raise RuntimeError("Unable to find \"myriad compile\" file in {}".format(compiler_path))
-# else:
-#     print("Using myriad_compile: {}".format(compiler_path))
+env = os.environ.copy()
+env['InferenceEngine_DIR'] = "/opt/intel/openvino/deployment_tools/inference_engine/share"
+env['INTEL_OPENVINO_DIR'] = "/opt/intel/openvino"
+env['OpenCV_DIR'] = "/opt/intel/openvino/opencv/cmake"
+env[
+    'LD_LIBRARY_PATH'] = "/opt/intel/openvino/opencv/lib:/opt/intel/openvino/deployment_tools/ngraph/lib:/opt/intel/opencl:/opt/intel/openvino/deployment_tools/inference_engine/external/hddl/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/gna/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/mkltiny_lnx/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/tbb/lib:/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64:"
+env['HDDL_INSTALL_DIR'] = "/opt/intel/openvino/deployment_tools/inference_engine/external/hddl"
+env['INTEL_CVSDK_DIR'] = "/opt/intel/openvino"
+env['INSTALLDIR'] = "/opt/intel/openvino"
+env[
+    'PYTHONPATH'] = "/opt/intel/openvino/python/python3.6:/opt/intel/openvino/python/python3:/opt/intel/openvino/deployment_tools/open_model_zoo/tools/accuracy_checker:/opt/intel/openvino/deployment_tools/model_optimizer"
+env[
+    'PATH'] = "/opt/intel/openvino/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 UPLOAD_FOLDER = Path('/tmp/blobconverter')
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 
-@app.route("/", methods=['GET', 'POST'])
-def parse():
-    if request.method == 'GET':
-        with open("/opt/intel/openvino/deployment_tools/inference_engine/version.txt") as version_f:
-            version = version_f.readlines()
-        return render_template('form.html', version=version)
+class CommandFailed(Exception):
+    status_code = 500
 
+    def __init__(self, message, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+
+def run_command(command):
+    print("Running command: {}".format(command))
+    split_cmd = command.rstrip(' ').split(' ')
+    try:
+        proc = subprocess.Popen(split_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+        stdout, stderr = proc.communicate()
+        print("Command returned exit code: {}".format(proc.returncode))
+        if proc.returncode != 0:
+            raise CommandFailed(
+                message=f"Command failed with exit code {proc.returncode}, command: {command}",
+                payload=dict(
+                    stderr=stderr.decode(),
+                    stdout=stdout.decode(),
+                    exit_code=proc.returncode
+                )
+            )
+    except Exception:
+        raise CommandFailed(
+            message=f"Command was unable to execute, command: {command}",
+            payload=dict(
+                stderr=traceback.format_exc(),
+                stdout="",
+                exit_code=-1
+            )
+        )
+
+
+def request_myriad(workdir):
     definition_file = request.files.get('definition', None)
     weights_file = request.files.get('weights', None)
     extra_params = request.form.get('compile_flags', '')
@@ -41,7 +87,7 @@ def parse():
     if Path(weights_file.filename).suffix != ".bin":
         return "Definitions file must have .bin extension", 400
 
-    definitions_path = UPLOAD_FOLDER / Path(uuid.uuid4().hex + secure_filename(definition_file.filename))
+    definitions_path = workdir / Path(secure_filename(definition_file.filename))
     weights_path = definitions_path.with_suffix('.bin')
     output_path = definitions_path.with_suffix('.blob')
     output_filename = Path(definition_file.filename).with_suffix('.blob').name
@@ -49,33 +95,47 @@ def parse():
     definition_file.save(definitions_path)
     weights_file.save(weights_path)
 
-    command = "{compiler} -m {definition} -o {output} {extra}".format(
-        compiler=compiler_path, definition=definitions_path, output=output_path, extra=extra_params
-    ).rstrip(' ').split(' ')
-    print("Running command: {}".format(command))
-    env = os.environ.copy()
-    env['InferenceEngine_DIR'] = "/opt/intel/openvino/deployment_tools/inference_engine/share"
-    env['INTEL_OPENVINO_DIR'] = "/opt/intel/openvino"
-    env['OpenCV_DIR'] = "/opt/intel/openvino/opencv/cmake"
-    env['LD_LIBRARY_PATH'] = "/opt/intel/openvino/opencv/lib:/opt/intel/openvino/deployment_tools/ngraph/lib:/opt/intel/opencl:/opt/intel/openvino/deployment_tools/inference_engine/external/hddl/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/gna/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/mkltiny_lnx/lib:/opt/intel/openvino/deployment_tools/inference_engine/external/tbb/lib:/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64:"
-    env['HDDL_INSTALL_DIR'] = "/opt/intel/openvino/deployment_tools/inference_engine/external/hddl"
-    env['INTEL_CVSDK_DIR'] = "/opt/intel/openvino"
-    env['INSTALLDIR'] = "/opt/intel/openvino"
-    env['PYTHONPATH'] = "/opt/intel/openvino/python/python3.6:/opt/intel/openvino/python/python3:/opt/intel/openvino/deployment_tools/open_model_zoo/tools/accuracy_checker:/opt/intel/openvino/deployment_tools/model_optimizer"
-    env['PATH'] = "/opt/intel/openvino/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
-    stdout, stderr = proc.communicate()
-    print("Command returned exit code: {}".format(proc.returncode))
+    run_command(f"{compiler_path} -m {definitions_path} -o {output_path} {extra_params}")
+    return send_file(output_path, as_attachment=True, attachment_filename=output_filename)
 
-    if proc.returncode != 0:
-        return jsonify(
-            command=' '.join(command),
-            stderr=stderr.decode(),
-            stdout=stdout.decode(),
-            exit_code=proc.returncode
-        ), 500
+
+def request_zoo(workdir):
+    model_name = request.form.get('model_name', '')
+    model_downloader_params = request.form.get('model_downloader_params', '')
+    command = f"{model_downloader_path} --name {model_name} --output_dir {workdir} --cache_dir {UPLOAD_FOLDER} {model_downloader_params}"
+    run_command(command)
+    intermediate_compiler_params = request.form.get('intermediate_compiler_params', '')
+    command = f"{intermediate_compiler_path} --output_dir {workdir} --input_model {workdir}/public/{model_name}/{model_name}.caffemodel --input_proto {workdir}/public/{model_name}/{model_name}.prototxt {intermediate_compiler_params}"
+    run_command(command)
+    compiler_params = request.form.get('compiler_params', '')
+    command = f"{compiler_path} -m {workdir}/{model_name}.xml -o {workdir}/model.blob {compiler_params}"
+    run_command(command)
+    return send_file(f"{workdir}/model.blob", as_attachment=True, attachment_filename=f"{model_name}.blob")
+
+
+@app.errorhandler(CommandFailed)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
+@app.route("/", methods=['GET', 'POST'])
+def parse():
+    if request.method == 'GET':
+        with open("/opt/intel/openvino/deployment_tools/inference_engine/version.txt") as version_f:
+            version = version_f.readlines()
+        return render_template('form.html', version=version)
+
+    workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
+    workdir.mkdir(parents=True, exist_ok=True)
+    compile_type = request.form.get('compile_type', 'myriad')
+    if compile_type == "myriad":
+        return request_myriad(workdir)
+    if compile_type == "zoo":
+        return request_zoo(workdir)
     else:
-        return send_file(output_path, as_attachment=True, attachment_filename=output_filename)
+        return jsonify(error=f"Unknown compile type: {compile_type}")
 
 
 app.run(host='0.0.0.0', port=8080)

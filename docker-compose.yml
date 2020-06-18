@@ -6,3 +6,5 @@ services:
     image: registry.gitlab.com/luxonis/blobconverter/api:latest
     ports:
       - 8080:8080
+    volumes:
+      - ./:/app
