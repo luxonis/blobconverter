@@ -61,6 +61,9 @@ def run_command(command):
                     exit_code=proc.returncode
                 )
             )
+        return proc, stdout, stderr
+    except CommandFailed:
+        raise
     except Exception:
         raise CommandFailed(
             message=f"Command was unable to execute, command: {command}",
@@ -75,7 +78,7 @@ def run_command(command):
 def request_myriad(workdir):
     definition_file = request.files.get('definition', None)
     weights_file = request.files.get('weights', None)
-    extra_params = request.form.get('compile_flags', '')
+    compiler_params = request.form.get('compiler_params', '')
 
     if definition_file is None:
         return "File named \"definition\" must be present in the request form", 400
@@ -95,7 +98,7 @@ def request_myriad(workdir):
     definition_file.save(definitions_path)
     weights_file.save(weights_path)
 
-    run_command(f"{compiler_path} -m {definitions_path} -o {output_path} {extra_params}")
+    run_command(f"{compiler_path} -m {definitions_path} -o {output_path} {compiler_params}")
     return send_file(output_path, as_attachment=True, attachment_filename=output_filename)
 
 
@@ -175,7 +178,8 @@ def parse():
     if request.method == 'GET':
         with open("/opt/intel/openvino/deployment_tools/inference_engine/version.txt") as version_f:
             version = version_f.readlines()
-        return render_template('form.html', version=version)
+        _, stdout, _ = run_command(f"{model_downloader_path} --print_all")
+        return render_template('form.html', version=version, zoo_models=stdout.decode().split(), url=request.host)
 
     workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
     workdir.mkdir(parents=True, exist_ok=True)
