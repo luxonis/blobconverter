@@ -104,11 +104,15 @@ def request_zoo(workdir):
     model_downloader_params = request.form.get('model_downloader_params', '')
     command = f"{model_downloader_path} --name {model_name} --output_dir {workdir} --cache_dir {UPLOAD_FOLDER} {model_downloader_params}"
     run_command(command)
-    intermediate_compiler_params = request.form.get('intermediate_compiler_params', '')
-    command = f"{intermediate_compiler_path} --output_dir {workdir} --input_model {workdir}/public/{model_name}/{model_name}.caffemodel --input_proto {workdir}/public/{model_name}/{model_name}.prototxt {intermediate_compiler_params}"
-    run_command(command)
+    if os.path.exists(f"{workdir}/public/{model_name}/{model_name}.caffemodel") or os.path.exists(f"{workdir}/public/{model_name}/{model_name}.tf"):
+        intermediate_compiler_params = request.form.get('intermediate_compiler_params', '')
+        command = f"{intermediate_compiler_path} --output_dir {workdir} --input_model {workdir}/public/{model_name}/{model_name}.caffemodel --input_proto {workdir}/public/{model_name}/{model_name}.prototxt {intermediate_compiler_params}"
+        run_command(command)
+        definitions_path = workdir
+    else:
+        definitions_path = f"{workdir}/intel/{model_name}/FP16"
     compiler_params = request.form.get('compiler_params', '')
-    command = f"{compiler_path} -m {workdir}/{model_name}.xml -o {workdir}/model.blob {compiler_params}"
+    command = f"{compiler_path} -m {definitions_path}/{model_name}.xml -o {workdir}/model.blob {compiler_params}"
     run_command(command)
     return send_file(f"{workdir}/model.blob", as_attachment=True, attachment_filename=f"{model_name}.blob")
 
