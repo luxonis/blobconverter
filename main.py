@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify, send_file, render_template
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 300 * 1024 * 1024
 
 compiler_path = "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/myriad_compile"
 intermediate_compiler_path = "/opt/intel/openvino/deployment_tools/model_optimizer/mo.py"
