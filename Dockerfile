@@ -1,5 +1,10 @@
-ARG VERSION=2020.1
-FROM openvino/ubuntu18_dev:${VERSION}
+FROM openvino/ubuntu18_dev:2020.1
+
+COPY --from=openvino/ubuntu18_dev:2021.1 /opt/intel/openvino /opt/intel/openvino2021_1
+COPY --from=openvino/ubuntu18_dev:2020.4 /opt/intel/openvino /opt/intel/openvino2020_4
+COPY --from=openvino/ubuntu18_dev:2020.3 /opt/intel/openvino /opt/intel/openvino2020_3
+COPY --from=openvino/ubuntu18_dev:2020.2 /opt/intel/openvino /opt/intel/openvino2020_2
+COPY --from=openvino/ubuntu18_dev:2019_R3.1 /opt/intel/openvino /opt/intel/openvino2019_3
 
 USER root
 RUN apt-get update && apt-get -y upgrade
@@ -12,6 +17,6 @@ WORKDIR /app
 ADD requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
-ADD templates templates
+ADD websrc/build/ websrc/build/
 ADD main.py .
 CMD ["python3", "main.py"]

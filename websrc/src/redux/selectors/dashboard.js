@@ -7,6 +7,11 @@ export const openVinoVersionSelector = createSelector(
   dashboard => dashboard.openVinoVersion
 )
 
+export const availableZooModelsSelector = createSelector(
+  dashboardBranch,
+  dashboard => dashboard.availableZooModels
+)
+
 export const modelSourceSelector = createSelector(
   dashboardBranch,
   dashboard => dashboard.modelSource

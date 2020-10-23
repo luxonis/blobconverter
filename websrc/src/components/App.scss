@@ -34,6 +34,8 @@ input, select {
   outline-style: none;
   box-shadow: none;
   color: #e1f6ff;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 14px;
 }
 
 .App {
@@ -200,7 +202,8 @@ input, select {
           display: block;
         }
         select {
-          padding: 5px 15px;
+          padding: 5px 5px;
+          width: 100%;
         }
       }
     }
@@ -309,10 +312,6 @@ input, select {
             span {
               font-weight: 700;
             }
-          }
-          input {
-            font-family: 'Roboto', 'Noto', sans-serif;
-            font-size: 14px;
           }
         }
       }

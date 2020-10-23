@@ -16,10 +16,6 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // this.props.fetchZooModels();
-  }
-
   render() {
     return (
       <div className="App">

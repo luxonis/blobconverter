@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import stepImg from './step.png';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
-import {modelSourceSelector} from "../redux/selectors/dashboard";
+import {availableZooModelsSelector, modelSourceSelector} from "../redux/selectors/dashboard";
 
 const myriad_compile_step = {
   "title": "MyriadX Compile",
@@ -36,7 +36,7 @@ const resolveSteps = source => {
   }
 }
 
-const ConversionForm = ({modelSource, prevStep}) => {
+const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
   const [advanced, setAdvanced] = React.useState(false);
   const steps = resolveSteps(modelSource);
   return (
@@ -84,10 +84,11 @@ const ConversionForm = ({modelSource, prevStep}) => {
               <div className="form-group">
                 <label htmlFor="zoo-name">Model name</label>
                 <select id="zoo-name">
-                  <option value="volvo">Volvo</option>
-                  <option value="volvo">Volvo</option>
-                  <option value="volvo">Volvo</option>
-                  <option value="volvo">Volvo</option>
+                  {
+                    availableZooModels.map(model => (
+                      <option key={model} value={model}>{model}</option>
+                    ))
+                  }
                 </select>
               </div>
             }
@@ -144,10 +145,12 @@ const ConversionForm = ({modelSource, prevStep}) => {
 ConversionForm.propTypes = {
   modelSource: PropTypes.string,
   prevStep: PropTypes.func.isRequired,
+  availableZooModels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = state => ({
   modelSource: modelSourceSelector(state),
+  availableZooModels: availableZooModelsSelector(state),
 })
 
 export default connect(

@@ -8,11 +8,12 @@ import {modelSourceSelector, openVinoVersionSelector, submitDisabledSelector} fr
 import borderImg from './border.png'
 
 const openVinoVersions = [
-  {label: "2019.R3", value: "2019_R3"},
-  {label: "2020.1", value: "2020_1", "default": true},
-  {label: "2020.2", value: "2020_2"},
-  {label: "2020.3", value: "2020_3"},
-  {label: "2020.4", value: "2020_4"},
+  {label: "2019.R3", value: "2019.R3"},
+  {label: "2020.1", value: "2020.1", "default": true},
+  {label: "2020.2", value: "2020.2"},
+  {label: "2020.3", value: "2020.3"},
+  {label: "2020.4", value: "2020.4"},
+  {label: "2021.1", value: "2021.1"},
 ]
 
 const modelSources = [
