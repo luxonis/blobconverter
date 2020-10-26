@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import stepImg from './step.png';
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import {connect} from "react-redux";
-import {availableZooModelsSelector, modelSourceSelector} from "../redux/selectors/dashboard";
+import {
+  availableZooModelsSelector,
+  conversionInProgressSelector,
+  modelSourceSelector
+} from "../redux/selectors/dashboard";
+import {makeAction} from "../redux/actions/makeAction";
+import {CONVERT_MODEL} from "../redux/actions/actionTypes";
 
 const myriad_compile_step = {
   "title": "MyriadX Compile",
@@ -36,12 +42,15 @@ const resolveSteps = source => {
   }
 }
 
-const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
+const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel, inProgress}) => {
   const [advanced, setAdvanced] = React.useState(false);
   const steps = resolveSteps(modelSource);
   return (
 
-    <form onSubmit={e => e.preventDefault()}>
+    <form onSubmit={e => {
+      e.preventDefault();
+      convertModel(Object.fromEntries(new FormData(e.target)))
+    }}>
       <div className={`params-form ${advanced ? 'expanded' : ''}`}>
         <div className="params-form-paths">
           <div className="upper-border">Conversion parameters</div>
@@ -51,11 +60,11 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
               <>
                 <div className="form-group">
                   <label htmlFor="openvino-xml">Definition file (.xml)</label>
-                  <input id="openvino-xml" type="file"/>
+                  <input id="openvino-xml" name="openvino-xml" type="file" accept=".xml" required/>
                 </div>
                 <div className="form-group">
                   <label htmlFor="openvino-bin">Weights file (.bin)</label>
-                  <input id="openvino-bin" type="file"/>
+                  <input id="openvino-bin" name="openvino-bin" type="file" accept=".bin" required/>
                 </div>
               </>
             }
@@ -64,11 +73,11 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
               <>
                 <div className="form-group">
                   <label htmlFor="caffe-model">Model file (.caffemodel)</label>
-                  <input id="caffe-model" type="file"/>
+                  <input id="caffe-model" name="caffe-model" type="file" accept=".caffemodel" required/>
                 </div>
                 <div className="form-group">
                   <label htmlFor="caffe-proto">Proto file (.prototxt)</label>
-                  <input id="caffe-proto" type="file"/>
+                  <input id="caffe-proto" name="caffe-proto" type="file" accept=".prototxt" required/>
                 </div>
               </>
             }
@@ -76,14 +85,14 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
               modelSource === "tf" &&
               <div className="form-group">
                 <label htmlFor="tf-model">Model file (.pb)</label>
-                <input id="tf-model" type="file"/>
+                <input id="tf-model" name="tf-model" type="file" accept=".pb" required/>
               </div>
             }
             {
               modelSource === "zoo" &&
               <div className="form-group">
                 <label htmlFor="zoo-name">Model name</label>
-                <select id="zoo-name">
+                <select id="zoo-name" name="zoo-name">
                   {
                     availableZooModels.map(model => (
                       <option key={model} value={model}>{model}</option>
@@ -115,7 +124,16 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
           </div>
           <div className="lower-border">
             <Button variant="outline-secondary" onClick={() => {prevStep(); setAdvanced(false)}}>Back</Button>
-            <Button variant="outline-success">Convert</Button>
+            <Button variant="outline-success" type="submit" disabled={inProgress}>
+              {
+                inProgress
+                  ? <>
+                    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+                    <span>Converting...</span>
+                  </>
+                  : <span>Convert</span>
+              }
+            </Button>
           </div>
         </div>
         <div className={`params-form-advanced ${advanced ? 'expanded' : ''}`}>
@@ -125,7 +143,7 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
               steps.map((step, index) => (
                 <div className="advanced-option" key={index}>
                   <label htmlFor={"advanced-option-input-" + index}><span>{step.title}</span> params</label>
-                  <input type="text" id={"advanced-option-input-" + index} defaultValue={step.cli_params}/>
+                  <input type="text" id={"advanced-option-input-" + index} name={"advanced-option-input-" + index} defaultValue={step.cli_params}/>
                 </div>
               ))
             }
@@ -145,14 +163,21 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels}) => {
 ConversionForm.propTypes = {
   modelSource: PropTypes.string,
   prevStep: PropTypes.func.isRequired,
+  convertModel: PropTypes.func.isRequired,
   availableZooModels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = state => ({
   modelSource: modelSourceSelector(state),
   availableZooModels: availableZooModelsSelector(state),
+  inProgress: conversionInProgressSelector(state)
 })
 
+const mapDispatchToProps = {
+  convertModel: makeAction(CONVERT_MODEL)
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ConversionForm);

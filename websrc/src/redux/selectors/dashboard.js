@@ -12,6 +12,16 @@ export const availableZooModelsSelector = createSelector(
   dashboard => dashboard.availableZooModels
 )
 
+export const conversionInProgressSelector = createSelector(
+  dashboardBranch,
+  dashboard => dashboard.conversionInProgress
+)
+
+export const conversionErrorSelector = createSelector(
+  dashboardBranch,
+  dashboard => dashboard.conversionError || {}
+)
+
 export const modelSourceSelector = createSelector(
   dashboardBranch,
   dashboard => dashboard.modelSource

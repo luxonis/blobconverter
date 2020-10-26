@@ -1,3 +1,10 @@
+FROM node:10.16 as web
+
+COPY websrc/ websrc/
+WORKDIR websrc/
+RUN yarn
+RUN yarn build
+
 FROM openvino/ubuntu18_dev:2020.1
 
 COPY --from=openvino/ubuntu18_dev:2021.1 /opt/intel/openvino /opt/intel/openvino2021_1
@@ -17,6 +24,6 @@ WORKDIR /app
 ADD requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
-ADD websrc/build/ websrc/build/
+COPY --from=web websrc/build/ websrc/build/
 ADD main.py .
 CMD ["python3", "main.py"]
