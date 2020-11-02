@@ -149,7 +149,7 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
             }
           </div>
           <div className="lower-border">
-            You can read more about advanced options <a href="#">here</a>
+            You can read more about advanced options <a href="https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html">here</a>
           </div>
           <div className="expander" onClick={() => setAdvanced(!advanced)}>
             Advanced >
