@@ -1,7 +1,7 @@
 {
-  "name": "websrc",
-  "version": "0.1.0",
-  "private": true,
+  "name": "BlobConverter",
+  "license": "MIT",
+  "version": "1.0.0",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
