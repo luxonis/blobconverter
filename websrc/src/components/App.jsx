@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import Particles from "react-particles-js";
 import Content from "./Content";
 import ErrorModal from "./ErrorModal";
+import ApiDocs from "./ApiDocs";
+import ApiDocsModal from "./ApiDocsModal";
 
 
 class App extends React.Component {
@@ -52,6 +54,8 @@ class App extends React.Component {
         <div className="content">
           <Content/>
           <ErrorModal/>
+          <ApiDocsModal/>
+          <ApiDocs/>
         </div>
       </div>
     );

@@ -368,5 +368,21 @@ input, select {
   }
 }
 
+#api-docs {
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 10px 20px;
+  border-radius: 0 0 0 30px;
+  span + span {
+    margin-left: 10px;
+  }
+}
+
+#docs-modal {
+  .code-section + .code-section {
+    margin-top: 40px;
+  }
+}
 
 

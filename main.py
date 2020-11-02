@@ -211,7 +211,7 @@ def get_zoo_models():
 
 @app.route("/compile", methods=['POST'])
 def compile():
-    compile_type = request.form.get('compile_type', 'myriad')
+    compile_type = request.form.get('compile_type', '')
     if compile_type == "myriad":
         return request_myriad()
     if compile_type == "model":
@@ -219,7 +219,7 @@ def compile():
     if compile_type == "zoo":
         return request_zoo()
     else:
-        return jsonify(error=f"Unknown compile type: {compile_type}")
+        return f"Unknown compile type: {compile_type}", 400
 
 
 @app.route('/')
