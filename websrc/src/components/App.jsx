@@ -9,6 +9,7 @@ import Content from "./Content";
 import ErrorModal from "./ErrorModal";
 import ApiDocs from "./ApiDocs";
 import ApiDocsModal from "./ApiDocsModal";
+import PolicyModal from "./PolicyModal";
 
 
 class App extends React.Component {
@@ -55,6 +56,7 @@ class App extends React.Component {
           <Content/>
           <ErrorModal/>
           <ApiDocsModal/>
+          <PolicyModal/>
           <ApiDocs/>
         </div>
       </div>

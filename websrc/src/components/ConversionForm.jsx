@@ -9,7 +9,7 @@ import {
   modelSourceSelector
 } from "../redux/selectors/dashboard";
 import {makeAction} from "../redux/actions/makeAction";
-import {CONVERT_MODEL} from "../redux/actions/actionTypes";
+import {CHANGE_MODAL, CONVERT_MODEL} from "../redux/actions/actionTypes";
 
 const myriad_compile_step = {
   "title": "MyriadX Compile",
@@ -42,7 +42,7 @@ const resolveSteps = source => {
   }
 }
 
-const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel, inProgress}) => {
+const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
   const [advanced, setAdvanced] = React.useState(false);
   const steps = resolveSteps(modelSource);
   return (
@@ -103,7 +103,8 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
             }
           </div>
           <div className="lower-border">
-            By submitting this form, you accept our <a href="#">Privacy Policy</a>
+            By submitting this form, you accept our
+            <Button variant="link" size="sm" onClick={() => changeModal({policy: {open: true}})}>Privacy Policy</Button>
           </div>
         </div>
         <div className="params-form-steps">
@@ -164,6 +165,7 @@ ConversionForm.propTypes = {
   modelSource: PropTypes.string,
   prevStep: PropTypes.func.isRequired,
   convertModel: PropTypes.func.isRequired,
+  changeModal: PropTypes.func.isRequired,
   availableZooModels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
@@ -174,7 +176,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  convertModel: makeAction(CONVERT_MODEL)
+  convertModel: makeAction(CONVERT_MODEL),
+  changeModal: makeAction(CHANGE_MODAL),
 }
 
 export default connect(

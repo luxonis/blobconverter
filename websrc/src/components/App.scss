@@ -188,6 +188,15 @@ input, select {
 
       .lower-border {
         border-radius: 0 0 0 20px;
+
+        button {
+          font-size: 11px;
+          padding: 0 0 0 3px;
+          vertical-align: baseline;
+          color: $text-color;
+          text-decoration: underline;
+          font-weight: 300;
+        }
       }
 
       .form {
