@@ -9,7 +9,7 @@ images:
   image: tmaier/docker-compose
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker-compose build --parallel
-    - docker-compose push
+#    - docker-compose build --parallel
+#    - docker-compose push
   tags:
     - docker
