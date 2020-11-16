@@ -2,17 +2,7 @@ import {all, takeLatest, put, select} from 'redux-saga/effects';
 import * as actionTypes from '../actions/actionTypes';
 import request, {GET, POST} from '../../services/requests';
 import {modelSourceSelector, openVinoVersionSelector} from "../selectors/dashboard";
-
-function downloadFile(response) {
-  const filename = response.headers["content-disposition"].split("filename=")[1];
-  console.log(filename)
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', filename); //or any other extension
-  document.body.appendChild(link);
-  link.click();
-}
+import downloadFile from 'js-file-download';
 
 function* fetchModels() {
   try {
@@ -71,8 +61,10 @@ function* convertModel({payload}) {
       }
     }
     const openVinoVersion = yield select(openVinoVersionSelector);
-    const response = yield request(POST, 'compile', data, {params: {version: openVinoVersion}, headers: {'Content-Type': 'multipart/form-data'}});
-    downloadFile(response);
+    const response = yield request(POST, 'compile', data, {params: {version: openVinoVersion}, headers: {'Content-Type': 'multipart/form-data'}, responseType: 'arraybuffer'});
+    const filename = response.headers["content-disposition"].split("filename=")[1];
+    console.log(filename)
+    downloadFile(response.data, filename);
     yield put({type: actionTypes.CONVERT_MODEL_SUCCESS, payload: response.data});
   } catch (error) {
     console.error(error);
