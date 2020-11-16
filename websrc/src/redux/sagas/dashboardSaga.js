@@ -61,7 +61,7 @@ function* convertModel({payload}) {
       }
     }
     const openVinoVersion = yield select(openVinoVersionSelector);
-    const response = yield request(POST, 'compile', data, {params: {version: openVinoVersion}, headers: {'Content-Type': 'multipart/form-data'}, responseType: 'arraybuffer'});
+    const response = yield request(POST, 'compile', data, {params: {version: openVinoVersion}, headers: {'Content-Type': 'multipart/form-data'}, /*8esponseType: 'arraybuffer'*/});
     const filename = response.headers["content-disposition"].split("filename=")[1];
     console.log(filename)
     downloadFile(response.data, filename);
