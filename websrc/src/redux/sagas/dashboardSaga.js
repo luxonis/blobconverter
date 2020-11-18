@@ -4,10 +4,19 @@ import request, {GET, POST} from '../../services/requests';
 import {modelSourceSelector, openVinoVersionSelector} from "../selectors/dashboard";
 import downloadFile from 'js-file-download';
 
+function readAsJson(blob) {
+  return new Promise((resolve, reject) => {
+    const reader  = new FileReader();
+    reader.onload = () => resolve(JSON.parse(reader.result))
+    reader.onerror = reject
+    reader.readAsText(blob)
+  })
+}
+
 function* fetchModels() {
   try {
     const modelSource = yield select(modelSourceSelector);
-    if(modelSource !== 'zoo') {
+    if (modelSource !== 'zoo') {
       return;
     }
     const openVinoVersion = yield select(openVinoVersionSelector);
@@ -61,14 +70,24 @@ function* convertModel({payload}) {
       }
     }
     const openVinoVersion = yield select(openVinoVersionSelector);
-    const response = yield request(POST, 'compile', data, {params: {version: openVinoVersion}, headers: {'Content-Type': 'multipart/form-data'}, /*8esponseType: 'arraybuffer'*/});
+    const response = yield request(
+      POST,
+      'compile',
+      data,
+      {
+        params: {version: openVinoVersion},
+        headers: {'Content-Type': 'multipart/form-data'},
+        responseType: 'blob',
+      }
+    );
     const filename = response.headers["content-disposition"].split("filename=")[1];
     console.log(filename)
     downloadFile(response.data, filename);
     yield put({type: actionTypes.CONVERT_MODEL_SUCCESS, payload: response.data});
   } catch (error) {
     console.error(error);
-    yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: error.response.data});
+    const data = yield readAsJson(error.response.data);
+    yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: data});
     yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
   }
 }
