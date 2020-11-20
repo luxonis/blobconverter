@@ -22,7 +22,7 @@ RUN python3 -m pip install --upgrade tensorboard
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 ADD requirements.txt .
-ADD downloader downloader
+ADD depthai/model_compiler depthai/model_compiler
 RUN python3 -m pip install -r requirements.txt
 
 COPY --from=web websrc/build/ websrc/build/

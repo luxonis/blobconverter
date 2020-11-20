@@ -1,10 +1,12 @@
+import json
 import os
+import shutil
 import subprocess
 import traceback
 import uuid
 from pathlib import Path
 import sys
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, after_this_request
 from werkzeug.utils import secure_filename
 import yaml
 import hashlib
@@ -14,39 +16,49 @@ app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 UPLOAD_FOLDER = Path('/tmp/blobconverter')
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
+
 class EnvResolver:
     def __init__(self):
-        version = request.args.get('version')
-        if version == "2020.1" or version is None or version == "":
+        self.version = request.args.get('version')
+        if self.version == "2020.1" or self.version is None or self.version == "":
             self.base_path = Path("/opt/intel/openvino")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
-        elif version == "2021.1":
+            self.version = "2020.1"
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/downloader.py")
+        elif self.version == "2021.1":
             self.base_path = Path("/opt/intel/openvino2021_1")
             self.cache_path = Path("/tmp/modeldownloader/2021_1")
-        elif version == "2020.4":
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/downloader.py")
+        elif self.version == "2020.4":
             self.base_path = Path("/opt/intel/openvino2020_4")
             self.cache_path = Path("/tmp/modeldownloader/2020_4")
-        elif version == "2020.3":
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.4/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.4/downloader.py")
+        elif self.version == "2020.3":
             self.base_path = Path("/opt/intel/openvino2020_3")
             self.cache_path = Path("/tmp/modeldownloader/2020_3")
-        elif version == "2020.2":
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.3/downloader.py")
+        elif self.version == "2020.2":
             self.base_path = Path("/opt/intel/openvino2020_2")
             self.cache_path = Path("/tmp/modeldownloader/2020_2")
-        elif version == "2019.R3":
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/downloader.py")
+        elif self.version == "2019.R3":
             self.base_path = Path("/opt/intel/openvino2019_3")
             self.cache_path = Path("/tmp/modeldownloader/2019_3")
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/downloader.py")
         else:
-            raise ValueError(f'Unknown version: "{version}", available: "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
+            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
         self.cache_path.mkdir(parents=True, exist_ok=True)
 
         self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
-        self.intermediate_compiler_path = Path(__file__).parent / Path("downloader/converter.py")  # TODO remove
-        self.converter_path = Path(__file__).parent / Path("downloader/converter.py")
-        self.model_downloader_path = Path(__file__).parent / Path("downloader/downloader.py")  # TODO remove
-        self.downloader_path = Path(__file__).parent / Path("downloader/downloader.py")
 
         self.env = os.environ.copy()
         self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
@@ -112,8 +124,10 @@ class CommandFailed(Exception):
         rv['message'] = self.message
         return rv
 
+
 class BadRequest(CommandFailed):
     status_code = 400
+
 
 def parse_config(config_path, name, env):
     with open(config_path, "r") as f:
@@ -127,9 +141,6 @@ def parse_config(config_path, name, env):
 
     if "files" not in config:
         raise BadRequest("\"files\" property is missing in model config file")
-
-    if "compile_params" not in config:
-        raise BadRequest("\"compile_params\" property is missing in model config file")
 
     for file in config["files"]:
         if "source" not in file:
@@ -151,10 +162,36 @@ def parse_config(config_path, name, env):
 
     return config
 
+
+def prepare_compile_config(shaves, env):
+    if env.version.startswith('2021'):
+        config_file_content = {
+            'MYRIAD_NUMBER_OF_SHAVES': shaves,
+            'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
+            'MYRIAD_THROUGHPUT_STREAMS': 1
+        }
+    else:
+        config_file_content = {
+            'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
+            'VPU_NUMBER_OF_SHAVES': shaves,
+            'VPU_NUMBER_OF_CMX_SLICES': shaves,
+            'VPU_MYRIAD_THROUGHPUT_STREAMS': 1
+        }
+    config_file_path = env.workdir / "myriad_compile_config.txt"
+    with open(config_file_path, "w") as f:
+        f.writelines(
+            [f"{key} {config_file_content[key]}\r\n" for key in config_file_content.keys()]
+        )
+
+    return config_file_path
+
+
 @app.route("/compile", methods=['POST'])
 def compile():
     env = EnvResolver()
     name = request.form.get('name', '')
+    myriad_shaves = request.form.get('myriad_shaves', '')
+    myriad_params_advanced = request.form.get('myriad_params_advanced', '-ip U8')
     config_file = request.files.get("config", None)
     if config_file is None:
         return "File named \"config\" must be present in the request form", 400
@@ -170,13 +207,31 @@ def compile():
         file_paths[form_name] = path
         file.save(path)
 
-    config = parse_config(config_path, name, env)
-
-    env.run_command(f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}")
-    env.run_command(f"{sys.executable} {env.converter_path} --precisions FP16 --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}")
+    parse_config(config_path, name, env)
+    compile_config_path = prepare_compile_config(myriad_shaves, env)
     xml_path = env.workdir / name / "FP16" / (name + ".xml")
     out_path = xml_path.with_suffix('.blob')
-    env.run_command(f"{env.compiler_path} -m {xml_path} -o {out_path} {config['compile_params']}")
+
+    dry = request.args.get('dry')
+    if dry is not None:
+        with open(compile_config_path) as f:
+            compile_params = " ".join(f.readlines()).replace('\n', '')
+        return jsonify(
+            downloader=f"{sys.executable} {env.downloader_path} --output_dir <workdir> --cache_dir <cachedir> --num_attempts 5 --name {name} --model_root <workdir>",
+            converter=f"{sys.executable} {env.converter_path} --precisions FP16 --output_dir <workdir> --download_dir <workdir> --name {name} --model_root <workdir>",
+            compiler=f"{env.compiler_path} -m <xml_path> -o <out_path> {compile_params} {myriad_params_advanced}",
+        )
+    else:
+        env.run_command(f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}")
+        env.run_command(f"{sys.executable} {env.converter_path} --precisions FP16 --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}")
+        env.run_command(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
+
+
+    @after_this_request
+    def remove_dir(response):
+        shutil.rmtree(env.workdir, ignore_errors=True)
+        return response
+
     return send_file(out_path, as_attachment=True, attachment_filename=out_path.name)
 
 

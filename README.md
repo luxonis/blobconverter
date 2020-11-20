@@ -25,4 +25,10 @@
 
 ## TODO
 
-- remove uploaded files after conversion (to prevent disk space consumption)
+- cache myriad_compile
+- customize precision (not only FP16)
+- support additional output (not only .blob, also .xml and .bin)
+- add advanced options for downloader / converter
+- setup converter.luxonis.com domain
+- add S3 backup
+- make web UI responsive
