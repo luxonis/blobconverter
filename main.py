@@ -16,10 +16,10 @@ class EnvResolver:
     def __init__(self):
         version = request.args.get('version')
         if version == "2020.1" or version is None or version == "":
-            self.base_path = Path("/opt/intel/openvino")
+            self.base_path = Path("/opt/intel/openvino2020_1")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
         elif version == "2021.1":
-            self.base_path = Path("/opt/intel/openvino2021_1")
+            self.base_path = Path("/opt/intel/openvino")
             self.cache_path = Path("/tmp/modeldownloader/2021_1")
         elif version == "2020.4":
             self.base_path = Path("/opt/intel/openvino2020_4")
