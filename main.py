@@ -158,7 +158,7 @@ def request_model():
     model_path = resolver.workdir / Path(secure_filename(model_file.filename))
     definitions_path = model_path.with_suffix('.xml')
     output_path = model_path.with_suffix('.blob')
-    output_filename = model_path.with_suffix('.bin').name
+    output_filename = model_path.with_suffix('.blob').name
 
     if model_type == "caffe":
         if model_file is None:
