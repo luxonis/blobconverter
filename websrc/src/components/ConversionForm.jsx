@@ -6,45 +6,47 @@ import {connect} from "react-redux";
 import {
   availableZooModelsSelector,
   conversionInProgressSelector,
-  modelSourceSelector
+  modelSourceSelector, openVinoVersionSelector
 } from "../redux/selectors/dashboard";
 import {makeAction} from "../redux/actions/makeAction";
 import {CHANGE_MODAL, CONVERT_MODEL} from "../redux/actions/actionTypes";
 
-const myriad_compile_step = {
+const myriad_compile_step = openvino_version => ({
   "title": "MyriadX Compile",
   "subtitle": "Model will be compiled using myriad_compile tool",
-  "cli_params": "-ip U8 -VPU_MYRIAD_PLATFORM VPU_MYRIAD_2480 -VPU_NUMBER_OF_SHAVES 4 -VPU_NUMBER_OF_CMX_SLICES 4"
-}
-const model_optimizer_step = {
+  "cli_params": `-ip U8 ${openvino_version !== "2021.1" ? "-VPU_MYRIAD_PLATFORM VPU_MYRIAD_2480" : ""} -VPU_NUMBER_OF_SHAVES 4 -VPU_NUMBER_OF_CMX_SLICES 4`
+})
+
+const model_optimizer_step = openvino_version => ({
   "title": "Model Optimizer",
   "subtitle": "Model will be optimized and converted to OpenVINO format",
   "cli_params": "--data_type=FP16 --mean_values [127.5,127.5,127.5] --scale_values [255,255,255]"
-}
-const model_downloader_step = {
+})
+
+const model_downloader_step = openvino_version => ({
   "title": "Model Downloader",
   "subtitle": "Model will be downloaded from OpenVINO Model Zoo",
   "cli_params": "--precisions FP16 --num_attempts 5"
-}
+})
 
-const resolveSteps = source => {
+const resolveSteps = (source, openvino_version) => {
   switch (source) {
     case "zoo":
-      return [model_downloader_step, model_optimizer_step, myriad_compile_step]
+      return [model_downloader_step(openvino_version), model_optimizer_step(openvino_version), myriad_compile_step(openvino_version)]
     case "caffe":
     case "tf":
-      return [model_optimizer_step, myriad_compile_step]
+      return [model_optimizer_step(openvino_version), myriad_compile_step(openvino_version)]
     case "openvino":
-      return [myriad_compile_step]
+      return [myriad_compile_step(openvino_version)]
     default: {
       return []
     }
   }
 }
 
-const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
+const ConversionForm = ({modelSource, openVinoVersion, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
   const [advanced, setAdvanced] = React.useState(false);
-  const steps = resolveSteps(modelSource);
+  const steps = resolveSteps(modelSource, openVinoVersion);
   return (
 
     <form onSubmit={e => {
@@ -142,7 +144,7 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
           <div className="advanced-options">
             {
               steps.map((step, index) => (
-                <div className="advanced-option" key={index}>
+                <div className="advanced-option" key={openVinoVersion + index}>
                   <label htmlFor={"advanced-option-input-" + index}><span>{step.title}</span> params</label>
                   <input type="text" id={"advanced-option-input-" + index} name={"advanced-option-input-" + index} defaultValue={step.cli_params}/>
                 </div>
@@ -165,6 +167,7 @@ ConversionForm.propTypes = {
   modelSource: PropTypes.string,
   prevStep: PropTypes.func.isRequired,
   convertModel: PropTypes.func.isRequired,
+  openVinoVersion: PropTypes.string,
   changeModal: PropTypes.func.isRequired,
   availableZooModels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
@@ -172,7 +175,8 @@ ConversionForm.propTypes = {
 const mapStateToProps = state => ({
   modelSource: modelSourceSelector(state),
   availableZooModels: availableZooModelsSelector(state),
-  inProgress: conversionInProgressSelector(state)
+  inProgress: conversionInProgressSelector(state),
+  openVinoVersion: openVinoVersionSelector(state),
 })
 
 const mapDispatchToProps = {
