@@ -14,7 +14,7 @@ import {CHANGE_MODAL, CONVERT_MODEL} from "../redux/actions/actionTypes";
 const myriad_compile_step = openvino_version => ({
   "title": "MyriadX Compile",
   "subtitle": "Model will be compiled using myriad_compile tool",
-  "cli_params": `-ip U8 ${openvino_version !== "2021.1" ? "-VPU_MYRIAD_PLATFORM VPU_MYRIAD_2480" : ""} -VPU_NUMBER_OF_SHAVES 4 -VPU_NUMBER_OF_CMX_SLICES 4`
+  "cli_params": `-ip U8${openvino_version !== "2021.1" ? " -VPU_MYRIAD_PLATFORM VPU_MYRIAD_2480" : ""} -VPU_NUMBER_OF_SHAVES 4 -VPU_NUMBER_OF_CMX_SLICES 4`
 })
 
 const model_optimizer_step = openvino_version => ({
