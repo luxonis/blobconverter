@@ -3,6 +3,28 @@ import * as actionTypes from '../actions/actionTypes';
 import request, {GET, POST} from '../../services/requests';
 import {modelSourceSelector, openVinoVersionSelector} from "../selectors/dashboard";
 import downloadFile from 'js-file-download';
+import _ from 'lodash';
+
+function generateYaml({filenames, precision, task_type, framework, optimizer_params=null}) {
+  let optimizerStr = "";
+  if(optimizer_params) {
+    optimizerStr = `model_optimizer_args:
+${optimizer_params.split(' ').filter(item => !!item.trim()).map(item => "  - " + item).join("\n")}
+`
+  }
+  const file_string = filename => `
+  - name: ${precision}/${filename}
+    source:
+      $type: http
+      url: $REQUEST/${filename}`
+  const config = `
+task_type: ${task_type}
+files: ${filenames.map(filename => file_string(filename)).join('')}
+framework: ${framework}
+${optimizerStr ? optimizerStr : ""}
+`
+  return config
+}
 
 function readAsJson(blob) {
   return new Promise((resolve, reject) => {
@@ -31,45 +53,50 @@ function* fetchModels() {
 function* convertModel({payload}) {
   try {
     const modelSource = yield select(modelSourceSelector);
-    const data = new FormData();
-    switch (modelSource) {
-      case 'zoo': {
-        data.append('compile_type', 'zoo');
-        data.append('model_name', payload["zoo-name"]);
-        data.append('model_downloader_params', payload["advanced-option-input-0"]);
-        data.append('intermediate_compiler_params', payload["advanced-option-input-1"]);
-        data.append('compiler_params', payload["advanced-option-input-2"]);
-        break;
-      }
-      case 'openvino': {
-        data.append('compile_type', 'myriad')
-        data.append('definition', payload["openvino-xml"])
-        data.append('weights', payload["openvino-bin"])
-        data.append('compiler_params', payload["advanced-option-input-0"]);
-        break;
-      }
-      case 'caffe': {
-        data.append('compile_type', 'model')
-        data.append('model_type', 'caffe')
-        data.append('model', payload["caffe-model"])
-        data.append('proto', payload["caffe-proto"])
-        data.append('intermediate_compiler_params', payload["advanced-option-input-0"]);
-        data.append('compiler_params', payload["advanced-option-input-1"]);
-        break;
-      }
-      case 'tf': {
-        data.append('compile_type', 'model')
-        data.append('model_type', 'tf')
-        data.append('model', payload["tf-model"])
-        data.append('intermediate_compiler_params', payload["advanced-option-input-0"]);
-        data.append('compiler_params', payload["advanced-option-input-1"]);
-        break;
-      }
-      default: {
-        throw "Unknown model source: " + modelSource;
-      }
-    }
     const openVinoVersion = yield select(openVinoVersionSelector);
+    const precision = "FP16"
+    const data = new FormData();
+    if(modelSource === "zoo") {
+      data.append('name', payload["zoo-name"]);
+      data.append('use_zoo', "true");
+    } else if(modelSource === "config") {
+      data.append('config', payload["config-file"]);
+    } else {
+      let framework = "";
+      let optimizer_additional = "";
+      switch (modelSource) {
+        case 'caffe': {
+          framework = "caffe";
+          optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['caffe-model'].name} --input_proto=$dl_dir/${precision}/${payload['caffe-proto'].name}`
+          break;
+        }
+        case 'openvino': {
+          framework = "dldt";
+          break;
+        }
+        case 'tf': {
+          framework = "tf";
+          optimizer_additional = ` --input_model=$dl_dir/${payload['tf-model'].name}`
+          break;
+        }
+      }
+      const filenames = Object.values(payload).map(item => item.name).filter(item => !!item)
+      const yml = generateYaml({
+        filenames: filenames,
+        precision: precision,
+        task_type: "detection",
+        framework: framework,
+        optimizer_params: payload["advanced-option-input-optimizer"] + optimizer_additional,
+      })
+      console.log("Generated config: " + yml)
+      const blob = new Blob([yml],{type:"text/yaml"});
+      data.append('config', blob)
+      Object.values(payload).forEach(item => item.name && data.append(item.name, item))
+      data.append('name', filenames[0].split('.')[0]);
+    }
+    
+    data.append('myriad_shaves', payload["advanced-option-input-shaves"]);
+    data.append('myriad_params_advanced', payload["advanced-option-input-compiler"]);
     const response = yield request(
       POST,
       'compile',
@@ -81,14 +108,16 @@ function* convertModel({payload}) {
       }
     );
     const filename = response.headers["content-disposition"].split("filename=")[1];
-    console.log(filename)
+    console.log("Downloading " + filename)
     downloadFile(response.data, filename);
     yield put({type: actionTypes.CONVERT_MODEL_SUCCESS, payload: response.data});
   } catch (error) {
     console.error(error);
-    const data = yield readAsJson(error.response.data);
-    yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: data});
-    yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
+    if (_.has(error, 'data')) {
+      const data = yield readAsJson(error.response.data);
+      yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: data});
+      yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
+    }
   }
 }
 

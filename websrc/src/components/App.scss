@@ -329,6 +329,10 @@ input, select {
               font-weight: 700;
             }
           }
+          .advanced-option-input-shaves-ticks {
+            display: flex;
+            justify-content: space-between;
+          }
         }
       }
     }

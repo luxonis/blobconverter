@@ -1,7 +1,8 @@
-import json
 import os
 import shutil
 import subprocess
+
+import math
 import traceback
 import uuid
 from pathlib import Path
@@ -20,17 +21,17 @@ UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 class EnvResolver:
     def __init__(self):
         self.version = request.args.get('version')
-        if self.version == "2020.1" or self.version is None or self.version == "":
+        if self.version == "2021.1" or self.version is None or self.version == "":
             self.base_path = Path("/opt/intel/openvino")
-            self.cache_path = Path("/tmp/modeldownloader/2020_1")
-            self.version = "2020.1"
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/downloader.py")
-        elif self.version == "2021.1":
-            self.base_path = Path("/opt/intel/openvino2021_1")
             self.cache_path = Path("/tmp/modeldownloader/2021_1")
+            self.version = "2021.1"
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/downloader.py")
+        elif self.version == "2020.1":
+            self.base_path = Path("/opt/intel/openvino2020_1")
+            self.cache_path = Path("/tmp/modeldownloader/2020_1")
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/downloader.py")
         elif self.version == "2020.4":
             self.base_path = Path("/opt/intel/openvino2020_4")
             self.cache_path = Path("/tmp/modeldownloader/2020_4")
@@ -46,7 +47,7 @@ class EnvResolver:
             self.cache_path = Path("/tmp/modeldownloader/2020_2")
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/converter.py")
             self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/downloader.py")
-        elif self.version == "2019.R3":
+        elif self.version == "2019_R3.1":
             self.base_path = Path("/opt/intel/openvino2019_3")
             self.cache_path = Path("/tmp/modeldownloader/2019_3")
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/converter.py")
@@ -59,6 +60,7 @@ class EnvResolver:
         self.cache_path.mkdir(parents=True, exist_ok=True)
 
         self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
+        self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
 
         self.env = os.environ.copy()
         self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
@@ -145,17 +147,18 @@ def parse_config(config_path, name, env):
     for file in config["files"]:
         if "source" not in file:
             raise BadRequest("Each file needs to have \"source\" param")
-        if file["source"]["$type"] == "http":
-            local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name).absolute()))
-            file["source"]["url"] = "file://" + local_path
-        if "size" not in file:
-            if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
-                raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
-            file["size"] = Path(local_path).stat().st_size
-        if "sha256" not in file:
-            if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
-                raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
-            file["sha256"] = sha256sum(local_path)
+        if "$type" in file["source"]:
+            if file["source"]["$type"] == "http":
+                local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name).absolute()))
+                file["source"]["url"] = "file://" + local_path
+            if "size" not in file:
+                if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
+                    raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
+                file["size"] = Path(local_path).stat().st_size
+            if "sha256" not in file:
+                if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
+                    raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
+                file["sha256"] = sha256sum(local_path)
 
     with open(config_path, "w", encoding='utf8') as f:
         yaml.dump(config, f , default_flow_style=False, allow_unicode=True)
@@ -163,19 +166,26 @@ def parse_config(config_path, name, env):
     return config
 
 
-def prepare_compile_config(shaves, env):
+def prepare_compile_config(in_shaves, env):
+    if in_shaves > 8:
+        shaves = math.ceil(in_shaves / 2)
+        streams = 2
+    else:
+        shaves = in_shaves
+        streams = 1
+
     if env.version.startswith('2021'):
         config_file_content = {
             'MYRIAD_NUMBER_OF_SHAVES': shaves,
             'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
-            'MYRIAD_THROUGHPUT_STREAMS': 1
+            'MYRIAD_THROUGHPUT_STREAMS': streams
         }
     else:
         config_file_content = {
             'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
             'VPU_NUMBER_OF_SHAVES': shaves,
             'VPU_NUMBER_OF_CMX_SLICES': shaves,
-            'VPU_MYRIAD_THROUGHPUT_STREAMS': 1
+            'VPU_MYRIAD_THROUGHPUT_STREAMS': streams
         }
     config_file_path = env.workdir / "myriad_compile_config.txt"
     with open(config_file_path, "w") as f:
@@ -186,18 +196,31 @@ def prepare_compile_config(shaves, env):
     return config_file_path
 
 
+def fetch_from_zoo(env, name):
+    return next(env.model_zoo_path.rglob(f'*/{name}/model.yml'), None)
+
+
 @app.route("/compile", methods=['POST'])
 def compile():
     env = EnvResolver()
     name = request.form.get('name', '')
-    myriad_shaves = request.form.get('myriad_shaves', '')
+    myriad_shaves = int(request.form.get('myriad_shaves', ''))
     myriad_params_advanced = request.form.get('myriad_params_advanced', '-ip U8')
+    config_path = env.workdir / name / "model.yml"
+    config_path.parent.mkdir(parents=True, exist_ok=True)
     config_file = request.files.get("config", None)
     if config_file is None:
-        return "File named \"config\" must be present in the request form", 400
-    config_path = env.workdir / name / "model.yml"
-    config_path.parent.mkdir(parents=True)
-    config_file.save(config_path)
+        use_zoo = request.form.get('use_zoo', False)
+        if use_zoo:
+            zoo_path = fetch_from_zoo(env, name)
+            if zoo_path is None:
+                return "Model {} not found in model zoo".format(name), 400
+            with zoo_path.open() as in_f, config_path.open("w") as out_f:
+                out_f.write(in_f.read())
+        else:
+            return "File named \"config\" must be present in the request form", 400
+    else:
+        config_file.save(config_path)
 
     file_paths = {}
     for form_name, file in request.files.items():
@@ -245,7 +268,7 @@ def handle_invalid_usage(error):
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
     env = EnvResolver()
-    _, stdout, _ = env.run_command(f"{env.model_downloader_path} --print_all")
+    _, stdout, _ = env.run_command(f"{env.downloader_path} --model_root {env.model_zoo_path} --print_all")
     return jsonify(available=stdout.decode().split())
 
 
