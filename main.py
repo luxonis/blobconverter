@@ -27,7 +27,7 @@ class EnvResolver:
             self.version = "2021.1"
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/downloader.py")
-        if self.version == "2021.2":
+        elif self.version == "2021.2":
             self.base_path = Path("/opt/intel/openvino2021_2")
             self.cache_path = Path("/tmp/modeldownloader/2021_2")
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/converter.py")
