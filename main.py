@@ -27,6 +27,11 @@ class EnvResolver:
             self.version = "2021.1"
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/downloader.py")
+        elif self.version == "2021.2":
+            self.base_path = Path("/opt/intel/openvino2021_2")
+            self.cache_path = Path("/tmp/modeldownloader/2021_2")
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/downloader.py")
         elif self.version == "2020.1":
             self.base_path = Path("/opt/intel/openvino2020_1")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
@@ -53,7 +58,7 @@ class EnvResolver:
             self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/downloader.py")
         else:
-            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
+            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
