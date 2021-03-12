@@ -30,8 +30,8 @@ class EnvResolver:
         if self.version == "2021.2":
             self.base_path = Path("/opt/intel/openvino2021_2")
             self.cache_path = Path("/tmp/modeldownloader/2021_2")
-            self.converter_path = self.base_path / Path("deployment_tools/open_model_zoo/tools/downloader/converter.py")
-            self.downloader_path = self.base_path / Path("deployment_tools/open_model_zoo/tools/downloader/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/downloader.py")
         elif self.version == "2020.1":
             self.base_path = Path("/opt/intel/openvino2020_1")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
