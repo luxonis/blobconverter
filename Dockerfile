@@ -7,6 +7,7 @@ RUN yarn build
 
 FROM openvino/ubuntu18_dev:2021.1
 
+COPY --from=openvino/ubuntu18_dev:2021.2 /opt/intel/openvino /opt/intel/openvino2021_2
 COPY --from=openvino/ubuntu18_dev:2020.4 /opt/intel/openvino /opt/intel/openvino2020_4
 COPY --from=openvino/ubuntu18_dev:2020.3 /opt/intel/openvino /opt/intel/openvino2020_3
 COPY --from=openvino/ubuntu18_dev:2020.2 /opt/intel/openvino /opt/intel/openvino2020_2
