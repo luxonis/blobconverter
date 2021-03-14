@@ -171,26 +171,19 @@ def parse_config(config_path, name, env):
     return config
 
 
-def prepare_compile_config(in_shaves, env):
-    if in_shaves > 8:
-        shaves = math.ceil(in_shaves / 2)
-        streams = 2
-    else:
-        shaves = in_shaves
-        streams = 1
-
+def prepare_compile_config(shaves, env):
     if env.version.startswith('2021'):
         config_file_content = {
             'MYRIAD_NUMBER_OF_SHAVES': shaves,
             'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
-            'MYRIAD_THROUGHPUT_STREAMS': streams
+            'MYRIAD_THROUGHPUT_STREAMS': 2
         }
     else:
         config_file_content = {
             'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
             'VPU_NUMBER_OF_SHAVES': shaves,
             'VPU_NUMBER_OF_CMX_SLICES': shaves,
-            'VPU_MYRIAD_THROUGHPUT_STREAMS': streams
+            'VPU_MYRIAD_THROUGHPUT_STREAMS': 2
         }
     config_file_path = env.workdir / "myriad_compile_config.txt"
     with open(config_file_path, "w") as f:
