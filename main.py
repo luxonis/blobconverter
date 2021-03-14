@@ -173,7 +173,7 @@ def parse_config(config_path, name, env):
 
 def prepare_compile_config(in_shaves, env):
     if in_shaves > 8:
-        shaves = math.ceil(in_shaves / 2)
+        shaves = math.floor(in_shaves / 2)
         streams = 2
     else:
         shaves = in_shaves
