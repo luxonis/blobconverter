@@ -119,7 +119,7 @@ def sha256sum(filename):
 
 
 class CommandFailed(Exception):
-    status_code = 500
+    status_code = 400
 
     def __init__(self, message, payload=None):
         Exception.__init__(self)
