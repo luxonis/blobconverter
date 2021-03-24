@@ -122,7 +122,7 @@ def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_p
         __defaults["data_type"] = data_type
 
 
-def _compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
+def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
                   use_cache=True, compile_params=None, data_type=None):
     if shaves is None:
         shaves = __defaults["shaves"]
@@ -152,7 +152,10 @@ def _compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files
     }
     response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=req_files)
     if response.status_code == 400:
-        pprint.pprint(response.json())
+        try:
+            pprint.pprint(response.json())
+        except:
+            pass
     response.raise_for_status()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)
@@ -167,7 +170,7 @@ def from_zoo(name, **kwargs):
         "name": name,
         "use_zoo": True,
     }
-    return _compile_blob(name, req_data=body, **kwargs)
+    return compile_blob(name, req_data=body, **kwargs)
 
 
 def from_caffe(proto, model, data_type, optimizer_params=None, **kwargs):
@@ -197,7 +200,7 @@ def from_caffe(proto, model, data_type, optimizer_params=None, **kwargs):
         "name": proto_path.stem,
     }
 
-    return _compile_blob(blob_name=proto_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    return compile_blob(blob_name=proto_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
 
 
 def from_tf(frozen_pb, data_type, optimizer_params=None, **kwargs):
@@ -222,7 +225,7 @@ def from_tf(frozen_pb, data_type, optimizer_params=None, **kwargs):
         "name": frozen_pb_path.stem,
     }
 
-    return _compile_blob(blob_name=frozen_pb_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    return compile_blob(blob_name=frozen_pb_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
 
 
 def from_openvino(xml, bin, data_type, **kwargs):
@@ -245,4 +248,12 @@ def from_openvino(xml, bin, data_type, **kwargs):
         "name": xml_path.stem,
     }
 
-    return _compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    return compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+
+
+def __run_cli__():
+    print("test")
+
+
+if __name__ == "__main__":
+    __run_cli__()

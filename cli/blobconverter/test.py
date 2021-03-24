@@ -66,3 +66,32 @@ result = blobconverter.from_tf(
     ]
 )
 print(result)
+
+result = blobconverter.compile_blob(
+    blob_name="license-plate-recognition-barrier-0007",
+    req_data={
+        "name": "license-plate-recognition-barrier-0007",
+        "use_zoo": True,
+    },
+    req_files={
+        'config': open('../../model.yml'),  # get from https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/models/public/license-plate-recognition-barrier-0007/model.yml
+    },
+    data_type="FP16",
+    shaves=5,
+    use_cache=False,
+)
+print(result)
+
+result = blobconverter.compile_blob(
+    blob_name="license-plate-recognition-barrier-0007",
+    req_data={
+        "name": "license-plate-recognition-barrier-0007",
+        "use_zoo": True,
+    },
+    req_files={
+        'config': open('../../model.yml'),  # get from https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/models/public/license-plate-recognition-barrier-0007/model.yml
+    },
+    data_type="FP16",
+    shaves=5,
+)
+print(result)

@@ -16,7 +16,7 @@ setup(
     packages=['blobconverter'],
     entry_points={
         'console_scripts': [
-            'blobconverter=blobconverter.cli:convert'
+            'blobconverter=blobconverter.__init__:__run_cli__'
         ],
     },
     install_requires=[
