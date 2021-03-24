@@ -136,7 +136,7 @@ class BadRequest(CommandFailed):
     status_code = 400
 
 
-def parse_config(config_path, name, env):
+def parse_config(config_path, name, data_type, env):
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
 
@@ -154,7 +154,7 @@ def parse_config(config_path, name, env):
             raise BadRequest("Each file needs to have \"source\" param")
         if "$type" in file["source"]:
             if file["source"]["$type"] == "http":
-                local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name).absolute()))
+                local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name / data_type).absolute()))
                 file["source"]["url"] = "file://" + local_path
             if "size" not in file:
                 if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
@@ -237,7 +237,7 @@ def compile():
         file_paths[form_name] = path
         file.save(path)
 
-    config = parse_config(config_path, name, env)
+    config = parse_config(config_path, name, data_type, env)
     compile_config_path = prepare_compile_config(myriad_shaves, env)
     commands = []
     xml_path = env.workdir / name / data_type / (name + ".xml")
