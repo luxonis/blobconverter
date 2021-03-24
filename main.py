@@ -233,6 +233,7 @@ def compile():
         if form_name == "config":
             continue
         path = env.workdir / name / data_type / secure_filename(file.filename)
+        path.parent.mkdir(parents=True, exist_ok=True)
         file_paths[form_name] = path
         file.save(path)
 
