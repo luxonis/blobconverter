@@ -214,8 +214,9 @@ def compile():
     config_path = env.workdir / name / "model.yml"
     config_path.parent.mkdir(parents=True, exist_ok=True)
     config_file = request.files.get("config", None)
+    use_zoo = request.form.get('use_zoo', False)
+    data_type = request.form.get('data_type', "FP16")
     if config_file is None:
-        use_zoo = request.form.get('use_zoo', False)
         if use_zoo:
             zoo_path = fetch_from_zoo(env, name)
             if zoo_path is None:
@@ -235,25 +236,31 @@ def compile():
         file_paths[form_name] = path
         file.save(path)
 
-    parse_config(config_path, name, env)
+    config = parse_config(config_path, name, env)
     compile_config_path = prepare_compile_config(myriad_shaves, env)
-    xml_path = env.workdir / name / "FP16" / (name + ".xml")
+    commands = []
+    if use_zoo:
+        xml_path = env.workdir / name / data_type / (name + ".xml")
+        commands.append(
+            f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
+        )
+    else:
+        xml_path = env.workdir / name / (name + ".xml")
+
+    if config["framework"] != "dldt":
+        commands.append(
+            f"{sys.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
+        )
+
     out_path = xml_path.with_suffix('.blob')
+    commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
 
     dry = request.args.get('dry')
     if dry is not None:
-        with open(compile_config_path) as f:
-            compile_params = " ".join(f.readlines()).replace('\n', '')
-        return jsonify(
-            downloader=f"{sys.executable} {env.downloader_path} --output_dir <workdir> --cache_dir <cachedir> --num_attempts 5 --name {name} --model_root <workdir>",
-            converter=f"{sys.executable} {env.converter_path} --precisions FP16 --output_dir <workdir> --download_dir <workdir> --name {name} --model_root <workdir>",
-            compiler=f"{env.compiler_path} -m <xml_path> -o <out_path> {compile_params} {myriad_params_advanced}",
-        )
+        return jsonify(commands)
     else:
-        env.run_command(f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}")
-        env.run_command(f"{sys.executable} {env.converter_path} --precisions FP16 --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}")
-        env.run_command(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
-
+        for command in commands:
+            env.run_command(command)
 
     @after_this_request
     def remove_dir(response):
