@@ -240,13 +240,11 @@ def compile():
     config = parse_config(config_path, name, env)
     compile_config_path = prepare_compile_config(myriad_shaves, env)
     commands = []
+    xml_path = env.workdir / name / data_type / (name + ".xml")
     if use_zoo:
-        xml_path = env.workdir / name / data_type / (name + ".xml")
         commands.append(
             f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
-    else:
-        xml_path = env.workdir / name / (name + ".xml")
 
     if config["framework"] != "dldt":
         commands.append(
