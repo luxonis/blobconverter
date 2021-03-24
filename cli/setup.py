@@ -16,7 +16,7 @@ setup(
     packages=['blobconverter'],
     entry_points={
         'console_scripts': [
-            'depthai_mock=depthai_mock.cli:record_depthai_mockups'
+            'blobconverter=blobconverter.cli:convert'
         ],
     },
     install_requires=[

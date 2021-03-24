@@ -1,4 +1,4 @@
-# Depthai-Mock
+# Blobconverter CLI
 
 This tool allows you to convert neural network files (from various sources, like Tensorflow, Caffe or OpenVINO) 
 to MyriadX blob file
@@ -11,7 +11,7 @@ python3 -m pip install blobconverter
 ## Usage
 
 ```
-usage: depthai_mock [-h] [-sh]
+usage: blobconverter [-h] [-sh]
 
 optional arguments:
   -h, --help            show this help message and exit
