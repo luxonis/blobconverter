@@ -232,7 +232,7 @@ def compile():
     for form_name, file in request.files.items():
         if form_name == "config":
             continue
-        path = env.workdir / name / secure_filename(file.filename)
+        path = env.workdir / name / data_type / secure_filename(file.filename)
         file_paths[form_name] = path
         file.save(path)
 
