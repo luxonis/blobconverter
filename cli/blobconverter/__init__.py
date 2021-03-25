@@ -1,9 +1,9 @@
+import json
 import urllib
 from io import StringIO
 from pathlib import Path
 import yaml
 import requests
-import pprint
 
 
 class Versions:
@@ -14,25 +14,6 @@ class Versions:
     v2020_2 = "2020.2"
     v2020_1 = "2020.1"
     v2019_R3 = "2019.R3"
-
-"""
-task_type: detection
-files: 
-  - name: FP16/mobilenet.caffemodel
-    source:
-      $type: http
-      url: $REQUEST/mobilenet.caffemodel
-  - name: FP16/mobilenet.prototxt
-    source:
-      $type: http
-      url: $REQUEST/mobilenet.prototxt
-framework: caffe
-model_optimizer_args:
-  - --data_type=FP16
-  - --mean_values=[127.5,127.5,127.5]
-  - --scale_values=[255,255,255]
-  - --input_model=$dl_dir/FP16/mobilenet.caffemodel
-  - --input_proto=$dl_dir/FP16/mobilenet.prototxt"""
 
 
 class ConfigBuilder:
@@ -153,7 +134,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=req_files)
     if response.status_code == 400:
         try:
-            pprint.pprint(response.json())
+            print(json.dumps(response.json(), indent=4))
         except:
             pass
     response.raise_for_status()
@@ -173,9 +154,11 @@ def from_zoo(name, **kwargs):
     return compile_blob(name, req_data=body, **kwargs)
 
 
-def from_caffe(proto, model, data_type, optimizer_params=None, **kwargs):
+def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
+    if data_type is None:
+        data_type = __defaults["data_type"]
     proto_path = Path(proto)
     model_path = Path(model)
     model_req_name = proto_path.with_suffix('.caffemodel').name
@@ -203,9 +186,11 @@ def from_caffe(proto, model, data_type, optimizer_params=None, **kwargs):
     return compile_blob(blob_name=proto_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
 
 
-def from_tf(frozen_pb, data_type, optimizer_params=None, **kwargs):
+def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
+    if data_type is None:
+        data_type = __defaults["data_type"]
     frozen_pb_path = Path(frozen_pb)
 
     config = ConfigBuilder()\
@@ -228,7 +213,7 @@ def from_tf(frozen_pb, data_type, optimizer_params=None, **kwargs):
     return compile_blob(blob_name=frozen_pb_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
 
 
-def from_openvino(xml, bin, data_type, **kwargs):
+def from_openvino(xml, bin, **kwargs):
     xml_path = Path(xml)
     bin_path = Path(bin)
     bin_req_name = xml_path.with_suffix('.bin').name
@@ -248,12 +233,85 @@ def from_openvino(xml, bin, data_type, **kwargs):
         "name": xml_path.stem,
     }
 
-    return compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    return compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, **kwargs)
 
 
 def __run_cli__():
-    print("test")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-zn', '--zoo-name', help="Name of a model to download from OpenVINO Model Zoo")
+    parser.add_argument('-cp', '--caffe-proto', help="Path to Caffe .prototxt file")
+    parser.add_argument('-cm', '--caffe-model', help="Path to Caffe .caffemodel file")
+    parser.add_argument('-tf', '--tensorflow-pb', help="Path to TensorFlow .pb file")
+    parser.add_argument('-ox', '--openvino-xml', help="Path to OpenVINO .xml file")
+    parser.add_argument('-ob', '--openvino-bin', help="Path to OpenVINO .bin file")
+    parser.add_argument('-rawn', '--raw-name', help="Name of the converted model (advanced)")
+    parser.add_argument('-rawc', '--raw-config', help="Path to raw .yml file with model config (advanced)")
+    parser.add_argument('-sh', '--shaves', type=int, default=4, choices=range(1, 17), help="Specifies number of SHAVE cores that converted model will use")
+    parser.add_argument('-dt', '--data-type', help="Specifies model data type")
+    parser.add_argument('-o', '--output-dir', help="Directory where the output blob should be saved")
+    parser.add_argument('-v', '--version', help="OpenVINO version to use for conversion")
+    parser.add_argument('--optimizer-params', help="Additional params to use when converting a model to OpenVINO IR")
+    parser.add_argument('--compile-params', help="Additional params to use when compiling a model to MyriadX blob")
+    parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
+    parser.add_argument('--no-cache', dest="use_cache", action="store_false", help="Omit .cache directory and force new compilation of the blob")
+
+    args = parser.parse_args()
+
+    optimizer_params = ['--' + param.strip() for param in args.optimizer_params.split('--') if param] if args.optimizer_params else []
+
+    common_args = {
+        arg: getattr(args, arg)
+        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params"]
+    }
+    if args.zoo_name:
+        return from_zoo(
+            name=args.zoo_name,
+            **common_args
+        )
+    if args.caffe_proto or args.caffe_model:
+        if None in (args.caffe_proto, args.caffe_model):
+            raise ValueError("Both Caffe proto and model needs to be supplied!")
+
+        return from_caffe(
+            proto=args.caffe_proto,
+            model=args.caffe_model,
+            optimizer_params=optimizer_params,
+            **common_args
+        )
+    if args.tensorflow_pb:
+        return from_tf(
+            frozen_pb=args.tensorflow_pb,
+            optimizer_params=optimizer_params,
+            **common_args
+        )
+    if args.openvino_xml or args.openvino_bin:
+        if None in (args.openvino_xml, args.openvino_bin):
+            raise ValueError("Both OpenVINO xml and bin needs to be supplied!")
+
+        return from_openvino(
+            xml=args.openvino_xml,
+            bin=args.openvino_bin,
+            **common_args
+        )
+    if args.raw_config or args.raw_name:
+        if None in (args.raw_config, args.raw_name):
+            raise ValueError("Both raw config and name needs to be supplied!")
+
+        return compile_blob(
+            blob_name=args.raw_name,
+            req_data={
+                "name": args.raw_name,
+                "use_zoo": True,
+            },
+            req_files={
+                'config': open(args.raw_config),
+            },
+            **common_args
+        )
+
+    raise RuntimeError("No conversion source specified!")
 
 
 if __name__ == "__main__":
-    __run_cli__()
+    print(__run_cli__())
