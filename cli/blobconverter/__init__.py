@@ -1,7 +1,11 @@
 import json
 import urllib
+from hashlib import sha256
 from io import StringIO
 from pathlib import Path
+
+import boto3
+import botocore
 import yaml
 import requests
 
@@ -75,7 +79,7 @@ __defaults = {
     "url": "http://69.164.214.171:8084/compile",
     "version": Versions.v2021_2,
     "shaves": 4,
-    "output_dir": Path('.cache/blobconverter'),
+    "output_dir": Path(__file__).parent / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],
     "data_type": "FP16",
     "optimizer_params": [
@@ -83,6 +87,8 @@ __defaults = {
         "--scale_values=[255,255,255]",
     ],
 }
+bucket = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
+    .Bucket('blobconverter')
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
@@ -131,6 +137,27 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         "data_type": data_type,
         **req_data,
     }
+
+    hash_obj = sha256(json.dumps({**url_params, **data}).encode())
+    for file_name in (req_files or []):
+        f = req_files[file_name]
+        if isinstance(f, StringIO):
+            hash_obj.update(f.read().encode())
+            f.seek(0)
+        else:
+            with open(f.name, 'rb') as src:
+                hash_obj.update(src.read())
+    req_hash = hash_obj.hexdigest()
+    try:
+        data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+        with blob_path.open("wb") as f:
+            f.write(data)
+        return blob_path
+    except botocore.exceptions.ClientError as ex:
+        if ex.response['Error']['Code'] != 'NoSuchKey':
+            raise ex
+
+    data['req_hash'] = req_hash
     response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=req_files)
     if response.status_code == 400:
         try:

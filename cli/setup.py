@@ -21,7 +21,8 @@ setup(
     },
     install_requires=[
         "requests",
-        "PyYAML"
+        "PyYAML",
+        "boto3"
     ],
     include_package_data=True,
     project_urls={

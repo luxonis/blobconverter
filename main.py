@@ -11,11 +11,15 @@ from flask import Flask, request, jsonify, send_file, after_this_request
 from werkzeug.utils import secure_filename
 import yaml
 import hashlib
+import boto3
 
 app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 
 UPLOAD_FOLDER = Path('/tmp/blobconverter')
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
+
+bucket = boto3.resource('s3', aws_access_key_id=os.getenv("AWS_ACCESS"), aws_secret_access_key=os.getenv("AWS_SECRET"))\
+    .Bucket('blobconverter')
 
 
 class EnvResolver:
@@ -260,6 +264,11 @@ def compile():
     else:
         for command in commands:
             env.run_command(command)
+
+    req_hash = request.form.get("req_hash", None)
+    if req_hash is not None:
+        with open(out_path, 'rb') as f:
+            bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     @after_this_request
     def remove_dir(response):
