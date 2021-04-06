@@ -1,6 +1,8 @@
+import hashlib
 import json
+import os
+import tempfile
 import urllib
-from hashlib import sha256
 from io import StringIO
 from pathlib import Path
 
@@ -72,14 +74,18 @@ class ConfigBuilder:
         return self
 
     def build(self):
-        return yaml.dump(self.__config, default_flow_style=False)
+        fd, path = tempfile.mkstemp()
+        data = yaml.dump(self.__config, default_flow_style=False)
+        with os.fdopen(fd, 'w') as tmp:
+            tmp.write(data)
+        return path
 
 
 __defaults = {
     "url": "http://69.164.214.171:8084/compile",
     "version": Versions.v2021_2,
     "shaves": 4,
-    "output_dir": Path(__file__).parent / Path('.cache/blobconverter'),
+    "output_dir": Path.home() / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],
     "data_type": "FP16",
     "optimizer_params": [
@@ -123,42 +129,63 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         compile_params = __defaults["compile_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
+    if req_files is None:
+        req_files = {}
 
     blob_path = Path(output_dir) / Path("{}_openvino_{}_{}shave.blob".format(blob_name, version, shaves))
-    if blob_path.exists() and use_cache:
-        return blob_path
+    cache_config_path = Path(__defaults["output_dir"]) / '.config.json'
+    if cache_config_path.exists():
+        with open(cache_config_path) as f:
+            cache_config = {
+                key: value for key, value in json.load(f).items() if Path(value).exists()
+            }
+    else:
+        cache_config = {}
 
     url_params = {
         'version': version
     }
     data = {
-        "myriad_shaves": shaves,
-        "myriad_params_advanced": compile_params,
+        "myriad_shaves": str(shaves),
+        "myriad_params_advanced": ' '.join(compile_params),
         "data_type": data_type,
         **req_data,
     }
 
-    hash_obj = sha256(json.dumps({**url_params, **data}).encode())
-    for file_name in (req_files or []):
-        f = req_files[file_name]
-        if isinstance(f, StringIO):
-            hash_obj.update(f.read().encode())
-            f.seek(0)
-        else:
-            with open(f.name, 'rb') as src:
-                hash_obj.update(src.read())
+    hash_obj = hashlib.sha256(json.dumps({**url_params, **data}).encode())
+    for file_path in req_files.values():
+        with open(file_path, 'rb') as f:
+            hash_obj.update(f.read())
     req_hash = hash_obj.hexdigest()
+
+    new_cache_config = {
+        **cache_config,
+        req_hash: str(blob_path),
+    }
+
+    if req_hash in cache_config:
+        return cache_config[req_hash]
+
+    if blob_path.exists() and use_cache:
+        return blob_path
+
+    with cache_config_path.open('w') as f:
+        json.dump(new_cache_config, f)
     try:
         data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
         with blob_path.open("wb") as f:
             f.write(data)
         return blob_path
+
     except botocore.exceptions.ClientError as ex:
         if ex.response['Error']['Code'] != 'NoSuchKey':
             raise ex
 
-    data['req_hash'] = req_hash
-    response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=req_files)
+    files = {
+        name: open(path, 'rb') for name, path in req_files.items()
+    }
+
+    response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=files)
     if response.status_code == 400:
         try:
             print(json.dumps(response.json(), indent=4))
@@ -176,7 +203,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
 def from_zoo(name, **kwargs):
     body = {
         "name": name,
-        "use_zoo": True,
+        "use_zoo": "True",
     }
     return compile_blob(name, req_data=body, **kwargs)
 
@@ -190,7 +217,7 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
     model_path = Path(model)
     model_req_name = proto_path.with_suffix('.caffemodel').name
 
-    config = ConfigBuilder()\
+    config_path = ConfigBuilder()\
         .task_type("detection")\
         .framework("caffe")\
         .with_file(proto_path.name, proto_path)\
@@ -202,9 +229,9 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
         ])\
         .build()
     files = {
-        'config': StringIO(config),
-        model_req_name: open(model_path, 'rb'),
-        proto_path.name: open(proto_path, 'rb')
+        'config': config_path,
+        model_req_name: model_path,
+        proto_path.name: proto_path
     }
     body = {
         "name": proto_path.stem,
@@ -220,7 +247,7 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
         data_type = __defaults["data_type"]
     frozen_pb_path = Path(frozen_pb)
 
-    config = ConfigBuilder()\
+    config_path = ConfigBuilder()\
         .task_type("detection")\
         .framework("tf")\
         .with_file(frozen_pb_path.name, frozen_pb_path)\
@@ -230,8 +257,8 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
         ])\
         .build()
     files = {
-        'config': StringIO(config),
-        frozen_pb_path.name: open(frozen_pb_path, 'rb')
+        'config': config_path,
+        frozen_pb_path.name: frozen_pb_path
     }
     body = {
         "name": frozen_pb_path.stem,
@@ -245,17 +272,18 @@ def from_openvino(xml, bin, **kwargs):
     bin_path = Path(bin)
     bin_req_name = xml_path.with_suffix('.bin').name
 
-    config = ConfigBuilder()\
+    config_path = ConfigBuilder()\
         .task_type("detection")\
         .framework("dldt")\
         .with_file(xml_path.name, xml_path)\
         .with_file(bin_req_name, bin_path)\
         .build()
     files = {
-        'config': StringIO(config),
-        xml_path.name: open(xml_path, 'rb'),
-        bin_req_name: open(bin_path, 'rb')
+        'config': config_path,
+        xml_path.name: xml_path,
+        bin_req_name: bin_path
     }
+
     body = {
         "name": xml_path.stem,
     }
@@ -332,7 +360,7 @@ def __run_cli__():
                 "use_zoo": True,
             },
             req_files={
-                'config': open(args.raw_config),
+                'config': args.raw_config,
             },
             **common_args
         )

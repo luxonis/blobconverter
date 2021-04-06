@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 import subprocess
@@ -7,11 +8,12 @@ import traceback
 import uuid
 from pathlib import Path
 import sys
-from flask import Flask, request, jsonify, send_file, after_this_request
+from flask import Flask, request, jsonify, send_file, after_this_request, make_response
 from werkzeug.utils import secure_filename
 import yaml
 import hashlib
 import boto3
+import botocore
 
 app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 
@@ -29,38 +31,38 @@ class EnvResolver:
             self.base_path = Path("/opt/intel/openvino")
             self.cache_path = Path("/tmp/modeldownloader/2021_1")
             self.version = "2021.1"
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.1/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.1/downloader.py")
         elif self.version == "2021.2":
             self.base_path = Path("/opt/intel/openvino2021_2")
             self.cache_path = Path("/tmp/modeldownloader/2021_2")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2021.2/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.2/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.2/downloader.py")
         elif self.version == "2020.1":
             self.base_path = Path("/opt/intel/openvino2020_1")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.1/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/downloader.py")
         elif self.version == "2020.4":
             self.base_path = Path("/opt/intel/openvino2020_4")
             self.cache_path = Path("/tmp/modeldownloader/2020_4")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.4/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.4/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/downloader.py")
         elif self.version == "2020.3":
             self.base_path = Path("/opt/intel/openvino2020_3")
             self.cache_path = Path("/tmp/modeldownloader/2020_3")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.3/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/downloader.py")
         elif self.version == "2020.2":
             self.base_path = Path("/opt/intel/openvino2020_2")
             self.cache_path = Path("/tmp/modeldownloader/2020_2")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2020.2/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/downloader.py")
         elif self.version == "2019_R3.1":
             self.base_path = Path("/opt/intel/openvino2019_3")
             self.cache_path = Path("/tmp/modeldownloader/2019_3")
-            self.converter_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("depthai/model_compiler/openvino_2019.3/downloader.py")
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
         else:
             raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
@@ -231,6 +233,8 @@ def compile():
             return "File named \"config\" must be present in the request form", 400
     else:
         config_file.save(config_path)
+        with open(config_path) as f:
+            raw_config = f.read()
 
     file_paths = {}
     for form_name, file in request.files.items():
@@ -256,26 +260,42 @@ def compile():
         )
 
     out_path = xml_path.with_suffix('.blob')
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
+
+    hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.form)}).encode())
+    if config_file is not None:
+        hash_obj.update(raw_config.encode())
+    for file_path in list(file_paths.values()):
+        with open(file_path, 'rb') as f:
+            hash_obj.update(f.read())
+    req_hash = hash_obj.hexdigest()
 
     dry = request.args.get('dry')
     if dry is not None:
         return jsonify(commands)
     else:
-        for command in commands:
-            env.run_command(command)
+        try:
+            data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+            with out_path.open("wb") as f:
+                f.write(data)
+        except botocore.exceptions.ClientError as ex:
+            if ex.response['Error']['Code'] != 'NoSuchKey':
+                raise ex
+            for command in commands:
+                env.run_command(command)
 
-    req_hash = request.form.get("req_hash", None)
-    if req_hash is not None:
-        with open(out_path, 'rb') as f:
-            bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+    with open(out_path, 'rb') as f:
+        bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     @after_this_request
     def remove_dir(response):
         shutil.rmtree(env.workdir, ignore_errors=True)
         return response
 
-    return send_file(out_path, as_attachment=True, attachment_filename=out_path.name)
+    response = make_response(send_file(out_path, as_attachment=True, attachment_filename=out_path.name))
+    response.headers['X-HASH'] = req_hash
+    return response
 
 
 @app.errorhandler(CommandFailed)

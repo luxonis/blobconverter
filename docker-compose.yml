@@ -6,5 +6,8 @@ services:
       dockerfile: Dockerfile
       context: .
     image: registry.gitlab.com/luxonis/blobconverter/api
+    environment:
+      AWS_ACCESS: ${AWS_ACCESS}
+      AWS_SECRET: ${AWS_SECRET}
     ports:
       - 8080:8080

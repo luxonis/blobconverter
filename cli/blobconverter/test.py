@@ -48,10 +48,10 @@ result = blobconverter.compile_blob(
     blob_name="license-plate-recognition-barrier-0007",
     req_data={
         "name": "license-plate-recognition-barrier-0007",
-        "use_zoo": True,
+        "use_zoo": "True",
     },
     req_files={
-        'config': open('../../model.yml'),  # get from https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/models/public/license-plate-recognition-barrier-0007/model.yml
+        'config': '../../model.yml',  # get from https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/models/public/license-plate-recognition-barrier-0007/model.yml
     },
     data_type="FP16",
     shaves=5,
@@ -59,8 +59,8 @@ result = blobconverter.compile_blob(
 )
 print(result)
 
-subprocess.check_call([sys.executable, "__init__.py", "--zoo-name", "face-detection-retail-0004", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
-subprocess.check_call([sys.executable, "__init__.py", "--caffe-proto", "../../mobilenet-ssd.prototxt", "--caffe-model", "../../mobilenet-ssd.caffemodel", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
-subprocess.check_call([sys.executable, "__init__.py", "--tensorflow-pb", "../../deeplabv3_mnv2_pascal_train_aug.pb", "--optimizer-params", "--reverse_input_channels --input_shape=[1,513,513,3] --input=1:mul_1 --output=ArgMax", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
-subprocess.check_call([sys.executable, "__init__.py", "--openvino-xml", "../../face-detection-retail-0004.xml", "--openvino-bin", "../../face-detection-retail-0004.bin", "--shaves", "7"] + ([] if use_cache else ['--no-cache']))
-subprocess.check_call([sys.executable, "__init__.py", "--raw-config", "../../model.yml", "--raw-name", "license-plate-recognition-barrier-0007", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
+# subprocess.check_call([sys.executable, "__init__.py", "--zoo-name", "face-detection-retail-0004", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
+# subprocess.check_call([sys.executable, "__init__.py", "--caffe-proto", "../../mobilenet-ssd.prototxt", "--caffe-model", "../../mobilenet-ssd.caffemodel", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
+# subprocess.check_call([sys.executable, "__init__.py", "--tensorflow-pb", "../../deeplabv3_mnv2_pascal_train_aug.pb", "--optimizer-params", "--reverse_input_channels --input_shape=[1,513,513,3] --input=1:mul_1 --output=ArgMax", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
+# subprocess.check_call([sys.executable, "__init__.py", "--openvino-xml", "../../face-detection-retail-0004.xml", "--openvino-bin", "../../face-detection-retail-0004.bin", "--shaves", "7"] + ([] if use_cache else ['--no-cache']))
+# subprocess.check_call([sys.executable, "__init__.py", "--raw-config", "../../model.yml", "--raw-name", "license-plate-recognition-barrier-0007", "--shaves", "6"] + ([] if use_cache else ['--no-cache']))
