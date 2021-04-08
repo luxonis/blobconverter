@@ -1,4 +1,0 @@
-[submodule "depthai"]
-	path = depthai
-	url = https://github.com/luxonis/depthai.git
-	branch = model_compiler_refactor
