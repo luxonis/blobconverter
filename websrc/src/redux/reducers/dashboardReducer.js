@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const DEFAULT_STATE = {
   modelSource: null,
-  openVinoVersion: "2021.1",
+  openVinoVersion: "2021.3",
   availableZooModels: [],
   conversionInProgress: false,
   conversionError: null,

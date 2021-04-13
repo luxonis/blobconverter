@@ -84,7 +84,7 @@ class ConfigBuilder:
 
 __defaults = {
     "url": "http://69.164.214.171:8084/compile",
-    "version": Versions.v2021_2,
+    "version": Versions.v2021_3,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],
@@ -170,6 +170,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     if blob_path.exists() and use_cache:
         return blob_path
 
+    cache_config_path.parent.mkdir(parents=True, exist_ok=True)
     with cache_config_path.open('w') as f:
         json.dump(new_cache_config, f)
     try:

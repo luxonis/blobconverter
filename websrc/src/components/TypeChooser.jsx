@@ -39,7 +39,7 @@ const TypeChooser = ({modelSource, openVinoVersion, submitDisabled, nextStep, se
             {
               version.default && <span className="default-label">
                 <img src={borderImg} alt=""/>
-                <p>DepthAI Supported</p>
+                <p>DepthAI Default</p>
               </span>
             }
           </Button>
