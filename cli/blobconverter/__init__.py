@@ -301,7 +301,7 @@ def from_config(name, path, **kwargs):
     files = {
         'config': path,
     }
-    return compile_blob(blob_name=name, req_data=body, req_files=files, shaves=5)
+    return compile_blob(blob_name=name, req_data=body, req_files=files, **kwargs)
 
 
 def __run_cli__():
