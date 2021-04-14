@@ -149,15 +149,9 @@ blob_path = blobconverter.from_openvino(
 ```python
 import blobconverter
 
-blob_path = blobconverter.compile_blob(
-    blob_name="license-plate-recognition-barrier-0007",
-    req_data={
-        "name": "license-plate-recognition-barrier-0007",
-        "use_zoo": True,
-    },
-    req_files={
-        'config': open('/path/to/model.yml'),
-    },
+blob_path = blobconverter.from_config(
+    name="license-plate-recognition-barrier-0007",
+    path="/path/to/model.yml",
     data_type="FP16",
     shaves=5,
 )

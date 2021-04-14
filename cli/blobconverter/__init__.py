@@ -293,6 +293,17 @@ def from_openvino(xml, bin, **kwargs):
     return compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, **kwargs)
 
 
+def from_config(name, path, **kwargs):
+    body = {
+        "name": name,
+        "use_zoo": "True",
+    }
+    files = {
+        'config': path,
+    }
+    return compile_blob(blob_name=name, req_data=body, req_files=files, shaves=5)
+
+
 def __run_cli__():
     import argparse
     parser = argparse.ArgumentParser()
@@ -355,17 +366,7 @@ def __run_cli__():
         if None in (args.raw_config, args.raw_name):
             raise ValueError("Both raw config and name needs to be supplied!")
 
-        return compile_blob(
-            blob_name=args.raw_name,
-            req_data={
-                "name": args.raw_name,
-                "use_zoo": True,
-            },
-            req_files={
-                'config': args.raw_config,
-            },
-            **common_args
-        )
+        return from_config(args.raw_name, args.raw_config)
 
     raise RuntimeError("No conversion source specified!")
 

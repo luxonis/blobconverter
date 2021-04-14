@@ -1,9 +1,12 @@
 import subprocess
 import sys
-
+import shutil
 import blobconverter
 
-use_cache = True
+use_cache = False
+
+if not use_cache:
+    shutil.rmtree(blobconverter.__defaults["output_dir"])
 
 result = blobconverter.from_zoo(
     name="face-detection-retail-0004",
@@ -44,18 +47,12 @@ result = blobconverter.from_tf(
 )
 print(result)
 
-result = blobconverter.compile_blob(
-    blob_name="license-plate-recognition-barrier-0007",
-    req_data={
-        "name": "license-plate-recognition-barrier-0007",
-        "use_zoo": "True",
-    },
-    req_files={
-        'config': '../../model.yml',  # get from https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/models/public/license-plate-recognition-barrier-0007/model.yml
-    },
+result = blobconverter.from_config(
+    name="license-plate-recognition-barrier-0007",
+    path="../../model.yml",
     data_type="FP16",
     shaves=5,
-    use_cache=use_cache,
+    use_cache=use_cache
 )
 print(result)
 
