@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import sys
 import tempfile
 import urllib
 from io import StringIO
@@ -93,13 +94,14 @@ __defaults = {
         "--mean_values=[127.5,127.5,127.5]",
         "--scale_values=[255,255,255]",
     ],
+    "silent": False,
 }
 bucket = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
     .Bucket('blobconverter')
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
-                 optimizer_params: list = None, data_type=None):
+                 optimizer_params: list = None, data_type=None, silent=None):
     if url is not None:
         __defaults["url"] = url
     if version is not None:
@@ -114,6 +116,58 @@ def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_p
         __defaults["optimizer_params"] = optimizer_params
     if data_type is not None:
         __defaults["data_type"] = data_type
+    if silent is not None:
+        __defaults["silent"] = silent
+
+
+def show_progress(curr, max):
+    done = int(50 * curr / max)
+    sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50-done)) )
+    sys.stdout.flush()
+
+
+# https://stackoverflow.com/a/54745657/5494277
+class __S3ProgressPercentage:
+    def __init__(self, o_s3bucket, key_name):
+        self._key_name = key_name
+        boto_client = o_s3bucket.meta.client
+        # ContentLength is an int
+        self._size = boto_client.head_object(Bucket=o_s3bucket.name, Key=key_name)['ContentLength']
+        self._seen_so_far = 0
+
+    def __call__(self, bytes_amount):
+        self._seen_so_far += bytes_amount
+        show_progress(self._seen_so_far, self._size)
+
+
+def __download_from_s3_bucket(key, fpath: Path):
+    if __defaults["silent"]:
+        bucket.download_file(key, str(fpath.absolute()))
+    else:
+        print("Downloading {}...".format(fpath))
+        progress = __S3ProgressPercentage(bucket, key) if not __defaults["silent"] else None
+        bucket.download_file(key, str(fpath.absolute()), Callback=progress)
+        print()
+        print("Done")
+
+
+def __download_from_response(resp, fpath: Path):
+    with fpath.open("wb") as f:
+        if not __defaults["silent"]:
+            print("Downloading {}...".format(fpath))
+        if 'content-length' not in resp.headers:
+                f.write(resp.content)
+                return
+        total = int(resp.headers.get('content-length', 0))
+        dl = 0
+        for data in resp.iter_content(chunk_size=4096):
+            f.write(data)
+            if not __defaults["silent"]:
+                dl += len(data)
+                show_progress(dl, total)
+        if not __defaults["silent"]:
+            print()
+            print("Done")
 
 
 def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
@@ -174,11 +228,8 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     with cache_config_path.open('w') as f:
         json.dump(new_cache_config, f)
     try:
-        data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
-        with blob_path.open("wb") as f:
-            f.write(data)
+        __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
         return blob_path
-
     except botocore.exceptions.ClientError as ex:
         if ex.response['Error']['Code'] != 'NoSuchKey':
             raise ex
@@ -187,7 +238,12 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         name: open(path, 'rb') for name, path in req_files.items()
     }
 
-    response = requests.post("{}?{}".format(url, urllib.parse.urlencode(url_params)), data=data, files=files)
+    response = requests.post(
+        "{}?{}".format(url, urllib.parse.urlencode(url_params)),
+        data=data,
+        files=files,
+        stream=True,
+    )
     if response.status_code == 400:
         try:
             print(json.dumps(response.json(), indent=4))
@@ -196,8 +252,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     response.raise_for_status()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)
-    with blob_path.open("wb") as f:
-        f.write(response.content)
+    __download_from_response(response, blob_path)
 
     return blob_path
 
