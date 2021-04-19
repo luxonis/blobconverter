@@ -231,7 +231,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
         return blob_path
     except botocore.exceptions.ClientError as ex:
-        if ex.response['Error']['Code'] != 'NoSuchKey':
+        if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
             raise ex
 
     files = {
