@@ -62,8 +62,12 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
               modelSource === "file" &&
               <>
                 <div className="form-group">
+                  <label htmlFor="openvino-xml">Model name</label>
+                  <input id="config-name" name="config-name" required/>
+                </div>
+                <div className="form-group">
                   <label htmlFor="openvino-xml">Config file (.yml)</label>
-                  <input id="openvino-xml" name="config-file" type="file" accept=".yml" required/>
+                  <input id="config-file" name="config-file" type="file" accept=".yml" required/>
                 </div>
               </>
             }

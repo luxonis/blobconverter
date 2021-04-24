@@ -61,7 +61,7 @@ input, select {
   height: 100vh;
   max-width: 100vw;
   max-height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
 
   .jumbo {
     h1 {

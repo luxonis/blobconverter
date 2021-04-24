@@ -59,8 +59,10 @@ function* convertModel({payload}) {
     if(modelSource === "zoo") {
       data.append('name', payload["zoo-name"]);
       data.append('use_zoo', "true");
-    } else if(modelSource === "config") {
+    } else if(modelSource === "file") {
       data.append('config', payload["config-file"]);
+      data.append('name', payload["config-name"]);
+      data.append('use_zoo', "true");
     } else {
       let framework = "";
       let optimizer_additional = "";
@@ -76,7 +78,7 @@ function* convertModel({payload}) {
         }
         case 'tf': {
           framework = "tf";
-          optimizer_additional = ` --input_model=$dl_dir/${payload['tf-model'].name}`
+          optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['tf-model'].name}`
           break;
         }
       }
@@ -113,7 +115,7 @@ function* convertModel({payload}) {
     yield put({type: actionTypes.CONVERT_MODEL_SUCCESS, payload: response.data});
   } catch (error) {
     console.error(error);
-    if (_.has(error, 'data')) {
+    if (_.has(error, 'response')) {
       const data = yield readAsJson(error.response.data);
       yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: data});
       yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
