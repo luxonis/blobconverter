@@ -27,7 +27,7 @@ setup(
     include_package_data=True,
     project_urls={
         "Bug Tracker": "https://github.com/luxonis/blobconverter/issues",
-        "Source Code": "https://github.com/luxonis/blobconverter/cli",
+        "Source Code": "https://github.com/luxonis/blobconverter/tree/master/cli",
     },
     classifiers=[
         'License :: OSI Approved :: MIT License',
