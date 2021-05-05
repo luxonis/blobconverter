@@ -84,7 +84,7 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "http://luxonis:8080/compile",
+    "url": "http://luxonis.com:8080/compile",
     "version": Versions.v2021_3,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
