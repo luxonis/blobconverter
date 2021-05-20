@@ -84,7 +84,7 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "http://luxonis.com:8080/compile",
+    "url": "http://luxonis.com:8080",
     "version": Versions.v2021_3,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
@@ -239,7 +239,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     }
 
     response = requests.post(
-        "{}?{}".format(url, urllib.parse.urlencode(url_params)),
+        "{}/compile?{}".format(url, urllib.parse.urlencode(url_params)),
         data=data,
         files=files,
         stream=True,
@@ -359,6 +359,22 @@ def from_config(name, path, **kwargs):
     return compile_blob(blob_name=name, req_data=body, req_files=files, **kwargs)
 
 
+def zoo_list(version=None, url=None):
+    if url is None:
+        url = __defaults["url"]
+    if version is None:
+        version = __defaults["version"]
+
+    url_params = {
+        'version': version
+    }
+
+    response = requests.get("{}/zoo_models?{}".format(url, urllib.parse.urlencode(url_params)))
+    response.raise_for_status()
+    return response.json()['available']
+
+
+
 def __run_cli__():
     import argparse
     parser = argparse.ArgumentParser()
@@ -378,6 +394,7 @@ def __run_cli__():
     parser.add_argument('--compile-params', help="Additional params to use when compiling a model to MyriadX blob")
     parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
     parser.add_argument('--no-cache', dest="use_cache", action="store_false", help="Omit .cache directory and force new compilation of the blob")
+    parser.add_argument('--zoo-list', action="store_true", help="List all models available in OpenVINO Model Zoo")
 
     args = parser.parse_args()
 
@@ -387,6 +404,9 @@ def __run_cli__():
         arg: getattr(args, arg)
         for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params"]
     }
+    if args.zoo_list:
+        return zoo_list()
+
     if args.zoo_name:
         return from_zoo(
             name=args.zoo_name,

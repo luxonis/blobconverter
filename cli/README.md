@@ -47,6 +47,8 @@ optional arguments:
                         Additional params to use when compiling a model to MyriadX blob
   --converter-url URL   URL to BlobConverter API endpoint used for conversion
   --no-cache            Omit .cache directory and force new compilation of the blob
+  --zoo-list            List all models available in OpenVINO Model Zoo
+
 ```
 
 ## Conversion examples (cli)
@@ -55,6 +57,12 @@ optional arguments:
 
 ```
 python3 -m blobconverter --zoo-name face-detection-retail-0004 --shaves 6
+```
+
+To list all available models, run
+
+```
+python3 -m blobconverter --zoo-list
 ```
 
 ### Caffe
@@ -95,6 +103,14 @@ blob_path = blobconverter.from_zoo(
     name="face-detection-retail-0004", 
     shaves=6,
 )
+```
+
+To get all available models, use
+
+```python
+import blobconverter
+
+available_models = blobconverter.zoo_list()
 ```
 
 ### Caffe
