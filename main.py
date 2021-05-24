@@ -290,8 +290,13 @@ def compile():
             for command in commands:
                 env.run_command(command)
 
-    with open(out_path, 'rb') as f:
-        bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+            major, minor = env.version.replace('_R3', '').split('.')
+            with open(out_path, 'rb+') as f:
+                f.seek(60)
+                f.write(bytes([int(part) for part in major]))
+                f.write(bytes([0, 0, 0, int(minor)]))
+                f.seek(0)
+                bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     @after_this_request
     def remove_dir(response):
