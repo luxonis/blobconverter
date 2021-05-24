@@ -293,8 +293,8 @@ def compile():
             major, minor = env.version.replace('_R3', '').split('.')
             with open(out_path, 'rb+') as f:
                 f.seek(60)
-                f.write(bytes([int(part) for part in major]))
-                f.write(bytes([0, 0, 0, int(minor)]))
+                f.write(int(major).to_bytes(4, byteorder="little"))
+                f.write(int(minor).to_bytes(4, byteorder="little"))
                 f.seek(0)
                 bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
