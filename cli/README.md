@@ -11,9 +11,9 @@ python3 -m pip install blobconverter
 ## Usage
 
 ```
-usage: blobconverter [-h] [-zn ZOO_NAME] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN]
-                     [-rawn RAW_NAME] [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}] [-dt DATA_TYPE] [-o OUTPUT_DIR]
-                     [-v VERSION] [--optimizer-params OPTIMIZER_PARAMS] [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache]
+usage: __main__.py [-h] [-zn ZOO_NAME] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN] [-rawn RAW_NAME] [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}]
+                   [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION] [--optimizer-params OPTIMIZER_PARAMS] [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
+
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -48,6 +48,8 @@ optional arguments:
   --converter-url URL   URL to BlobConverter API endpoint used for conversion
   --no-cache            Omit .cache directory and force new compilation of the blob
   --zoo-list            List all models available in OpenVINO Model Zoo
+  --download-ir         Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive
+
 
 ```
 
