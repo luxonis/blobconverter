@@ -171,7 +171,7 @@ def __download_from_response(resp, fpath: Path):
 
 
 def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
-                  use_cache=True, compile_params=None, data_type=None):
+                  use_cache=True, compile_params=None, data_type=None, download_ir=False):
     if shaves is None:
         shaves = __defaults["shaves"]
     if url is None:
@@ -204,6 +204,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         "myriad_shaves": str(shaves),
         "myriad_params_advanced": ' '.join(compile_params),
         "data_type": data_type,
+        "download_ir": download_ir,
         **req_data,
     }
 
@@ -252,6 +253,8 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     response.raise_for_status()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)
+    if download_ir:
+        blob_path = blob_path.with_suffix('.zip')
     __download_from_response(response, blob_path)
 
     return blob_path
@@ -395,6 +398,7 @@ def __run_cli__():
     parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
     parser.add_argument('--no-cache', dest="use_cache", action="store_false", help="Omit .cache directory and force new compilation of the blob")
     parser.add_argument('--zoo-list', action="store_true", help="List all models available in OpenVINO Model Zoo")
+    parser.add_argument('--download-ir', action="store_true", help="Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive")
 
     args = parser.parse_args()
 
@@ -402,7 +406,7 @@ def __run_cli__():
 
     common_args = {
         arg: getattr(args, arg)
-        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params"]
+        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir"]
     }
     if args.zoo_list:
         return zoo_list()
