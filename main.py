@@ -98,11 +98,16 @@ class EnvResolver:
             stdout, stderr = proc.communicate()
             print("Command returned exit code: {}".format(proc.returncode))
             if proc.returncode != 0:
+                filtered_stdout = "\n".join(filter(
+                    lambda line: "[myriad_compile] usb_find_device_with_bcd:266\tLibrary has not been initialized when loaded" not in line,
+                    stdout.decode().split("\n")
+                ))
+                print(filtered_stdout.split("\n"))
                 raise CommandFailed(
                     message=f"Command failed with exit code {proc.returncode}, command: {command}",
                     payload=dict(
                         stderr=stderr.decode(),
-                        stdout=stdout.decode(),
+                        stdout=filtered_stdout,
                         exit_code=proc.returncode
                     )
                 )

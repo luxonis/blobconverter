@@ -198,7 +198,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         cache_config = {}
 
     url_params = {
-        'version': version
+        'version': version,
     }
     data = {
         "myriad_shaves": str(shaves),
@@ -229,8 +229,9 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     with cache_config_path.open('w') as f:
         json.dump(new_cache_config, f)
     try:
-        __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
-        return blob_path
+        if not download_ir:
+            __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
+            return blob_path
     except botocore.exceptions.ClientError as ex:
         if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
             raise ex
