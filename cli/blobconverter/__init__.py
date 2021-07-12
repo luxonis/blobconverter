@@ -96,8 +96,15 @@ __defaults = {
     ],
     "silent": False,
 }
-bucket = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
-    .Bucket('blobconverter')
+try:
+    bucket = boto3\
+        .resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
+        .Bucket('blobconverter')
+except botocore.exceptions.EndpointConnectionError:
+    # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
+    bucket = boto3\
+        .resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')\
+        .Bucket('blobconverter')
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
@@ -144,8 +151,7 @@ def __download_from_s3_bucket(key, fpath: Path):
     if __defaults["silent"]:
         bucket.download_file(key, str(fpath.absolute()))
     else:
-        print("Downloading {}...".format(fpath))
-        progress = __S3ProgressPercentage(bucket, key) if not __defaults["silent"] else None
+        progress = __S3ProgressPercentage(bucket, key)
         bucket.download_file(key, str(fpath.absolute()), Callback=progress)
         print()
         print("Done")
@@ -153,8 +159,6 @@ def __download_from_s3_bucket(key, fpath: Path):
 
 def __download_from_response(resp, fpath: Path):
     with fpath.open("wb") as f:
-        if not __defaults["silent"]:
-            print("Downloading {}...".format(fpath))
         if 'content-length' not in resp.headers:
                 f.write(resp.content)
                 return
@@ -228,6 +232,10 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     cache_config_path.parent.mkdir(parents=True, exist_ok=True)
     with cache_config_path.open('w') as f:
         json.dump(new_cache_config, f)
+
+    if not __defaults["silent"]:
+        print("Downloading {}...".format(blob_path))
+
     try:
         if not download_ir:
             __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
