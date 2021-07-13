@@ -97,14 +97,14 @@ __defaults = {
     "silent": False,
 }
 try:
-    bucket = boto3\
-        .resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
-        .Bucket('blobconverter')
+    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
+    bucket = s3.Bucket('blobconverter')
+    s3.meta.client.head_bucket(Bucket=bucket.name)
 except botocore.exceptions.EndpointConnectionError:
     # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
-    bucket = boto3\
-        .resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')\
-        .Bucket('blobconverter')
+    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
+    bucket = s3.Bucket('blobconverter')
+    s3.meta.client.head_bucket(Bucket=bucket.name)
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
