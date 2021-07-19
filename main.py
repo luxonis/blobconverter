@@ -28,10 +28,15 @@ bucket = boto3.resource('s3', aws_access_key_id=os.getenv("AWS_ACCESS"), aws_sec
 class EnvResolver:
     def __init__(self):
         self.version = request.args.get('version')
-        if self.version == "2021.3" or self.version is None or self.version == "":
+        if self.version == "2021.4" or self.version is None or self.version == "":
             self.base_path = Path("/opt/intel/openvino")
+            self.cache_path = Path("/tmp/modeldownloader/2021_4")
+            self.version = "2021.4"
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.4/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.4/downloader.py")
+        elif self.version == "2021.3":
+            self.base_path = Path("/opt/intel/openvino2021_3")
             self.cache_path = Path("/tmp/modeldownloader/2021_3")
-            self.version = "2021.3"
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.3/downloader.py")
         elif self.version == "2021.2":
@@ -70,7 +75,7 @@ class EnvResolver:
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
         else:
-            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
+            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.4", "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
