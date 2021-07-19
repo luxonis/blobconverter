@@ -15,7 +15,8 @@ const openVinoVersions = [
   {label: "2020.4", value: "2020.4"},
   {label: "2021.1", value: "2021.1"},
   {label: "2021.2", value: "2021.2"},
-  {label: "2021.3", value: "2021.3", "default": true},
+  {label: "2021.3", value: "2021.3"},
+  {label: "2021.4", value: "2021.4", "default": true},
 ]
 
 const modelSources = [
