@@ -270,6 +270,11 @@ def compile():
         commands.append(
             f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
+        preconvert_script = env.model_zoo_path / "public" / name / "pre-convert.py"
+        if preconvert_script.exists():
+            commands.append(
+                f"{sys.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
+            )
 
     if config["framework"] != "dldt":
         commands.append(
