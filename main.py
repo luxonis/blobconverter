@@ -212,7 +212,7 @@ def prepare_compile_config(in_shaves, env):
             'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
             'VPU_NUMBER_OF_SHAVES': shaves,
             'VPU_NUMBER_OF_CMX_SLICES': shaves,
-            'VPU_MYRIAD_THROUGHPUT_STREAMS': streams
+            'VPU_MYRIAD_THROUGHPUT_STREAMS': 1
         }
     config_file_path = env.workdir / "myriad_compile_config.txt"
     with open(config_file_path, "w") as f:

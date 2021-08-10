@@ -85,8 +85,8 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "http://luxonis.com:8080",
-    "version": Versions.v2021_3,
+    "url": "http://blobconverter.luxonis.com",
+    "version": Versions.v2021_4,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],
