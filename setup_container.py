@@ -31,9 +31,7 @@ def create_venv(name: str, path: Path):
     new_env["VIRTUAL_ENV"] = abs_str(venv_path)
     new_env["PATH"] = abs_str(venv_path / "bin") + ":" + new_env["PATH"]
     subprocess.check_call([sys.executable, "-m", "venv", abs_str(venv_path)])
-    print("CMD1: {}".format(" ".join([abs_str(venv_python_path), "-m", "pip", "install", "-U", "pip"])))
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-U", "pip"], env=new_env)
-    print("CMD2: {}".format(" ".join([abs_str(venv_python_path), "-m", "pip", "install", "-r", abs_str(req_path)])))
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-r", abs_str(req_path)], env=new_env)
 
 
