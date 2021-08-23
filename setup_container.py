@@ -15,6 +15,8 @@ versions = {
     "2019_3": Path("/opt/intel/openvino2019_3"),
 }
 
+additional_packages = ["pyyaml"]
+
 
 def abs_str(path: Path):
     return str(path.absolute())
@@ -33,6 +35,7 @@ def create_venv(name: str, path: Path):
     subprocess.check_call([sys.executable, "-m", "venv", abs_str(venv_path)])
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-U", "pip"], env=new_env)
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-r", abs_str(req_path)], env=new_env)
+    subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", *additional_packages], env=new_env)
 
 
 if __name__ == "__main__":
