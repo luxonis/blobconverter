@@ -1,9 +1,9 @@
-#FROM node:10.16 as web
-#
-#COPY websrc/ websrc/
-#WORKDIR websrc/
-#RUN yarn
-#RUN yarn build
+FROM node:10.16 as web
+
+COPY websrc/ websrc/
+WORKDIR websrc/
+RUN yarn
+RUN yarn build
 
 FROM openvino/ubuntu18_dev:2021.4
 
@@ -30,6 +30,6 @@ ADD requirements.txt .
 ADD model_compiler model_compiler
 RUN python3 -m pip install -r requirements.txt
 
-#COPY --from=web websrc/build/ websrc/build/
+COPY --from=web websrc/build/ websrc/build/
 ADD main.py .
 CMD ["python3", "main.py"]
