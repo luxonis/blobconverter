@@ -346,7 +346,7 @@ def handle_invalid_usage(error):
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
     env = EnvResolver()
-    _, stdout, _ = env.run_command(f"{env.downloader_path} --model_root {env.model_zoo_path} --print_all")
+    _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")
     return jsonify(available=stdout.decode().split())
 
 
