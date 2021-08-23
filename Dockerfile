@@ -1,9 +1,9 @@
-FROM node:10.16 as web
-
-COPY websrc/ websrc/
-WORKDIR websrc/
-RUN yarn
-RUN yarn build
+#FROM node:10.16 as web
+#
+#COPY websrc/ websrc/
+#WORKDIR websrc/
+#RUN yarn
+#RUN yarn build
 
 FROM openvino/ubuntu18_dev:2021.4
 
@@ -19,15 +19,17 @@ COPY --from=openvino/ubuntu18_dev:2019_R3.1 /opt/intel/openvino /opt/intel/openv
 USER root
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y python-dev python3-dev nano
-USER openvino
-RUN python3 -m pip install --upgrade tensorboard
-
-ENV PYTHONUNBUFFERED 1
 WORKDIR /app
+RUN chown openvino:openvino /app
+USER openvino
+ENV PYTHONUNBUFFERED 1
+
+ADD setup_container.py .
+RUN python3 setup_container.py
 ADD requirements.txt .
 ADD model_compiler model_compiler
 RUN python3 -m pip install -r requirements.txt
 
-COPY --from=web websrc/build/ websrc/build/
+#COPY --from=web websrc/build/ websrc/build/
 ADD main.py .
 CMD ["python3", "main.py"]
