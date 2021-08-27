@@ -14,6 +14,7 @@ import requests
 
 
 class Versions:
+    v2021_4 = "2021.4"
     v2021_3 = "2021.3"
     v2021_2 = "2021.2"
     v2021_1 = "2021.1"
@@ -84,8 +85,8 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "http://luxonis.com:8080",
-    "version": Versions.v2021_3,
+    "url": "http://blobconverter.luxonis.com",
+    "version": Versions.v2021_4,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],
@@ -96,8 +97,15 @@ __defaults = {
     ],
     "silent": False,
 }
-bucket = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))\
-    .Bucket('blobconverter')
+try:
+    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
+    bucket = s3.Bucket('blobconverter')
+    s3.meta.client.head_bucket(Bucket=bucket.name)
+except botocore.exceptions.EndpointConnectionError:
+    # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
+    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
+    bucket = s3.Bucket('blobconverter')
+    s3.meta.client.head_bucket(Bucket=bucket.name)
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
@@ -144,8 +152,7 @@ def __download_from_s3_bucket(key, fpath: Path):
     if __defaults["silent"]:
         bucket.download_file(key, str(fpath.absolute()))
     else:
-        print("Downloading {}...".format(fpath))
-        progress = __S3ProgressPercentage(bucket, key) if not __defaults["silent"] else None
+        progress = __S3ProgressPercentage(bucket, key)
         bucket.download_file(key, str(fpath.absolute()), Callback=progress)
         print()
         print("Done")
@@ -153,8 +160,6 @@ def __download_from_s3_bucket(key, fpath: Path):
 
 def __download_from_response(resp, fpath: Path):
     with fpath.open("wb") as f:
-        if not __defaults["silent"]:
-            print("Downloading {}...".format(fpath))
         if 'content-length' not in resp.headers:
                 f.write(resp.content)
                 return
@@ -171,7 +176,7 @@ def __download_from_response(resp, fpath: Path):
 
 
 def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
-                  use_cache=True, compile_params=None, data_type=None):
+                  use_cache=True, compile_params=None, data_type=None, download_ir=False):
     if shaves is None:
         shaves = __defaults["shaves"]
     if url is None:
@@ -198,12 +203,13 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         cache_config = {}
 
     url_params = {
-        'version': version
+        'version': version,
     }
     data = {
         "myriad_shaves": str(shaves),
         "myriad_params_advanced": ' '.join(compile_params),
         "data_type": data_type,
+        "download_ir": download_ir,
         **req_data,
     }
 
@@ -227,9 +233,14 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     cache_config_path.parent.mkdir(parents=True, exist_ok=True)
     with cache_config_path.open('w') as f:
         json.dump(new_cache_config, f)
+
+    if not __defaults["silent"]:
+        print("Downloading {}...".format(blob_path))
+
     try:
-        __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
-        return blob_path
+        if not download_ir:
+            __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
+            return blob_path
     except botocore.exceptions.ClientError as ex:
         if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
             raise ex
@@ -252,6 +263,8 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     response.raise_for_status()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)
+    if download_ir:
+        blob_path = blob_path.with_suffix('.zip')
     __download_from_response(response, blob_path)
 
     return blob_path
@@ -395,6 +408,7 @@ def __run_cli__():
     parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
     parser.add_argument('--no-cache', dest="use_cache", action="store_false", help="Omit .cache directory and force new compilation of the blob")
     parser.add_argument('--zoo-list', action="store_true", help="List all models available in OpenVINO Model Zoo")
+    parser.add_argument('--download-ir', action="store_true", help="Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive")
 
     args = parser.parse_args()
 
@@ -402,7 +416,7 @@ def __run_cli__():
 
     common_args = {
         arg: getattr(args, arg)
-        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params"]
+        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir"]
     }
     if args.zoo_list:
         return zoo_list()
