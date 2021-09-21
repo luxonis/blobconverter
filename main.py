@@ -3,12 +3,10 @@ import os
 import shutil
 import subprocess
 
-import math
 import traceback
 import uuid
 import zipfile
 from pathlib import Path
-import sys
 from flask import Flask, request, jsonify, send_file, after_this_request, make_response
 from werkzeug.utils import secure_filename
 import yaml
@@ -34,46 +32,55 @@ class EnvResolver:
             self.version = "2021.4"
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.4/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.4/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2021_4")
         elif self.version == "2021.3":
             self.base_path = Path("/opt/intel/openvino2021_3")
             self.cache_path = Path("/tmp/modeldownloader/2021_3")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2021_3")
         elif self.version == "2021.2":
             self.base_path = Path("/opt/intel/openvino2021_2")
             self.cache_path = Path("/tmp/modeldownloader/2021_2")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.2/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.2/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2021_2")
         elif self.version == "2021.1":
             self.base_path = Path("/opt/intel/openvino2021_1")
             self.cache_path = Path("/tmp/modeldownloader/2021_1")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2021.1/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2021_1")
         elif self.version == "2020.4":
             self.base_path = Path("/opt/intel/openvino2020_4")
             self.cache_path = Path("/tmp/modeldownloader/2020_4")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_4")
         elif self.version == "2020.3":
             self.base_path = Path("/opt/intel/openvino2020_3")
             self.cache_path = Path("/tmp/modeldownloader/2020_3")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_3")
         elif self.version == "2020.2":
             self.base_path = Path("/opt/intel/openvino2020_2")
             self.cache_path = Path("/tmp/modeldownloader/2020_2")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_2")
         elif self.version == "2020.1":
             self.base_path = Path("/opt/intel/openvino2020_1")
             self.cache_path = Path("/tmp/modeldownloader/2020_1")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_1")
         elif self.version == "2019_R3.1":
             self.base_path = Path("/opt/intel/openvino2019_3")
             self.cache_path = Path("/tmp/modeldownloader/2019_3")
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
             raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.4", "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
@@ -93,7 +100,12 @@ class EnvResolver:
         self.env['INTEL_CVSDK_DIR'] = str(self.base_path)
         self.env['INSTALLDIR'] = str(self.base_path)
         self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.6:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/deployment_tools/model_optimizer"
-        self.env['PATH'] = f"{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        self.env['VIRTUAL_ENV'] = str(self.venv_path.absolute())
+
+    @property
+    def executable(self):
+        return str((self.venv_path / "bin" / "python").absolute())
 
     def run_command(self, command):
         print("Running command: {}".format(command))
@@ -193,19 +205,12 @@ def parse_config(config_path, name, data_type, env):
     return config
 
 
-def prepare_compile_config(in_shaves, env):
-    if in_shaves > 8:
-        shaves = math.floor(in_shaves / 2)
-        streams = 2
-    else:
-        shaves = in_shaves
-        streams = 1
-
+def prepare_compile_config(shaves, env):
     if env.version.startswith('2021'):
         config_file_content = {
             'MYRIAD_NUMBER_OF_SHAVES': shaves,
             'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
-            'MYRIAD_THROUGHPUT_STREAMS': streams
+            'MYRIAD_THROUGHPUT_STREAMS': 1
         }
     else:
         config_file_content = {
@@ -268,17 +273,17 @@ def compile():
     xml_path = env.workdir / name / data_type / (name + ".xml")
     if use_zoo:
         commands.append(
-            f"{sys.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
+            f"{env.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
         preconvert_script = env.model_zoo_path / "public" / name / "pre-convert.py"
         if preconvert_script.exists():
             commands.append(
-                f"{sys.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
+                f"{env.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
             )
 
     if config["framework"] != "dldt":
         commands.append(
-            f"{sys.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
+            f"{env.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
         )
 
     out_path = xml_path.with_suffix('.blob')
@@ -341,7 +346,7 @@ def handle_invalid_usage(error):
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
     env = EnvResolver()
-    _, stdout, _ = env.run_command(f"{env.downloader_path} --model_root {env.model_zoo_path} --print_all")
+    _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")
     return jsonify(available=stdout.decode().split())
 
 
