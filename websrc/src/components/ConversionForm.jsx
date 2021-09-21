@@ -35,6 +35,7 @@ const resolveSteps = source => {
       return [model_downloader_step, model_optimizer_step, myriad_compile_step]
     case "caffe":
     case "tf":
+    case "onnx":
       return [model_optimizer_step, myriad_compile_step]
     case "openvino":
       return [myriad_compile_step]
@@ -105,6 +106,13 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
               </div>
             }
             {
+              modelSource === "onnx" &&
+              <div className="form-group">
+                <label htmlFor="onnx-model">Model file (.onnx)</label>
+                <input id="onnx-model" name="onnx-model" type="file" accept=".onnx" required/>
+              </div>
+            }
+            {
               modelSource === "zoo" &&
               <div className="form-group">
                 <label htmlFor="zoo-name">Model name</label>
@@ -157,7 +165,7 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
           <div className="upper-border">Advanced options</div>
           <div className="advanced-options">
             {
-              _.includes(["tf", "caffe"], modelSource) &&
+              _.includes(["onnx", "tf", "caffe"], modelSource) &&
                 <div className="advanced-option">
                   <label htmlFor="advanced-option-input-optimizer"><span>Model optimizer</span> params:</label>
                   <input type="text" id="advanced-option-input-optimizer" name="advanced-option-input-optimizer" defaultValue={model_optimizer_step['cli_params']}/>

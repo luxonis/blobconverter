@@ -22,6 +22,7 @@ const openVinoVersions = [
 const modelSources = [
   {label: "Caffe Model", value: "caffe"},
   {label: "TensorFlow Model", value: "tf"},
+  {label: "ONNX Model", value: "onnx"},
   {label: "OpenVino Model", value: "openvino"},
   {label: "OpenVino Zoo Model", value: "zoo"},
   {label: "Config file", value: "file"},

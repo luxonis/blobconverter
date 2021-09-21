@@ -81,6 +81,11 @@ function* convertModel({payload}) {
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['tf-model'].name}`
           break;
         }
+        case 'onnx': {
+          framework = "onnx";
+          optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['onnx-model'].name}`
+          break;
+        }
       }
       const filenames = Object.values(payload).map(item => item.name).filter(item => !!item)
       const yml = generateYaml({
