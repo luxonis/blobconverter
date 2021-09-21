@@ -11,14 +11,16 @@ python3 -m pip install blobconverter
 ## Usage
 
 ```
-usage: __main__.py [-h] [-zn ZOO_NAME] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN] [-rawn RAW_NAME] [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}]
-                   [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION] [--optimizer-params OPTIMIZER_PARAMS] [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
-
+usage: blobconverter [-h] [-zn ZOO_NAME] [-onnx ONNX_MODEL] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN] [-rawn RAW_NAME]
+                     [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}] [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION] [--optimizer-params OPTIMIZER_PARAMS]
+                     [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
 
 optional arguments:
   -h, --help            show this help message and exit
   -zn ZOO_NAME, --zoo-name ZOO_NAME
                         Name of a model to download from OpenVINO Model Zoo
+  -onnx ONNX_MODEL, --onnx-model ONNX_MODEL
+                        Path to ONNX .onnx file
   -cp CAFFE_PROTO, --caffe-proto CAFFE_PROTO
                         Path to Caffe .prototxt file
   -cm CAFFE_MODEL, --caffe-model CAFFE_MODEL
@@ -49,8 +51,6 @@ optional arguments:
   --no-cache            Omit .cache directory and force new compilation of the blob
   --zoo-list            List all models available in OpenVINO Model Zoo
   --download-ir         Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive
-
-
 ```
 
 ## Conversion examples (cli)
@@ -78,6 +78,13 @@ python3 -m blobconverter --caffe-proto /path/to/mobilenet-ssd.prototxt --caffe-m
 
 ```
 python3 -m blobconverter --tensorflow-pb /path/to/deeplabv3_mnv2_pascal_train_aug.pb --optimizer-params --reverse_input_channels --input_shape=[1,513,513,3] --input=1:mul_1 --output=ArgMax --shaves 6
+```
+
+
+### ONNX
+
+```
+python3 -m blobconverter --onnx-model /path/to/model.onnx --shaves 6
 ```
 
 
@@ -144,6 +151,18 @@ blob_path = blobconverter.from_tf(
         "--input=1:mul_1",
         "--output=ArgMax",
     ],
+)
+```
+
+### ONNX
+
+```python
+import blobconverter
+
+blob_path = blobconverter.from_onnx(
+    model="/path/to/model.onnx",
+    data_type="FP16",
+    shaves=5,
 )
 ```
 

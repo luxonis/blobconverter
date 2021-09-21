@@ -1,12 +1,23 @@
 import subprocess
 import sys
 import shutil
+from pathlib import Path
 import blobconverter
 
 use_cache = False
 
-if not use_cache:
+if not use_cache and Path(blobconverter.__defaults["output_dir"]).exists():
     shutil.rmtree(blobconverter.__defaults["output_dir"])
+
+
+result = blobconverter.from_onnx(
+    model="../../concat.onnx",
+    shaves=3,
+    use_cache=use_cache,
+    optimizer_params=[],
+    data_type="FP16"
+)
+print(result)
 
 result = blobconverter.from_zoo(
     name="face-detection-retail-0004",

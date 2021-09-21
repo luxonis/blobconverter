@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='blobconverter',
-    version='1.0.0',
+    version='1.1.0',
     description='The tool that allows you to covert neural networks to MyriadX blob',
     long_description=io.open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",

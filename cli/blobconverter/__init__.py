@@ -310,6 +310,33 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
     return compile_blob(blob_name=proto_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
 
 
+def from_onnx(model, data_type=None, optimizer_params=None, **kwargs):
+    if optimizer_params is None:
+        optimizer_params = __defaults["optimizer_params"]
+    if data_type is None:
+        data_type = __defaults["data_type"]
+    model_path = Path(model)
+
+    config_path = ConfigBuilder()\
+        .task_type("detection")\
+        .framework("onnx")\
+        .with_file(model_path.name, model_path)\
+        .model_optimizer_args(optimizer_params + [
+            "--data_type={}".format(data_type),
+            "--input_model=$dl_dir/{}/{}".format(data_type, model_path.name),
+        ])\
+        .build()
+    files = {
+        'config': config_path,
+        model_path.name: model_path
+    }
+    body = {
+        "name": model_path.stem,
+    }
+
+    return compile_blob(blob_name=model_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+
+
 def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
@@ -392,6 +419,7 @@ def __run_cli__():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-zn', '--zoo-name', help="Name of a model to download from OpenVINO Model Zoo")
+    parser.add_argument('-onnx', '--onnx-model', help="Path to ONNX .onnx file")
     parser.add_argument('-cp', '--caffe-proto', help="Path to Caffe .prototxt file")
     parser.add_argument('-cm', '--caffe-model', help="Path to Caffe .caffemodel file")
     parser.add_argument('-tf', '--tensorflow-pb', help="Path to TensorFlow .pb file")
@@ -439,6 +467,12 @@ def __run_cli__():
     if args.tensorflow_pb:
         return from_tf(
             frozen_pb=args.tensorflow_pb,
+            optimizer_params=optimizer_params,
+            **common_args
+        )
+    if args.onnx_model:
+        return from_onnx(
+            model=args.onnx_model,
             optimizer_params=optimizer_params,
             **common_args
         )
