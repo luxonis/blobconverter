@@ -6,6 +6,7 @@ import tempfile
 import urllib
 from io import StringIO
 from pathlib import Path
+from urllib.parse import urlparse
 
 import boto3
 import botocore
@@ -283,8 +284,8 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    proto_path = Path(proto)
-    model_path = Path(model)
+    proto_path = get_path(proto)
+    model_path = get_path(model)
     model_req_name = proto_path.with_suffix('.caffemodel').name
 
     config_path = ConfigBuilder()\
@@ -315,7 +316,7 @@ def from_onnx(model, data_type=None, optimizer_params=None, **kwargs):
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    model_path = Path(model)
+    model_path = get_path(model)
 
     config_path = ConfigBuilder()\
         .task_type("detection")\
@@ -342,7 +343,7 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    frozen_pb_path = Path(frozen_pb)
+    frozen_pb_path = get_path(frozen_pb)
 
     config_path = ConfigBuilder()\
         .task_type("detection")\
@@ -365,8 +366,8 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
 
 
 def from_openvino(xml, bin, **kwargs):
-    xml_path = Path(xml)
-    bin_path = Path(bin)
+    xml_path = get_path(xml)
+    bin_path = get_path(bin)
     bin_req_name = xml_path.with_suffix('.bin').name
 
     config_path = ConfigBuilder()\
@@ -413,7 +414,28 @@ def zoo_list(version=None, url=None):
     response.raise_for_status()
     return response.json()['available']
 
+# Get path of the file. If the file is on the web, download it
+def get_path(path: str):
+    # File is saved locally
+    if not path.startswith("http"): return Path(path)
 
+    # Download the file from the web
+    parsed = urlparse(path)
+    file_name = parsed.path.split('/')[-1]
+
+    if "github.com" in path and not path.endswith("?raw=true"):
+        # If file path is from github, append `?raw=true` at the end
+        path += '?raw=true'
+
+    _, tmp = tempfile.mkstemp()
+    # Remove file - we will create folder there
+    os.remove(tmp)
+    download_path = Path(tmp) / file_name
+    # Create folder
+    download_path.parent.mkdir(parents=True, exist_ok=True)
+    # Download file into folder
+    urllib.request.urlretrieve(path, str(download_path))
+    return download_path
 
 def __run_cli__():
     import argparse

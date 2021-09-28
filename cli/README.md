@@ -1,6 +1,6 @@
 # BlobConverter CLI
 
-This tool allows you to convert neural network files (from various sources, like Tensorflow, Caffe or OpenVINO) 
+This tool allows you to convert neural network files (from various sources, like Tensorflow, Caffe, ONNX, or OpenVINO) 
 to MyriadX blob file
 
 ## Installation
@@ -109,9 +109,22 @@ python3 -m blobconverter --raw-config /path/to/model.yml --raw-name license-plat
 import blobconverter
 
 blob_path = blobconverter.from_zoo(
-    name="face-detection-retail-0004", 
+    name="face-detection-retail-0004",
     shaves=6,
 )
+```
+
+File paths can also be URLs to the file. In this case, `blobconverter` will download the file for you.
+
+```python
+import blobconverter
+
+blob_path = blobconverter.from_openvino(
+    xml="https://example.com/path/to/model.xml",
+    bin="https://example.com/path/to/model.bin",
+    shaves=6,
+)
+print(result)
 ```
 
 To get all available models, use

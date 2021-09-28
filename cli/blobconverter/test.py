@@ -44,6 +44,14 @@ result = blobconverter.from_openvino(
 )
 print(result)
 
+result = blobconverter.from_openvino(
+    xml="https://github.com/luxonis/depthai-experiments/blob/master/depthai-inference-engine/facial_cartoonization_256x256.xml",
+    bin="https://github.com/luxonis/depthai-experiments/blob/master/depthai-inference-engine/facial_cartoonization_256x256.bin",
+    data_type="FP16",
+    shaves=6,
+)
+print(result)
+
 result = blobconverter.from_tf(
     frozen_pb="../../deeplabv3_mnv2_pascal_train_aug.pb",  # get from http://download.tensorflow.org/models/deeplabv3_mnv2_pascal_train_aug_2018_01_29.tar.gz
     data_type="FP16",
