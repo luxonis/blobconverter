@@ -340,6 +340,7 @@ class Model:
                                 p, file.name, _common.KNOWN_PRECISIONS))
                     files_per_precision.setdefault(p, set()).add(file.name.parts[1])
 
+                print(files_per_precision)
                 for precision, precision_files in files_per_precision.items():
                     for ext in ['xml', 'bin']:
                         if (name + '.' + ext) not in precision_files:
