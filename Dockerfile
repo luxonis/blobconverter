@@ -18,7 +18,7 @@ COPY --from=openvino/ubuntu18_dev:2019_R3.1 /opt/intel/openvino /opt/intel/openv
 
 USER root
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y python3-dev nano git git-lfs python3.7 python3.7-dev
+RUN apt-get install -y python3-dev nano git git-lfs python3.7
 WORKDIR /app
 RUN chown openvino:openvino /app
 USER openvino
