@@ -18,11 +18,14 @@ COPY --from=openvino/ubuntu18_dev:2019_R3.1 /opt/intel/openvino /opt/intel/openv
 
 USER root
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y python-dev python3-dev nano
+RUN apt-get install -y python-dev python3-dev nano git git-lfs
 WORKDIR /app
 RUN chown openvino:openvino /app
 USER openvino
 ENV PYTHONUNBUFFERED 1
+
+RUN git lfs install
+RUN git clone https://github.com/luxonis/depthai-model-zoo.git
 
 ADD setup_container.py .
 RUN python3 setup_container.py

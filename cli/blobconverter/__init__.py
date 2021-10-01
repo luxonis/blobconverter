@@ -6,6 +6,7 @@ import tempfile
 import urllib
 from io import StringIO
 from pathlib import Path
+from os import path
 
 import boto3
 import botocore
@@ -23,6 +24,16 @@ class Versions:
     v2020_2 = "2020.2"
     v2020_1 = "2020.1"
     v2019_R3 = "2019.R3"
+
+
+def get_filename(url):
+    fragment_removed = url.split("#")[0]  # keep to left of first #
+    query_string_removed = fragment_removed.split("?")[0]
+    scheme_removed = query_string_removed.split("://")[-1].split(":")[-1]
+
+    if scheme_removed.find("/") == -1:
+        return ""
+    return path.basename(scheme_removed)
 
 
 class ConfigBuilder:
@@ -55,21 +66,21 @@ class ConfigBuilder:
                 "$type": "http",
                 "url": "$REQUEST/{}".format(file_path.name)
             }
-        elif size is None or sha256 is None:
-            raise RuntimeError(
-                "Both \"size\" and \"sha256\" params must be provided! (can only be omitted if using \"path\" param)"
-            )
         elif url is not None:
             file_entry["source"] = url
-            file_entry["size"] = size
-            file_entry["sha256"] = sha256
+            if size is not None:
+                file_entry["size"] = size
+            if sha256 is not None:
+                file_entry["sha256"] = sha256
         elif google_drive is not None:
             file_entry["source"] = {
                 "$type": "google_drive",
                 "id": google_drive
             }
-            file_entry["size"] = size
-            file_entry["sha256"] = sha256
+            if size is not None:
+                file_entry["size"] = size
+            if sha256 is not None:
+                file_entry["sha256"] = sha256
         else:
             raise RuntimeError("No file source specified!")
 
@@ -96,6 +107,7 @@ __defaults = {
         "--scale_values=[255,255,255]",
     ],
     "silent": False,
+    "zoo_type": "intel",
 }
 try:
     s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
@@ -109,7 +121,7 @@ except botocore.exceptions.EndpointConnectionError:
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
-                 optimizer_params: list = None, data_type=None, silent=None):
+                 optimizer_params: list = None, data_type=None, silent=None, zoo_type=None):
     if url is not None:
         __defaults["url"] = url
     if version is not None:
@@ -126,6 +138,8 @@ def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_p
         __defaults["data_type"] = data_type
     if silent is not None:
         __defaults["silent"] = silent
+    if zoo_type is not None:
+        __defaults["zoo_type"] = zoo_type
 
 
 def show_progress(curr, max):
@@ -176,7 +190,7 @@ def __download_from_response(resp, fpath: Path):
 
 
 def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
-                  use_cache=True, compile_params=None, data_type=None, download_ir=False):
+                  use_cache=True, compile_params=None, data_type=None, download_ir=False, zoo_type=None):
     if shaves is None:
         shaves = __defaults["shaves"]
     if url is None:
@@ -191,6 +205,8 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         data_type = __defaults["data_type"]
     if req_files is None:
         req_files = {}
+    if zoo_type is None:
+        zoo_type = __defaults["zoo_type"]
 
     blob_path = Path(output_dir) / Path("{}_openvino_{}_{}shave.blob".format(blob_name, version, shaves))
     cache_config_path = Path(__defaults["output_dir"]) / '.config.json'
@@ -210,6 +226,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         "myriad_params_advanced": ' '.join(compile_params),
         "data_type": data_type,
         "download_ir": download_ir,
+        'zoo_type': zoo_type,
         **req_data,
     }
 
@@ -278,114 +295,117 @@ def from_zoo(name, **kwargs):
     return compile_blob(name, req_data=body, **kwargs)
 
 
-def from_caffe(proto, model, data_type=None, optimizer_params=None, **kwargs):
+def from_caffe(proto, model, data_type=None, optimizer_params=None, proto_size=None, proto_sha256=None, model_size=None, model_sha256=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    proto_path = Path(proto)
-    model_path = Path(model)
-    model_req_name = proto_path.with_suffix('.caffemodel').name
 
-    config_path = ConfigBuilder()\
+    proto_name = get_filename(proto)
+    model_name = get_filename(model)
+    files = {}
+    builder = ConfigBuilder()\
         .task_type("detection")\
-        .framework("caffe")\
-        .with_file(proto_path.name, proto_path)\
-        .with_file(model_req_name, model_path)\
+        .framework("caffe") \
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}/{}".format(data_type, model_req_name),
-            "--input_proto=$dl_dir/{}/{}".format(data_type, proto_path.name),
-        ])\
-        .build()
-    files = {
-        'config': config_path,
-        model_req_name: model_path,
-        proto_path.name: proto_path
-    }
-    body = {
-        "name": proto_path.stem,
-    }
+            "--input_model=$dl_dir/{}/{}".format(data_type, model_name),
+            "--input_proto=$dl_dir/{}/{}".format(data_type, proto_name),
+        ])
 
-    return compile_blob(blob_name=proto_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    if str(proto).startswith("http"):
+        builder = builder.with_file(name=get_filename(proto), url=proto, size=proto_size, sha256=proto_sha256)
+    else:
+        proto_path = Path(proto)
+        builder = builder.with_file(name=proto_path.name, path=proto_path)
+        files[proto_path.name] = proto_path
+
+    if str(model).startswith("http"):
+        files["config"] = builder.with_file(name=get_filename(model), url=model, size=model_size, sha256=model_sha256)
+    else:
+        model_path = Path(model)
+        files["config"] = builder.with_file(name=model_path.name, path=model_path).build()
+        files[model_path.name] = model_path
+
+    return compile_blob(blob_name=Path(proto_name).stem, req_data={"name": Path(proto_name).stem}, req_files=files, data_type=data_type, **kwargs)
 
 
-def from_onnx(model, data_type=None, optimizer_params=None, **kwargs):
+def from_onnx(model, data_type=None, optimizer_params=None, model_size=None, model_sha256=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    model_path = Path(model)
+    files = {}
+    model_name = get_filename(model)
 
-    config_path = ConfigBuilder()\
+    builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("onnx")\
-        .with_file(model_path.name, model_path)\
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}/{}".format(data_type, model_path.name),
-        ])\
-        .build()
-    files = {
-        'config': config_path,
-        model_path.name: model_path
-    }
-    body = {
-        "name": model_path.stem,
-    }
+            "--input_model=$dl_dir/{}/{}".format(data_type, model_name),
+        ])
 
-    return compile_blob(blob_name=model_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    if str(model).startswith("http"):
+        files["config"] = builder\
+            .with_file(name=get_filename(model), url=model, size=model_size, sha256=model_sha256)\
+            .build()
+    else:
+        files["config"] = builder\
+            .with_file(name=model_name, path=Path(model))\
+            .build()
+        files[model_name] = Path(model)
+
+    return compile_blob(blob_name=Path(model_name).stem, req_data={"name": Path(model_name).stem}, req_files=files, data_type=data_type, **kwargs)
 
 
-def from_tf(frozen_pb, data_type=None, optimizer_params=None, **kwargs):
+def from_tf(frozen_pb, data_type=None, optimizer_params=None, frozen_pb_size=None, frozen_pb_sha256=None, **kwargs):
     if optimizer_params is None:
         optimizer_params = __defaults["optimizer_params"]
     if data_type is None:
         data_type = __defaults["data_type"]
-    frozen_pb_path = Path(frozen_pb)
+    files = {}
+    frozen_pb_name = get_filename(frozen_pb)
 
-    config_path = ConfigBuilder()\
+    builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("tf")\
-        .with_file(frozen_pb_path.name, frozen_pb_path)\
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}/{}".format(data_type, frozen_pb_path.name),
-        ])\
-        .build()
-    files = {
-        'config': config_path,
-        frozen_pb_path.name: frozen_pb_path
-    }
-    body = {
-        "name": frozen_pb_path.stem,
-    }
+            "--input_model=$dl_dir/{}/{}".format(data_type, frozen_pb_name),
+        ])
 
-    return compile_blob(blob_name=frozen_pb_path.stem, req_data=body, req_files=files, data_type=data_type, **kwargs)
+    if str(frozen_pb).startswith("http"):
+        files["config"] = builder.with_file(name=get_filename(frozen_pb), url=frozen_pb, size=frozen_pb_size, sha256=frozen_pb_sha256).build()
+    else:
+        files["config"] = builder.with_file(name=frozen_pb_name, path=Path(frozen_pb)).build()
+        files[frozen_pb_name] = Path(frozen_pb)
+
+    return compile_blob(blob_name=Path(frozen_pb_name).stem, req_data={"name": Path(frozen_pb_name).stem}, req_files=files, data_type=data_type, **kwargs)
 
 
-def from_openvino(xml, bin, **kwargs):
-    xml_path = Path(xml)
-    bin_path = Path(bin)
-    bin_req_name = xml_path.with_suffix('.bin').name
-
-    config_path = ConfigBuilder()\
+def from_openvino(xml, bin, xml_size=None, xml_sha256=None, bin_size=None, bin_sha256=None, **kwargs):
+    files = {}
+    builder = ConfigBuilder()\
         .task_type("detection")\
-        .framework("dldt")\
-        .with_file(xml_path.name, xml_path)\
-        .with_file(bin_req_name, bin_path)\
-        .build()
-    files = {
-        'config': config_path,
-        xml_path.name: xml_path,
-        bin_req_name: bin_path
-    }
+        .framework("dldt")
+    xml_name = get_filename(xml)
+    bin_name = get_filename(bin)
 
-    body = {
-        "name": xml_path.stem,
-    }
+    if str(xml).startswith("http"):
+        builder = builder.with_file(name=xml_name, url=xml, size=xml_size, sha256=xml_sha256)
+    else:
+        builder = builder.with_file(name=xml_name, path=Path(xml))
+        files[xml_name] = Path(xml)
 
-    return compile_blob(blob_name=xml_path.stem, req_data=body, req_files=files, **kwargs)
+    if str(bin).startswith("http"):
+        builder = builder.with_file(name=bin_name, url=bin, size=bin_size, sha256=bin_sha256)
+    else:
+        builder = builder.with_file(name=bin_name, path=Path(bin))
+        files[bin_name] = Path(bin)
+
+    files["config"] = builder.build()
+    return compile_blob(blob_name=Path(xml_name).stem, req_data={"name": Path(xml_name).stem}, req_files=files, **kwargs)
 
 
 def from_config(name, path, **kwargs):
@@ -419,6 +439,7 @@ def __run_cli__():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-zn', '--zoo-name', help="Name of a model to download from OpenVINO Model Zoo")
+    parser.add_argument('-zt', '--zoo-type', help="Type of the model zoo to use, available: \"intel\", \"depthai\" ")
     parser.add_argument('-onnx', '--onnx-model', help="Path to ONNX .onnx file")
     parser.add_argument('-cp', '--caffe-proto', help="Path to Caffe .prototxt file")
     parser.add_argument('-cm', '--caffe-model', help="Path to Caffe .caffemodel file")
@@ -444,7 +465,7 @@ def __run_cli__():
 
     common_args = {
         arg: getattr(args, arg)
-        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir"]
+        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir", "zoo_type"]
     }
     if args.zoo_list:
         return zoo_list()
