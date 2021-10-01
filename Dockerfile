@@ -27,7 +27,7 @@ USER openvino
 ENV PYTHONUNBUFFERED 1
 
 RUN git lfs install
-RUN git clone https://github.com/luxonis/depthai-model-zoo.git
+RUN git clone --branch specify_precision https://github.com/luxonis/depthai-model-zoo.git
 
 ADD setup_container.py .
 RUN python3 setup_container.py
