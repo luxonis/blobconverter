@@ -55,7 +55,7 @@ class ConfigBuilder:
 
     def with_file(self, name, path=None, url=None, google_drive=None, size=None, sha256=None):
         file_entry = {
-            "name": "{}".format(name),
+            "name": "{}/{}".format(self.precision, name),
         }
 
         if path is not None:
@@ -309,8 +309,8 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, proto_size=N
         .framework("caffe") \
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}".format(model_name),
-            "--input_proto=$dl_dir/{}".format(proto_name),
+            "--input_model=$dl_dir/{}/{}".format(data_type, model_name),
+            "--input_proto=$dl_dir/{}/{}".format(data_type, proto_name),
         ])
 
     if str(proto).startswith("http"):
@@ -343,7 +343,7 @@ def from_onnx(model, data_type=None, optimizer_params=None, model_size=None, mod
         .framework("onnx")\
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}".format(model_name),
+            "--input_model=$dl_dir/{}/{}".format(data_type, model_name),
         ])
 
     if str(model).startswith("http"):
@@ -372,7 +372,7 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, frozen_pb_size=Non
         .framework("tf")\
         .model_optimizer_args(optimizer_params + [
             "--data_type={}".format(data_type),
-            "--input_model=$dl_dir/{}".format(data_type, frozen_pb_name),
+            "--input_model=$dl_dir/{}/{}".format(data_type, frozen_pb_name),
         ])
 
     if str(frozen_pb).startswith("http"):

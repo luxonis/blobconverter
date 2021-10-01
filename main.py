@@ -251,7 +251,6 @@ def compile():
     use_zoo = request.form.get('use_zoo', False)
     data_type = request.form.get('data_type', "FP16")
     download_ir = request.form.get('download_ir', "false").lower() == "true"
-
     if config_file is None:
         if use_zoo:
             zoo_path = fetch_from_zoo(env, name)
@@ -278,6 +277,7 @@ def compile():
     config = parse_config(config_path, name, data_type, env)
     compile_config_path = prepare_compile_config(myriad_shaves, env)
     commands = []
+    xml_path = env.workdir / name / data_type / (name + ".xml")
     if use_zoo:
         commands.append(
             f"{env.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
@@ -293,7 +293,6 @@ def compile():
             f"{env.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
         )
 
-    xml_path = env.workdir / name / (name + ".xml")
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
     commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
