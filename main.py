@@ -236,7 +236,7 @@ def prepare_compile_config(shaves, env):
 
 
 def fetch_from_zoo(env, name):
-    return next(env.model_zoo_path.rglob(f'*/{name}/model.yml'), None)
+    return next(env.model_zoo_path.rglob(f'**/{name}/model.yml'), None)
 
 
 @app.route("/compile", methods=['POST'])

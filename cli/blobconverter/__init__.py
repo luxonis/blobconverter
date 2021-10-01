@@ -276,7 +276,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         try:
             print(json.dumps(response.json(), indent=4))
         except:
-            pass
+            print(response.text)
     response.raise_for_status()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)

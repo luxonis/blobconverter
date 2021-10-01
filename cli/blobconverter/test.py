@@ -9,6 +9,8 @@ use_cache = False
 if not use_cache and Path(blobconverter.__defaults["output_dir"]).exists():
     shutil.rmtree(blobconverter.__defaults["output_dir"])
 
+result = blobconverter.from_zoo(name="megadepth", zoo_type="depthai")
+print(result)
 
 result = blobconverter.from_onnx(
     model="../../concat.onnx",
