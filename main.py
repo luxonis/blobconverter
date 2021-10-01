@@ -278,12 +278,13 @@ def compile():
     compile_config_path = prepare_compile_config(myriad_shaves, env)
     commands = []
     xml_path = env.workdir / name / data_type / (name + ".xml")
-    if use_zoo:
+    if len(file_paths) == 0:
         commands.append(
             f"{env.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
-        preconvert_script = env.model_zoo_path / "public" / name / "pre-convert.py"
-        if preconvert_script.exists():
+    if use_zoo:
+        preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
+        if preconvert_script is not None:
             commands.append(
                 f"{env.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
             )
