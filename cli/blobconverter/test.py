@@ -12,6 +12,16 @@ if not use_cache and Path(blobconverter.__defaults["output_dir"]).exists():
 result = blobconverter.from_zoo(name="megadepth", zoo_type="depthai")
 print(result)
 
+result = blobconverter.from_openvino(
+    xml="https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.4/models_bin/3/age-gender-recognition-retail-0013/FP16/age-gender-recognition-retail-0013.xml",
+    xml_size=31526,
+    xml_sha256="54d62ce4a3c3d7f1559a22ee9524bac41101103a8dceaabec537181995eda655",
+    bin="https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.4/models_bin/3/age-gender-recognition-retail-0013/FP16/age-gender-recognition-retail-0013.bin",
+    bin_size=4276038,
+    bin_sha256="3586df5340e9fcd73ba0e2d802631bd9e027179490635c03b273d33d582e2b58"
+)
+print(result)
+
 result = blobconverter.from_onnx(
     model="../../concat.onnx",
     shaves=3,
