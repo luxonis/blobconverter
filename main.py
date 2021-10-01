@@ -293,7 +293,7 @@ def compile():
             f"{env.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
         )
 
-    xml_path = next(env.workdir.rglob(f"**/{name}.xml"), None)
+    xml_path = env.workdir / name / (name + ".xml")
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
     commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
