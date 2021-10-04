@@ -11,14 +11,16 @@ python3 -m pip install blobconverter
 ## Usage
 
 ```
-usage: blobconverter [-h] [-zn ZOO_NAME] [-onnx ONNX_MODEL] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN] [-rawn RAW_NAME]
-                     [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}] [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION] [--optimizer-params OPTIMIZER_PARAMS]
-                     [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
+usage: blobconverter [-h] [-zn ZOO_NAME] [-zt ZOO_TYPE] [-onnx ONNX_MODEL] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN]
+                     [-rawn RAW_NAME] [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}] [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION]
+                     [--optimizer-params OPTIMIZER_PARAMS] [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
 
 optional arguments:
   -h, --help            show this help message and exit
   -zn ZOO_NAME, --zoo-name ZOO_NAME
                         Name of a model to download from OpenVINO Model Zoo
+  -zt ZOO_TYPE, --zoo-type ZOO_TYPE
+                        Type of the model zoo to use, available: "intel", "depthai"
   -onnx ONNX_MODEL, --onnx-model ONNX_MODEL
                         Path to ONNX .onnx file
   -cp CAFFE_PROTO, --caffe-proto CAFFE_PROTO
@@ -191,5 +193,27 @@ blob_path = blobconverter.from_config(
     path="/path/to/model.yml",
     data_type="FP16",
     shaves=5,
+)
+```
+
+### Use [DepthAI Model Zoo](https://github.com/luxonis/depthai-model-zoo) to download files
+
+```python
+import blobconverter
+
+blob_path = blobconverter.from_zoo(name="megadepth", zoo_type="depthai")
+```
+
+### Download using URLs instead of local files
+```python
+import blobconverter
+
+blob_path = blobconverter.from_openvino(
+    xml="https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.4/models_bin/3/age-gender-recognition-retail-0013/FP16/age-gender-recognition-retail-0013.xml",
+    xml_size=31526,
+    xml_sha256="54d62ce4a3c3d7f1559a22ee9524bac41101103a8dceaabec537181995eda655",
+    bin="https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.4/models_bin/3/age-gender-recognition-retail-0013/FP16/age-gender-recognition-retail-0013.bin",
+    bin_size=4276038,
+    bin_sha256="3586df5340e9fcd73ba0e2d802631bd9e027179490635c03b273d33d582e2b58"
 )
 ```

@@ -82,14 +82,21 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
-            raise ValueError(f'Unknown self.version: "{self.version}", available: "2021.4", "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
+            raise ValueError(f'Unknown version: "{self.version}", available: "2021.4", "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
         self.cache_path.mkdir(parents=True, exist_ok=True)
 
         self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
-        self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
+
+        self.model_zoo_type = request.form.get('zoo_type', "intel")
+        if self.model_zoo_type == "intel":
+            self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
+        elif self.model_zoo_type == "depthai":
+            self.model_zoo_path = Path(__file__).parent / Path("depthai-model-zoo/models")
+        else:
+            raise ValueError(f'Unknown zoo name: "{self.model_zoo_type}", available: "intel", "depthai"')
 
         self.env = os.environ.copy()
         self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
@@ -187,17 +194,17 @@ def parse_config(config_path, name, data_type, env):
         if "source" not in file:
             raise BadRequest("Each file needs to have \"source\" param")
         if "$type" in file["source"]:
-            if file["source"]["$type"] == "http":
+            if file["source"]["$type"] == "http" and "$REQUEST" in file["source"]["url"]:
                 local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name / data_type).absolute()))
                 file["source"]["url"] = "file://" + local_path
-            if "size" not in file:
-                if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
-                    raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
-                file["size"] = Path(local_path).stat().st_size
-            if "sha256" not in file:
-                if file["source"]["$type"] != "http" or not file["source"]["url"].startswith("file://"):
-                    raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
-                file["sha256"] = sha256sum(local_path)
+            # if "size" not in file:
+            #     if not file["source"]["url"].startswith("file://"):
+            #         raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
+            #     file["size"] = Path(local_path).stat().st_size
+            # if "sha256" not in file:
+            #     if not file["source"]["url"].startswith("file://"):
+            #         raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
+            #     file["sha256"] = sha256sum(local_path)
 
     with open(config_path, "w", encoding='utf8') as f:
         yaml.dump(config, f , default_flow_style=False, allow_unicode=True)
@@ -229,7 +236,7 @@ def prepare_compile_config(shaves, env):
 
 
 def fetch_from_zoo(env, name):
-    return next(env.model_zoo_path.rglob(f'*/{name}/model.yml'), None)
+    return next(env.model_zoo_path.rglob(f'**/{name}/model.yml'), None)
 
 
 @app.route("/compile", methods=['POST'])
@@ -271,12 +278,13 @@ def compile():
     compile_config_path = prepare_compile_config(myriad_shaves, env)
     commands = []
     xml_path = env.workdir / name / data_type / (name + ".xml")
-    if use_zoo:
+    if len(file_paths) == 0:
         commands.append(
             f"{env.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
-        preconvert_script = env.model_zoo_path / "public" / name / "pre-convert.py"
-        if preconvert_script.exists():
+    if use_zoo:
+        preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
+        if preconvert_script is not None:
             commands.append(
                 f"{env.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
             )
