@@ -31,6 +31,7 @@ RUN git clone https://github.com/luxonis/depthai-model-zoo.git
 
 ADD setup_container.py .
 RUN python3 setup_container.py
+ADD docker_scheduled.sh .
 ADD requirements.txt .
 ADD model_compiler model_compiler
 RUN python3 -m pip install -r requirements.txt
