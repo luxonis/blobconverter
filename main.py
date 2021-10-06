@@ -197,14 +197,14 @@ def parse_config(config_path, name, data_type, env):
             if file["source"]["$type"] == "http" and "$REQUEST" in file["source"]["url"]:
                 local_path = file["source"]["url"].replace("$REQUEST", str((env.workdir / name / data_type).absolute()))
                 file["source"]["url"] = "file://" + local_path
-            # if "size" not in file:
-            #     if not file["source"]["url"].startswith("file://"):
-            #         raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
-            #     file["size"] = Path(local_path).stat().st_size
-            # if "sha256" not in file:
-            #     if not file["source"]["url"].startswith("file://"):
-            #         raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
-            #     file["sha256"] = sha256sum(local_path)
+            if "size" not in file:
+                if not file["source"]["url"].startswith("file://"):
+                    raise BadRequest("You need to supply \"size\" parameter for file when using a remote source")
+                file["size"] = Path(local_path).stat().st_size
+            if "sha256" not in file:
+                if not file["source"]["url"].startswith("file://"):
+                    raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
+                file["sha256"] = sha256sum(local_path)
 
     with open(config_path, "w", encoding='utf8') as f:
         yaml.dump(config, f , default_flow_style=False, allow_unicode=True)
