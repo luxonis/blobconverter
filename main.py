@@ -280,7 +280,7 @@ def compile():
     xml_path = env.workdir / name / data_type / (name + ".xml")
     if len(file_paths) == 0:
         commands.append(
-            f"{env.executable} {env.downloader_path} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
+            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
     if use_zoo:
         preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
