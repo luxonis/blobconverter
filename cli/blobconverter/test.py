@@ -9,6 +9,24 @@ use_cache = False
 if not use_cache and Path(blobconverter.__defaults["output_dir"]).exists():
     shutil.rmtree(blobconverter.__defaults["output_dir"])
 
+result = blobconverter.from_openvino(
+    xml="../../face-detection-retail-0004.xml",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.xml
+    bin="../../face-detection-retail-0004.bin",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.bin
+    data_type="FP16",
+    shaves=5,
+    use_cache=use_cache,
+)
+print(result)
+
+result = blobconverter.from_openvino(
+    xml="face-detection-retail-0004.xml",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.xml
+    bin="face-detection-retail-0004.bin",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.bin
+    data_type="FP16",
+    shaves=5,
+    use_cache=use_cache,
+)
+print(result)
+
 result = blobconverter.from_zoo(name="megadepth", zoo_type="depthai")
 print(result)
 
