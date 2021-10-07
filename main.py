@@ -306,31 +306,31 @@ def compile():
             hash_obj.update(f.read())
     req_hash = hash_obj.hexdigest()
 
-    dry = request.args.get('dry')
-    if dry is not None:
+    if "dry" in request.args:
         return jsonify(commands)
-    else:
-        data = None
-        try:
-            if not download_ir:
-                data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
-                with out_path.open("wb") as f:
-                    f.write(data)
-        except botocore.exceptions.ClientError as ex:
-            if ex.response['Error']['Code'] != 'NoSuchKey':
-                raise ex
-        if data is None:
-            for command in commands:
-                env.run_command(command)
 
-    if not download_ir:
-        with open(out_path, 'rb') as f:
+    data = None
+    try:
+        if not download_ir:
+            data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+            with out_path.open("wb") as f:
+                f.write(data)
+    except botocore.exceptions.ClientError as ex:
+        if ex.response['Error']['Code'] != 'NoSuchKey':
+            raise ex
+    if data is None:
+        for command in commands:
+            env.run_command(command)
+
+    major, minor = env.version.replace('_R3', '').split('.')
+    with open(out_path, 'rb+') as f:
+        f.seek(60)
+        f.write(int(major).to_bytes(4, byteorder="little"))
+        f.write(int(minor).to_bytes(4, byteorder="little"))
+        
+        if not download_ir:
+            f.seek(0)
             bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
-
-    @after_this_request
-    def remove_dir(response):
-        shutil.rmtree(env.workdir, ignore_errors=True)
-        return response
 
     if download_ir:
         zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
@@ -339,6 +339,12 @@ def compile():
         zipf.write(out_path, out_path.name)
         zipf.close()
         out_path = out_path.with_suffix('.zip')
+
+    @after_this_request
+    def remove_dir(response):
+        shutil.rmtree(env.workdir, ignore_errors=True)
+        return response
+      
     response = make_response(send_file(out_path, as_attachment=True, attachment_filename=out_path.name))
     response.headers['X-HASH'] = req_hash
     return response
