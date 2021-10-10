@@ -241,8 +241,6 @@ def fetch_from_zoo(env, name):
 
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
-    if request.method == 'GET':
-        return "This URL only supports POST requests!", 405
     env = EnvResolver()
     name = request.form.get('name', '')
     myriad_shaves = int(request.form.get('myriad_shaves', ''))
