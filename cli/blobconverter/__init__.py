@@ -4,7 +4,6 @@ import os
 import sys
 import tempfile
 import urllib
-from io import StringIO
 from pathlib import Path
 from os import path
 
@@ -94,7 +93,7 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "http://blobconverter.luxonis.com",
+    "url": "https://blobconverter.luxonis.com",
     "version": Versions.v2021_4,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
