@@ -373,8 +373,8 @@ def root():
 
 
 if Path('/app/ssl').is_dir():
-    cert = next(Path('/app/ssl').glob("*.pem")).resolve().absolute()
-    key = next(Path('/app/ssl').glob("*.key")).resolve().absolute()
+    cert = Path('/app/ssl/fullchain.pem')
+    key = Path('/app/ssl/privkey.pem')
     ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     ctx.load_cert_chain(cert, key)
     app.run(host='0.0.0.0', port=8080, ssl_context=ctx)
