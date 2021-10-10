@@ -90,7 +90,7 @@ class EnvResolver:
 
         self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
 
-        self.model_zoo_type = request.form.get('zoo_type', "intel")
+        self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
             self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
         elif self.model_zoo_type == "depthai":
@@ -242,17 +242,17 @@ def fetch_from_zoo(env, name):
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
     env = EnvResolver()
-    if "name" not in request.form:
+    if "name" not in request.values:
         return "Parameter \"name\" not provided in request form!", 400
-    name = request.form.get('name', '')
-    myriad_shaves = int(request.form.get('myriad_shaves', '6'))
-    myriad_params_advanced = request.form.get('myriad_params_advanced', '-ip U8')
+    name = request.values.get('name', '')
+    myriad_shaves = int(request.values.get('myriad_shaves', '6'))
+    myriad_params_advanced = request.values.get('myriad_params_advanced', '-ip U8')
     config_path = env.workdir / name / "model.yml"
     config_path.parent.mkdir(parents=True, exist_ok=True)
     config_file = request.files.get("config", None)
-    use_zoo = request.form.get('use_zoo', False)
-    data_type = request.form.get('data_type', "FP16")
-    download_ir = request.form.get('download_ir', "false").lower() == "true"
+    use_zoo = request.values.get('use_zoo', False)
+    data_type = request.values.get('data_type', "FP16")
+    download_ir = request.values.get('download_ir', "false").lower() == "true"
     if config_file is None:
         if use_zoo:
             zoo_path = fetch_from_zoo(env, name)
@@ -300,7 +300,7 @@ def compile():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
 
-    hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.form)}).encode())
+    hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.values)}).encode())
     if config_file is not None:
         hash_obj.update(raw_config.encode())
     for file_path in list(file_paths.values()):
