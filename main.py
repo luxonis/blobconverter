@@ -242,9 +242,9 @@ def fetch_from_zoo(env, name):
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
     env = EnvResolver()
-    if "name" not in request.values:
-        return "Parameter \"name\" not provided in request form!", 400
     name = request.values.get('name', '')
+    if len(name) == 0:
+        return "Parameter \"name\" is empty!", 400
     myriad_shaves = int(request.values.get('myriad_shaves', '6'))
     myriad_params_advanced = request.values.get('myriad_params_advanced', '-ip U8')
     config_path = env.workdir / name / "model.yml"
