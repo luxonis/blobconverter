@@ -370,8 +370,4 @@ def get_zoo_models():
 def root():
     return app.send_static_file('index.html')
 
-
-if Path("/certificates").exists():
-    app.run(host='0.0.0.0', port=8080, ssl_context=("/certificates/fullchain.pem", "/certificates/privkey.pem"))
-else:
-    app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=8080)
