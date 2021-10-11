@@ -38,8 +38,6 @@ def create_venv(name: str, path: Path, interpreter):
     new_env["PATH"] = abs_str(venv_path / "bin") + ":" + new_env["PATH"]
     subprocess.check_call([interpreter, "-m", "venv", abs_str(venv_path)])
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-U", "pip"], env=new_env)
-    # todo cleanup
-    subprocess.check_call(["cd", abs_str(models_path), "&&", "git", "apply", "/app/models_gdrive.patch"], env=new_env, shell=True)
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-r", abs_str(req_path)], env=new_env)
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", *additional_packages], env=new_env)
 
