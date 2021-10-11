@@ -29,6 +29,7 @@ ENV PYTHONUNBUFFERED 1
 RUN git lfs install
 RUN git clone https://github.com/luxonis/depthai-model-zoo.git
 
+ADD models_gdrive.patch .
 ADD setup_container.py .
 RUN python3 setup_container.py
 ADD docker_scheduled.sh .

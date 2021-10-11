@@ -27,6 +27,7 @@ def abs_str(path: Path):
 
 def create_venv(name: str, path: Path, interpreter):
     req_path = path / "deployment_tools" / "model_optimizer" / "requirements.txt"
+    models_path = path / "deployment_tools" / "open_model_zoo" / "models"
     venv_path = Path("/app") / "venvs" / ("venv"+name)
     venv_python_path = venv_path / "bin" / "python"
     venv_path.parent.mkdir(parents=True, exist_ok=True)
@@ -37,6 +38,8 @@ def create_venv(name: str, path: Path, interpreter):
     new_env["PATH"] = abs_str(venv_path / "bin") + ":" + new_env["PATH"]
     subprocess.check_call([interpreter, "-m", "venv", abs_str(venv_path)])
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-U", "pip"], env=new_env)
+    # todo cleanup
+    subprocess.check_call(["cd", abs_str(models_path), "&&", "git", "apply", "/app/models_gdrive.patch"], env=new_env, shell=True)
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "-r", abs_str(req_path)], env=new_env)
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", *additional_packages], env=new_env)
 
