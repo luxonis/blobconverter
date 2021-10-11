@@ -23,19 +23,10 @@ def abs_str(path: Path):
 
 
 def apply_patch(name: str, path: Path, interpreter):
-    models_path = path / "deployment_tools" / "open_model_zoo" / "models"
     zoo_path = path / "deployment_tools" / "open_model_zoo"
 
-    # print("test")
-    # subprocess.check_call(["cd", abs_str(models_path), "&&", "git", "apply", "/opt/intel/models_gdrive.patch"], shell=True)
-    # subprocess.check_call(["cat", abs_str(models_path) + "/public/mobilenet-ssd/model.yml"])
-
-    # todo cleanup
     subprocess.check_call(["cp", "/opt/intel/models_gdrive.patch", abs_str(zoo_path)])
-    # subprocess.check_call(["cat", abs_str(zoo_path) + "/models_gdrive.patch"])
-    # subprocess.check_call(["cat", abs_str(models_path) + "/public/mobilenet-ssd/model.yml"])
     subprocess.check_call(["git", "apply", "models_gdrive.patch"], cwd = abs_str(zoo_path))
-    # subprocess.check_call(["cat", abs_str(models_path) + "/public/mobilenet-ssd/model.yml"])
 
 
 
