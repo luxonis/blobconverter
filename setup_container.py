@@ -27,7 +27,6 @@ def abs_str(path: Path):
 
 def create_venv(name: str, path: Path, interpreter):
     req_path = path / "deployment_tools" / "model_optimizer" / "requirements.txt"
-    models_path = path / "deployment_tools" / "open_model_zoo" / "models"
     venv_path = Path("/app") / "venvs" / ("venv"+name)
     venv_python_path = venv_path / "bin" / "python"
     venv_path.parent.mkdir(parents=True, exist_ok=True)
