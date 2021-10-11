@@ -380,4 +380,4 @@ if Path('/app/ssl').is_dir():
     app.run(host='0.0.0.0', port=8080, ssl_context=ctx)
 else:
     print("DEBUG RUN - DO NOT USE IN PRODUCTION!")
-    app.run(host='0.0.0.0', port=8080, ssl_context='adhoc')
+    app.run(host='0.0.0.0', port=8080)
