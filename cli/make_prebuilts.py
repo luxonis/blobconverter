@@ -31,7 +31,7 @@ priority_models = ["mobilenet-ssd", "efficientnet-b0", "vehicle-license-plate-de
                  "vehicle-attributes-recognition-barrier-0039", "face-detection-retail-0004", "landmarks-regression-retail-0009"]
 backup_shaves = range(1, 17)
 
-for model_name, shaves in itertools.product(backup_models, backup_shaves):
+for model_name, shaves in itertools.product(priority_models, backup_shaves):
     print("Deploying {} with {} shaves...".format(model_name, shaves))
     try:
         path.deploy_file(blobconverter.from_zoo(model_name, shaves=shaves))
