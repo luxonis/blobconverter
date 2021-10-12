@@ -371,10 +371,10 @@ def get_zoo_models():
 def root():
     return app.send_static_file('index.html')
 
+cert = Path('/app/ssl/cert.pem')
+key = Path('/app/ssl/server.key')
 
-if Path('/app/ssl').is_dir():
-    cert = Path('/app/ssl/cert.pem')
-    key = Path('/app/ssl/server.key')
+if cert.exists() and key.exists():
     ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     ctx.load_cert_chain(cert, key)
     app.run(host='0.0.0.0', port=8080, ssl_context=ctx)
