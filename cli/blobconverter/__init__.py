@@ -245,11 +245,12 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         req_hash: str(blob_path),
     }
 
-    if req_hash in cache_config:
-        return cache_config[req_hash]
+    if use_cache:
+        if req_hash in cache_config:
+            return cache_config[req_hash]
 
-    if blob_path.exists() and use_cache:
-        return blob_path
+        if blob_path.exists():
+            return blob_path
 
     cache_config_path.parent.mkdir(parents=True, exist_ok=True)
     with cache_config_path.open('w') as f:
