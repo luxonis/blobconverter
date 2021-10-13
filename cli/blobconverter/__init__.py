@@ -212,9 +212,6 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     if zoo_type is None:
         zoo_type = __defaults["zoo_type"]
 
-    if None in (s3, bucket):
-        __init_s3()
-
     blob_path = Path(output_dir) / Path("{}_openvino_{}_{}shave.blob".format(blob_name, version, shaves))
     cache_config_path = Path(__defaults["output_dir"]) / '.config.json'
     if cache_config_path.exists():
@@ -260,6 +257,9 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
 
     if not __defaults["silent"]:
         print("Downloading {}...".format(blob_path))
+
+    if None in (s3, bucket):
+        __init_s3()
 
     try:
         if not download_ir:
