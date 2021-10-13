@@ -106,15 +106,22 @@ __defaults = {
     "silent": False,
     "zoo_type": "intel",
 }
-try:
-    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
-    bucket = s3.Bucket('blobconverter')
-    s3.meta.client.head_bucket(Bucket=bucket.name)
-except botocore.exceptions.EndpointConnectionError:
-    # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
-    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
-    bucket = s3.Bucket('blobconverter')
-    s3.meta.client.head_bucket(Bucket=bucket.name)
+
+s3 = None
+bucket = None
+
+
+def __init_s3():
+    global s3, bucket
+    try:
+        s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
+        bucket = s3.Bucket('blobconverter')
+        s3.meta.client.head_bucket(Bucket=bucket.name)
+    except botocore.exceptions.EndpointConnectionError:
+        # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
+        s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
+        bucket = s3.Bucket('blobconverter')
+        s3.meta.client.head_bucket(Bucket=bucket.name)
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
@@ -238,11 +245,12 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         req_hash: str(blob_path),
     }
 
-    if req_hash in cache_config:
-        return cache_config[req_hash]
+    if use_cache:
+        if req_hash in cache_config:
+            return cache_config[req_hash]
 
-    if blob_path.exists() and use_cache:
-        return blob_path
+        if blob_path.exists():
+            return blob_path
 
     cache_config_path.parent.mkdir(parents=True, exist_ok=True)
     with cache_config_path.open('w') as f:
@@ -250,6 +258,9 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
 
     if not __defaults["silent"]:
         print("Downloading {}...".format(blob_path))
+
+    if None in (s3, bucket):
+        __init_s3()
 
     try:
         if not download_ir:
@@ -289,7 +300,31 @@ def from_zoo(name, **kwargs):
         "name": name,
         "use_zoo": "True",
     }
-    return compile_blob(name, req_data=body, **kwargs)
+    try:
+        return compile_blob(name, req_data=body, **kwargs)
+    except Exception as ex:
+        # backup conversion
+        print("Conversion failed due to {}".format(ex))
+        shaves = kwargs.get("shaves", __defaults["shaves"])
+        version = kwargs.get("version", __defaults["version"])
+        print("Trying to find backup... (model=\"{}\", shaves=\"{}\", version=\"{}\")".format(name, shaves, version))
+        output_dir = kwargs.get("output_dir", __defaults["output_dir"])
+        blob_name = Path("{}_openvino_{}_{}shave.blob".format(name, version, shaves))
+        blob_path = output_dir / blob_name
+        blob_path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            response = requests.get("http://artifacts.luxonis.com/artifactory/blobconverter-backup/blobs/{}".format(blob_name.name))
+            response.raise_for_status()
+            print("Backup found, downloading...")
+            __download_from_response(
+                response,
+                output_dir / blob_name
+            )
+            return output_dir / blob_name
+        except Exception as ex2:
+            print("Unable to fetch model from backup server due to: {}".format(ex2))
+            raise
+
 
 
 def from_caffe(proto, model, data_type=None, optimizer_params=None, proto_size=None, proto_sha256=None, model_size=None, model_sha256=None, **kwargs):
