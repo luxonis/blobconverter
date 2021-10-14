@@ -41,4 +41,4 @@ RUN python3 -m pip install -r requirements.txt
 
 COPY --from=web websrc/build/ websrc/build/
 ADD main.py .
-CMD ["python3", "main.py"]
+CMD ["python3", "-m", "gunicorn", "--chdir", "/app", "main:app", "-w", "2", "--threads", "2", "-b", "0.0.0.0:8000"]
