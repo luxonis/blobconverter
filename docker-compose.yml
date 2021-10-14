@@ -9,5 +9,10 @@ services:
     environment:
       AWS_ACCESS: ${AWS_ACCESS}
       AWS_SECRET: ${AWS_SECRET}
+  nginx:
+    build: ./nginx
     ports:
-      - 8080:8080
+      - 880:80
+      - 8443:443
+    depends_on:
+      - api
