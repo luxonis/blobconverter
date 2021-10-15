@@ -370,7 +370,7 @@ def get_zoo_models():
 @app.route("/update", methods=['GET'])
 def update():
     subprocess.check_call(["/bin/bash", "/app/docker_scheduled.sh"])
-    return jsonify(status={"Updated."})
+    return jsonify(status="Updated")
 
 
 @app.route('/')
