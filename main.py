@@ -254,6 +254,7 @@ def compile():
     use_zoo = request.values.get('use_zoo', False)
     data_type = request.values.get('data_type', "FP16")
     download_ir = request.values.get('download_ir', "false").lower() == "true"
+    no_cache = request.args.get('no_cache', "false") == "true"
     if config_file is None:
         if use_zoo:
             zoo_path = fetch_from_zoo(env, name)
@@ -314,7 +315,7 @@ def compile():
 
     data = None
     try:
-        if not download_ir:
+        if not no_cache or not download_ir:
             data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
             with out_path.open("wb") as f:
                 f.write(data)

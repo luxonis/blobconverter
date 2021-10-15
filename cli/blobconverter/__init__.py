@@ -224,6 +224,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
 
     url_params = {
         'version': version,
+        'no_cache': not use_cache,
     }
     data = {
         "myriad_shaves": str(shaves),
