@@ -20,7 +20,7 @@ USER root
 RUN apt-get update && apt-get -y upgrade && apt-get install -y software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
-RUN apt-get install -y python3-dev nano git git-lfs python3.7 python3.7-venv
+RUN apt-get install -y python3-dev nano git python3.7 python3.7-venv
 ADD patch_openvino.py /opt/intel
 ADD models_gdrive.patch /opt/intel
 RUN python3 /opt/intel/patch_openvino.py
@@ -28,9 +28,6 @@ WORKDIR /app
 RUN chown openvino:openvino /app
 USER openvino
 ENV PYTHONUNBUFFERED 1
-
-RUN git lfs install
-RUN git clone https://github.com/luxonis/depthai-model-zoo.git
 
 ADD setup_container.py .
 RUN python3 setup_container.py
