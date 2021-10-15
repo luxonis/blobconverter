@@ -367,6 +367,13 @@ def get_zoo_models():
     return jsonify(available=stdout.decode().split())
 
 
+@app.route("/update", methods=['GET'])
+def get_zoo_models():
+    env = EnvResolver()
+    exitcode = subprocess.check_call(f"bash /app/docker_scheduled.sh")
+    return jsonify(available={"Update exit code: {}".format(exitcode)})
+
+
 @app.route('/')
 def root():
     return app.send_static_file('index.html')
