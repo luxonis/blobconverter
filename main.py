@@ -368,7 +368,7 @@ def get_zoo_models():
 
 
 @app.route("/update", methods=['GET'])
-def get_zoo_models():
+def update():
     env = EnvResolver()
     exitcode = subprocess.check_call(f"bash /app/docker_scheduled.sh")
     return jsonify(available={"Update exit code: {}".format(exitcode)})
