@@ -194,7 +194,7 @@ def __download_from_response(resp, fpath: Path):
 
 
 def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=None, output_dir=None, url=None,
-                  use_cache=True, compile_params=None, data_type=None, download_ir=False, zoo_type=None):
+                  use_cache=True, compile_params=None, data_type=None, download_ir=False, zoo_type=None, dry=False):
     if shaves is None:
         shaves = __defaults["shaves"]
     if url is None:
@@ -225,6 +225,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     url_params = {
         'version': version,
         'no_cache': not use_cache,
+        'dry': dry,
     }
     data = {
         "myriad_shaves": str(shaves),
@@ -287,6 +288,9 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         except:
             print(response.text)
     response.raise_for_status()
+
+    if dry:
+        return response.json()
 
     blob_path.parent.mkdir(parents=True, exist_ok=True)
     if download_ir:
@@ -489,6 +493,7 @@ def __run_cli__():
     parser.add_argument('--compile-params', help="Additional params to use when compiling a model to MyriadX blob")
     parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
     parser.add_argument('--no-cache', dest="use_cache", action="store_false", help="Omit .cache directory and force new compilation of the blob")
+    parser.add_argument('--dry', dest="dry", action="store_true", help="Instead of compiling the blob, return compilation commands (for manual conversion)")
     parser.add_argument('--zoo-list', action="store_true", help="List all models available in OpenVINO Model Zoo")
     parser.add_argument('--download-ir', action="store_true", help="Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive")
 
@@ -498,7 +503,7 @@ def __run_cli__():
 
     common_args = {
         arg: getattr(args, arg)
-        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir", "zoo_type"]
+        for arg in ["shaves", "data_type", "output_dir", "version", "url", "compile_params", "download_ir", "zoo_type", "use_cache", "dry"]
     }
     if args.zoo_list:
         return zoo_list()
