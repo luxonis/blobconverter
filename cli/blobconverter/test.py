@@ -12,6 +12,12 @@ if not use_cache and Path(blobconverter.__defaults["output_dir"]).exists():
 result = blobconverter.from_zoo(name="mobilenet-ssd", use_cache=use_cache, dry=True)
 print(result)
 
+result = blobconverter.from_zoo(name="mobilenet-ssd", use_cache=use_cache, dry=False)
+print(result)
+
+result = blobconverter.from_zoo(name="mobilenet-ssd", use_cache=True, dry=False)
+print(result)
+
 result = blobconverter.from_openvino(
     xml="../../face-detection-retail-0004.xml",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.xml
     bin="../../face-detection-retail-0004.bin",  # get from https://storage.openvinotoolkit.org/repositories/open_model_zoo/2021.2/models_bin/3/face-detection-retail-0004/FP16/face-detection-retail-0004.bin

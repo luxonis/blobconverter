@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import struct
 import sys
 import tempfile
 import urllib
@@ -152,6 +153,23 @@ def show_progress(curr, max):
     sys.stdout.flush()
 
 
+def is_valid_blob(blob_path):
+    convertedPath = Path(blob_path)
+    if not convertedPath.exists():
+        return False
+
+    try:
+        with convertedPath.open('rb+') as f:
+            f.seek(56)
+            expected_size = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
+            f.seek(0, os.SEEK_END)
+            actual_size = f.tell()
+
+            return expected_size == actual_size
+    except:
+        return False
+
+
 # https://stackoverflow.com/a/54745657/5494277
 class __S3ProgressPercentage:
     def __init__(self, o_s3bucket, key_name):
@@ -225,8 +243,10 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     url_params = {
         'version': version,
         'no_cache': not use_cache,
-        'dry': dry,
     }
+    if dry:
+        url_params["dry"] = True
+
     data = {
         "myriad_shaves": str(shaves),
         "myriad_params_advanced": ' '.join(compile_params),
@@ -236,41 +256,49 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         **req_data,
     }
 
-    hash_obj = hashlib.sha256(json.dumps({**url_params, **data}).encode())
-    for file_path in req_files.values():
-        with open(file_path, 'rb') as f:
-            hash_obj.update(f.read())
-    req_hash = hash_obj.hexdigest()
+    if not dry:
+        hash_obj = hashlib.sha256(json.dumps({**url_params, **data}).encode())
+        for file_path in req_files.values():
+            with open(file_path, 'rb') as f:
+                hash_obj.update(f.read())
+        req_hash = hash_obj.hexdigest()
 
-    new_cache_config = {
-        **cache_config,
-        req_hash: str(blob_path),
-    }
+        new_cache_config = {
+            **cache_config,
+            req_hash: str(blob_path),
+        }
 
-    if use_cache:
-        if req_hash in cache_config:
-            return cache_config[req_hash]
+        if use_cache:
+            cached_path = None
+            if req_hash in cache_config:
+                cached_path = cache_config[req_hash]
 
-        if blob_path.exists():
-            return blob_path
+            if blob_path.exists():
+                cached_path = str(blob_path)
 
-    cache_config_path.parent.mkdir(parents=True, exist_ok=True)
-    with cache_config_path.open('w') as f:
-        json.dump(new_cache_config, f)
+            if cached_path is not None:
+                if is_valid_blob(cached_path):
+                    return cached_path
+                else:
+                    print("Cached blob is invalid, will download a new one from API.")
 
-    if not __defaults["silent"]:
-        print("Downloading {}...".format(blob_path))
+        cache_config_path.parent.mkdir(parents=True, exist_ok=True)
+        with cache_config_path.open('w') as f:
+            json.dump(new_cache_config, f)
 
-    if None in (s3, bucket):
-        __init_s3()
+        if not __defaults["silent"]:
+            print("Downloading {}...".format(blob_path))
 
-    try:
-        if not download_ir:
-            __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
-            return blob_path
-    except botocore.exceptions.ClientError as ex:
-        if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
-            raise ex
+        if None in (s3, bucket):
+            __init_s3()
+
+        try:
+            if not download_ir:
+                __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
+                return blob_path
+        except botocore.exceptions.ClientError as ex:
+            if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
+                raise ex
 
     files = {
         name: open(path, 'rb') for name, path in req_files.items()
@@ -280,7 +308,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         "{}/compile?{}".format(url, urllib.parse.urlencode(url_params)),
         data=data,
         files=files,
-        stream=True,
+        stream=not dry,
     )
     if response.status_code == 400:
         try:
