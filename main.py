@@ -310,8 +310,8 @@ def compile():
             hash_obj.update(f.read())
     req_hash = hash_obj.hexdigest()
 
-    # if "dry" in request.args:
-    #     return jsonify(commands)
+    if request.args.get("dry", "false") == "true":
+        return jsonify(commands)
 
     data = None
     try:
