@@ -256,7 +256,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         **req_data,
     }
 
-    if not dry:
+    if not dry and not download_ir:
         hash_obj = hashlib.sha256(json.dumps({**url_params, **data}).encode())
         for file_path in req_files.values():
             with open(file_path, 'rb') as f:
