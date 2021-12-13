@@ -34,6 +34,12 @@ def get_filename(url):
     return path.basename(scheme_removed)
 
 
+def show_progress(curr, max):
+    done = int(50 * curr / max)
+    sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50-done)) )
+    sys.stdout.flush()
+
+
 class ConfigBuilder:
     def __init__(self, precision="FP16"):
         self.precision = precision
@@ -104,6 +110,7 @@ __defaults = {
         "--mean_values=[127.5,127.5,127.5]",
         "--scale_values=[255,255,255]",
     ],
+    "progress_func": show_progress,
     "silent": False,
     "zoo_type": "intel",
 }
@@ -126,7 +133,7 @@ def __init_s3():
 
 
 def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_params: list = None,
-                 optimizer_params: list = None, data_type=None, silent=None, zoo_type=None):
+                 optimizer_params: list = None, data_type=None, silent=None, zoo_type=None, progress_func=None):
     if url is not None:
         __defaults["url"] = url
     if version is not None:
@@ -145,12 +152,8 @@ def set_defaults(url=None, version=None, shaves=None, output_dir=None, compile_p
         __defaults["silent"] = silent
     if zoo_type is not None:
         __defaults["zoo_type"] = zoo_type
-
-
-def show_progress(curr, max):
-    done = int(50 * curr / max)
-    sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50-done)) )
-    sys.stdout.flush()
+    if progress_func is not None:
+        __defaults["progress_func"] = progress_func
 
 
 def is_valid_blob(blob_path):
@@ -180,8 +183,9 @@ class __S3ProgressPercentage:
         self._seen_so_far = 0
 
     def __call__(self, bytes_amount):
+        global __defaults
         self._seen_so_far += bytes_amount
-        show_progress(self._seen_so_far, self._size)
+        __defaults["progress_func"](self._seen_so_far, self._size)
 
 
 def __download_from_s3_bucket(key, fpath: Path):
@@ -205,7 +209,7 @@ def __download_from_response(resp, fpath: Path):
             f.write(data)
             if not __defaults["silent"]:
                 dl += len(data)
-                show_progress(dl, total)
+                __defaults["progress_func"](dl, total)
         if not __defaults["silent"]:
             print()
             print("Done")
@@ -256,7 +260,7 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         **req_data,
     }
 
-    if not dry and not download_ir:
+    if not dry:
         hash_obj = hashlib.sha256(json.dumps({**url_params, **data}).encode())
         for file_path in req_files.values():
             with open(file_path, 'rb') as f:
