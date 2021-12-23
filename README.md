@@ -1,4 +1,4 @@
-# BlobConverter
+# BlobConverter API
 
 ## Usage
 
@@ -37,7 +37,4 @@ twine upload --username luxonis dist/*
 ## TODO
 
 - customize precision (not only FP16)
-- support additional output (not only .blob, also .xml and .bin)
 - add advanced options for downloader / converter
-- setup converter.luxonis.com domain
-- make web UI responsive
