@@ -18,5 +18,5 @@ services:
       - api
     volumes:
       - ./log:/log:z
-      - /etc/letsencrypt/archive/blobconverter.luxonis.com/privkey1.pem:/ssl/key.pem
-      - /etc/letsencrypt/archive/blobconverter.luxonis.com/fullchain1.pem:/ssl/cert.pem
+      - /etc/letsencrypt/archive/blobconverter.luxonis.com/privkey2.pem:/ssl/key.pem
+      - /etc/letsencrypt/archive/blobconverter.luxonis.com/fullchain2.pem:/ssl/cert.pem
