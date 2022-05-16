@@ -5,7 +5,7 @@ WORKDIR websrc/
 RUN yarn
 RUN yarn build
 
-FROM openvino/ubuntu20_dev:2021.4
+FROM openvino/ubuntu20_dev:2021.4.2
 
 COPY --from=openvino/ubuntu20_dev:2021.3 /opt/intel/openvino /opt/intel/openvino2021_3
 COPY --from=openvino/ubuntu18_dev:2021.2 /opt/intel/openvino /opt/intel/openvino2021_2

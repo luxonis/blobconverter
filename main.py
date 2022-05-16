@@ -214,18 +214,18 @@ def parse_config(config_path, name, data_type, env):
 
 
 def prepare_compile_config(shaves, env):
-    if env.version.startswith('2021'):
-        config_file_content = {
-            'MYRIAD_NUMBER_OF_SHAVES': shaves,
-            'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
-            'MYRIAD_THROUGHPUT_STREAMS': 1
-        }
-    else:
+    if env.version.startswith('2020'):
         config_file_content = {
             'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
             'VPU_NUMBER_OF_SHAVES': shaves,
             'VPU_NUMBER_OF_CMX_SLICES': shaves,
             'VPU_MYRIAD_THROUGHPUT_STREAMS': 1
+        }
+    else:
+        config_file_content = {
+            'MYRIAD_NUMBER_OF_SHAVES': shaves,
+            'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
+            'MYRIAD_THROUGHPUT_STREAMS': 1
         }
     config_file_path = env.workdir / "myriad_compile_config.txt"
     with open(config_file_path, "w") as f:
@@ -331,7 +331,7 @@ def compile():
         f.seek(60)
         f.write(int(major).to_bytes(4, byteorder="little"))
         f.write(int(minor).to_bytes(4, byteorder="little"))
-        
+
         if not download_ir:
             f.seek(0)
             bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
@@ -348,7 +348,7 @@ def compile():
     def remove_dir(response):
         shutil.rmtree(env.workdir, ignore_errors=True)
         return response
-      
+
     response = make_response(send_file(out_path, as_attachment=True, attachment_filename=out_path.name))
     response.headers['X-HASH'] = req_hash
     return response

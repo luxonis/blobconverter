@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 versions = {
-    "2021_4": Path("/opt/intel/openvino_2021"),
+    # "2021_4": Path("/opt/intel/openvino_2021"),
     "2021_3": Path("/opt/intel/openvino2021_3"),
     "2021_2": Path("/opt/intel/openvino2021_2"),
     "2021_1": Path("/opt/intel/openvino2021_1"),
