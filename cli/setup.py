@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='blobconverter',
-    version='1.2.9',
+    version='1.3.0',
     description='The tool that allows you to convert neural networks to MyriadX blob',
     long_description=io.open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -37,5 +37,6 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )
