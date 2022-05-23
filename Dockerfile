@@ -5,8 +5,9 @@ WORKDIR websrc/
 RUN yarn
 RUN yarn build
 
-FROM openvino/ubuntu20_dev:2021.4
+FROM openvino/ubuntu20_dev:2021.4.2
 
+COPY --from=openvino/ubuntu20_dev:2021.4.2 /opt/intel/openvino /opt/intel/openvino2021_4
 COPY --from=openvino/ubuntu20_dev:2021.3 /opt/intel/openvino /opt/intel/openvino2021_3
 COPY --from=openvino/ubuntu18_dev:2021.2 /opt/intel/openvino /opt/intel/openvino2021_2
 COPY --from=openvino/ubuntu18_dev:2021.1 /opt/intel/openvino /opt/intel/openvino2021_1
@@ -17,7 +18,7 @@ COPY --from=openvino/ubuntu18_dev:2020.1 /opt/intel/openvino /opt/intel/openvino
 COPY --from=openvino/ubuntu18_dev:2019_R3.1 /opt/intel/openvino /opt/intel/openvino2019_3
 
 USER root
-RUN apt-get update && apt-get -y upgrade && apt-get install -y software-properties-common
+RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get install -y python3-dev nano git python3.7 python3.7-venv
