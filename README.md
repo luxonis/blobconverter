@@ -20,7 +20,7 @@
 
     ```
     docker build -t blobconverter .
-    docker run -p 8080:8080 blobconverter
+    docker run -p 8000:8000 blobconverter
     ```
 
 - System - python 3.5 or higher required
@@ -35,11 +35,28 @@
 These steps will allow to build and push a new blobconverter CLI package to PyPi
 
 ```bash
-rm dist/* 
-python setup.py sdist bdist_wheel 
-twine check dist/* 
+rm dist/*
+python setup.py sdist bdist_wheel
+twine check dist/*
 twine upload --username luxonis dist/*
 ```
+
+## Testing locally
+
+- Build and start the docker container (backend)
+
+    ```
+    docker build -t blobconverter .
+    docker run -p 8000:8000 blobconverter
+    ```
+
+- Start the webserver (frontend)
+
+    ```
+    cd websrc
+    yarn
+    yarn start
+    ```
 
 ## TODO
 
