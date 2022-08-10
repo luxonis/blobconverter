@@ -5,15 +5,17 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    image: ghcr.io/luxonis/blobconverter
+    image: ghcr.io/luxonis/blobconverter:latest
+    volumes:
+      - ./depthai-model-zoo:/app/depthai-model-zoo
     environment:
       AWS_ACCESS: ${AWS_ACCESS}
       AWS_SECRET: ${AWS_SECRET}
   nginx:
     build: ./nginx
     ports:
-      - 880:80
-      - 8443:443
+      - 80:80
+      - 443:443
     depends_on:
       - api
     volumes:
