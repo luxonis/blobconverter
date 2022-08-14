@@ -31,7 +31,7 @@ const ErrorModal = ({modal, changeModal, error}) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-danger" href="https://gitlab.com/luxonis/blobconverter/-/issues/new">Report a bug</Button>
+        <Button variant="outline-danger" href="https://github.com/luxonis/blobconverter/issues">Report a bug</Button>
         <Button onClick={close}>Try again</Button>
       </Modal.Footer>
     </Modal>

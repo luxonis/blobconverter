@@ -23,35 +23,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Particles
-          canvasClassName="particles-canvas"
-          params={{
-            particles: {
-              number: {
-                value: 50,
-                density: {
-                  enable: true,
-                  value_area: 1000,
-                }
-              },
-            },
-            interactivity: {
-              detectsOn: "canvas",
-              events: {
-                onHover: {
-                  enable: true,
-                  mode: "repulse",
-                },
-              },
-              modes: {
-                repulse: {
-                  distance: 200,
-                  duration: 0.4,
-                },
-              },
-            },
-          }}
-        />
         <div className="content">
           <Content/>
           <ErrorModal/>

@@ -13,7 +13,7 @@ const PolicyModal = ({modal, changeModal}) => (
     <Modal.Body>
       <h1>Privacy Policy for Luxonis</h1>
 
-      <p>At BlobConverter, accessible from http://69.164.214.171:8083/, one of our main priorities is the privacy of our
+      <p>At BlobConverter, accessible from http://blobconverter.luxonis.com/, one of our main priorities is the privacy of our
         visitors. This Privacy Policy document contains types of information that is collected and recorded by
         BlobConverter and how we use it.</p>
 

@@ -8,15 +8,10 @@ import {modelSourceSelector, openVinoVersionSelector, submitDisabledSelector} fr
 import borderImg from './border.png'
 
 const openVinoVersions = [
-  {label: "2019_R3.1", value: "2019_R3.1"},
-  {label: "2020.1", value: "2020.1"},
-  {label: "2020.2", value: "2020.2"},
-  {label: "2020.3", value: "2020.3"},
-  {label: "2020.4", value: "2020.4"},
-  {label: "2021.1", value: "2021.1"},
   {label: "2021.2", value: "2021.2"},
   {label: "2021.3", value: "2021.3"},
-  {label: "2021.4", value: "2021.4", "default": true},
+  {label: "2021.4", value: "2021.4"},
+  {label: "2022.1", value: "2022.1", "default": true},
 ]
 
 const modelSources = [
@@ -25,7 +20,6 @@ const modelSources = [
   {label: "ONNX Model", value: "onnx"},
   {label: "OpenVino Model", value: "openvino"},
   {label: "OpenVino Zoo Model", value: "zoo"},
-  {label: "Config file", value: "file"},
 ]
 
 const TypeChooser = ({modelSource, openVinoVersion, submitDisabled, nextStep, setOpenVino, setModelSource}) => (
