@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vehicle-detection-0200.xml
+    size: 299819
+    checksum: c6001b323e8aca2537b93357b05cbcb30c459e2b1fddc1632f4834ad66dad4699718591d83efc41df9bbd3954a2f0dc1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-detection-0200/vehicle-detection-0200.xml
+  - name: FP16/vehicle-detection-0200.bin
+    size: 3634654
+    checksum: 23e1ad44eccae0aea7541d04ca7174160ce0972c07d278695fd89a254a5e5d0f4a657a1044a4c6ace3dc49220851eb72
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-detection-0200/vehicle-detection-0200.bin
+
+framework: dldt 
+        

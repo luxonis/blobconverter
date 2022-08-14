@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/googlenet-v3-pytorch.xml
+    size: 405058
+    checksum: d64b6e2a0be1a87dc6c7c14df50378998b3b97dd8cfe4fd5af1caf475616a509e89673e56e71b83eae4e3dd5c725f44e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v3-pytorch/googlenet-v3-pytorch.xml
+  - name: FP16/googlenet-v3-pytorch.bin
+    size: 47634742
+    checksum: d647e7dc39f8dc23e60d2a24fbac9eb8baa299faf4eb820f41842689839a1096344273317d7bedd19f2ea23dfc33677b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v3-pytorch/googlenet-v3-pytorch.bin
+
+framework: dldt 
+        

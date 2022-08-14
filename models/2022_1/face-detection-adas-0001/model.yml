@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/face-detection-adas-0001.xml
+    size: 360482
+    checksum: db016c7a2e582c98f26f648a7c173b37236cc360be8d498244e31f60ce356e3f6b2660110d2d8161756437613331de69
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-detection-adas-0001/face-detection-adas-0001.xml
+  - name: FP16/face-detection-adas-0001.bin
+    size: 2106088
+    checksum: 83ea86ae5d1f138876cf4bbe3827e8086fd4ef26bf1af41615dc4cebe9d54dd209df036596093f9cbbedefbc6367bffb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-detection-adas-0001/face-detection-adas-0001.bin
+
+framework: dldt 
+        

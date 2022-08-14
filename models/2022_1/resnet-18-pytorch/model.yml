@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/resnet-18-pytorch.xml
+    size: 93709
+    checksum: a513e750353400ead96b4f85c913d1cc9d9b41a8c34719a7bf61e5ad80cb4942153ce6c7f728200723326a7b09a2e7fd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnet-18-pytorch/resnet-18-pytorch.xml
+  - name: FP16/resnet-18-pytorch.bin
+    size: 23369462
+    checksum: d63fa3d3f45ea0d610b10efb2f8238d733c9efb7ecc0e7b11e85c871898576293b03ef475c3041b79d3e3e8fd73aa1a3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnet-18-pytorch/resnet-18-pytorch.bin
+
+framework: dldt 
+        

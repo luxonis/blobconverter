@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/open-closed-eye-0001.xml
+    size: 23070
+    checksum: 8b80036c4d1d2f0b2cb2757724cbcf1c35df981521b3ae9942616dddc205fff040623f27fc7ae250c14fdcac11a0987f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/open-closed-eye-0001/open-closed-eye-0001.xml
+  - name: FP16/open-closed-eye-0001.bin
+    size: 22514
+    checksum: 758a91aac669a58f79cc632865bbad82376d67fede94a4c23484fb4c6a7431431223c042057d64523cf87b846805a464
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/open-closed-eye-0001/open-closed-eye-0001.bin
+
+framework: dldt 
+        

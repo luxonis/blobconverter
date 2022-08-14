@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vehicle-attributes-recognition-barrier-0042.xml
+    size: 106633
+    checksum: f176360a069860a8b6870df32528f75d4ba60884a93143eae22e3518378680cd54f51a1299896dfb864be09ddbe8601c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-attributes-recognition-barrier-0042/vehicle-attributes-recognition-barrier-0042.xml
+  - name: FP16/vehicle-attributes-recognition-barrier-0042.bin
+    size: 22354748
+    checksum: a39de8e553ecd38f8c920af29915cc3b2dfc90ea3bf164a57bf5b343311566ba650c287517eccad4d526d87063860233
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-attributes-recognition-barrier-0042/vehicle-attributes-recognition-barrier-0042.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/facial-landmarks-98-detection-0001.xml
+    size: 1900742
+    checksum: 98b9b473c1898bd9d13cd3a76b90ee2bee25b19870ba318b661e8a3558a41cd572e2297e6958bc6c1d9504b2fc6163bb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facial-landmarks-98-detection-0001/facial-landmarks-98-detection-0001.xml
+  - name: FP16/facial-landmarks-98-detection-0001.bin
+    size: 19290104
+    checksum: 2da94d13c9ec217c1974d95afbc1038ce49c90442bb8dfc8692873205e007f546866bf0399de55980b5bfbcc47dc69aa
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facial-landmarks-98-detection-0001/facial-landmarks-98-detection-0001.bin
+
+framework: dldt 
+        

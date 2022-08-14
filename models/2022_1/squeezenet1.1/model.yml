@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/squeezenet1.1.xml
+    size: 121976
+    checksum: 154707d8269c853b638c1eaa033b0b2b7c45b75f54634c57fef2f69132b1407ccd9b442d9113ff3bfb9a625b0a6d5863
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/squeezenet1.1/squeezenet1.1.xml
+  - name: FP16/squeezenet1.1.bin
+    size: 2471014
+    checksum: 493b273426a62b64fd53952ec262b11fdf5851d0bbc3d31da35b811576238af042e359d1e41030df103ba2db6998a118
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/squeezenet1.1/squeezenet1.1.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/fastseg-small.xml
+    size: 289673
+    checksum: 4e833b79e2b0e3c53da2f0eeff5d8afcd19bc6615ec0c83ed1c0349139873d6876159ae5eb9fff1e4b47e381ed86d9c0
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fastseg-small/fastseg-small.xml
+  - name: FP16/fastseg-small.bin
+    size: 2268750
+    checksum: 250a7adb06fde4e22510b6e1f93088d89c0393c96b649614cb43ebc9877f323a644c4f709ed0b278b1146dd51a4fefed
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fastseg-small/fastseg-small.bin
+
+framework: dldt 
+        

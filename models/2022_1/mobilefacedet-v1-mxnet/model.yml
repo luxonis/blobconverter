@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilefacedet-v1-mxnet.xml
+    size: 315484
+    checksum: b26c45beee9369027bfaa8d3642efd658f2d83fc6885e7f04ec77d59d8c159b6d064b81a2a65c5011ea7741f356aed5f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilefacedet-v1-mxnet/mobilefacedet-v1-mxnet.xml
+  - name: FP16/mobilefacedet-v1-mxnet.bin
+    size: 15365768
+    checksum: c197433517ccf03263972dd4e796ed8917a2555d915f25fce43b7070444f1f4c3396853365f09d28ce8e6968464564a5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilefacedet-v1-mxnet/mobilefacedet-v1-mxnet.bin
+
+framework: dldt 
+        

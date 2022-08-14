@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolox-tiny.xml
+    size: 392907
+    checksum: ae6ed6cfa2a7f087a12b543f9f9adab6bd1641d9d42bfef6c740fefa78a834a4825fb52823f06c040f4b7b67c8d8affc
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolox-tiny/yolox-tiny.xml
+  - name: FP16/yolox-tiny.bin
+    size: 10094706
+    checksum: cab48ab40af0c151702af45fbc57db7af61099cc462b30cdce4f45f005889a78ed1be4d3f430704a3ebdb0734b793863
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolox-tiny/yolox-tiny.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/pspnet-pytorch.xml
+    size: 305908
+    checksum: 4bbc1329004de3a73260ee3eeed427be6623ab8560fefabda29384725a80e56cec81fe1b273f12d0b7b7fd1e39cfe303
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pspnet-pytorch/pspnet-pytorch.xml
+  - name: FP16/pspnet-pytorch.bin
+    size: 93165372
+    checksum: 86201a0d06738d9125faca8349ddba4075dce79b214b417ae2f769193e091163e2a8f5d29f13cd7c9d05d709209e7df3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pspnet-pytorch/pspnet-pytorch.bin
+
+framework: dldt 
+        

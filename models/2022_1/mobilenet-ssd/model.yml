@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilenet-ssd.xml
+    size: 265696
+    checksum: fe179b3c0425b4600e1798a1891833c7b030ffb1b341397bfd7061f4d7142625e6a1af2bcf25983a9f73f0b9d35e7fda
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-ssd/mobilenet-ssd.xml
+  - name: FP16/mobilenet-ssd.bin
+    size: 11566946
+    checksum: 392016c7d30b8d2f0872293398bfb382c552f7d2ae9cd7a7c643942a458000428a69aac53524e12c7d965b3f1bc0907a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-ssd/mobilenet-ssd.bin
+
+framework: dldt 
+        

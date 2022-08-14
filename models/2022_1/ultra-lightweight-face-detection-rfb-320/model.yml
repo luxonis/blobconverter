@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ultra-lightweight-face-detection-rfb-320.xml
+    size: 258461
+    checksum: ee7acd25ccbd77342deb66eb12636c3881c9a231be2a35d8edd037a4c44a199537ff41b5b479189d18114d1b30c71e84
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ultra-lightweight-face-detection-rfb-320/ultra-lightweight-face-detection-rfb-320.xml
+  - name: FP16/ultra-lightweight-face-detection-rfb-320.bin
+    size: 601034
+    checksum: 1b7566568cff6877c3f82671f8538f040fb35f93db4fd08a3cabce66df72833f156f75a0cc46a4626afdff63a0e2fef8
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ultra-lightweight-face-detection-rfb-320/ultra-lightweight-face-detection-rfb-320.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/semantic-segmentation-adas-0001.xml
+    size: 325530
+    checksum: ba43169ba38699068061f31a1300630ac58fa9d45852a1265306b4b903b2e067b495e87342039869ce44fffc481782fd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/semantic-segmentation-adas-0001/semantic-segmentation-adas-0001.xml
+  - name: FP16/semantic-segmentation-adas-0001.bin
+    size: 13371808
+    checksum: 978b4f15f4d6247e1776f2171041e9f571e2af7c08ad2cfc15db709c47366c5fea36a66532b3f848e8a9258828569e6d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/semantic-segmentation-adas-0001/semantic-segmentation-adas-0001.bin
+
+framework: dldt 
+        

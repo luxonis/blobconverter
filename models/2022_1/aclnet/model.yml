@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/aclnet.xml
+    size: 101557
+    checksum: 842eafc852f79fdba5a1637300ebd422a6962c2f883d76a754286f0423bfdb397bfb45aa91ed63830bf2b720704a616d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/aclnet/aclnet.xml
+  - name: FP16/aclnet.bin
+    size: 5434046
+    checksum: 475b87eb5308aa02a37cc0df5c581086245616b21c4a42ae09ccf2738943a8b8d56bf7e89b8445f90286751700725911
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/aclnet/aclnet.bin
+
+framework: dldt 
+        

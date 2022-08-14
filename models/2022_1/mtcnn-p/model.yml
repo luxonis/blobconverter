@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mtcnn-p.xml
+    size: 30156
+    checksum: 8fd3b4270d690cc7787e5525d430d7d50a7ac8f3208d4c2da50ac24a4fc39141465c139f53220ebc4884253f91e1941c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mtcnn-p/mtcnn-p.xml
+  - name: FP16/mtcnn-p.bin
+    size: 13272
+    checksum: 7372be4e6834a5ad0f27063f1ecc6c13221b3d4bbac552ef39af40492b781ae191dd76fca9a2110e4bc0d589ca49df39
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mtcnn-p/mtcnn-p.bin
+
+framework: dldt 
+        

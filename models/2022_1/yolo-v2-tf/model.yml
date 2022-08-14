@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolo-v2-tf.xml
+    size: 133257
+    checksum: 51ebad298c23438a21c7a04ef933005d63fa357053e3118f98f1f267a263a935a0f70fa45d824e67eb107857b3f1e2f3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tf/yolo-v2-tf.xml
+  - name: FP16/yolo-v2-tf.bin
+    size: 101905140
+    checksum: 00606d9074a81416b081595ca0c6906e70a49c4c427a292e0eea34fb999822631ec711232904cc6db22f090146e40d4b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tf/yolo-v2-tf.bin
+
+framework: dldt 
+        

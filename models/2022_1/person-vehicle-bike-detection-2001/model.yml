@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-vehicle-bike-detection-2001.xml
+    size: 300043
+    checksum: 6f03fc96daa45691713030a3610b27c28e5cdea343e2059457ca664fb04b4e4a2578f9633e281f0d860f294ed7b17ab4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-2001/person-vehicle-bike-detection-2001.xml
+  - name: FP16/person-vehicle-bike-detection-2001.bin
+    size: 3642626
+    checksum: aaedcef1be99a9fb5bf30b57870fefc0b61c184a88297953f1a9ab26910aa5ed958190f3e991fc018a8ffda745c9f3e2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-2001/person-vehicle-bike-detection-2001.bin
+
+framework: dldt 
+        

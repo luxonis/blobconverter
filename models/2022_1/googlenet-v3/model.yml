@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/googlenet-v3.xml
+    size: 529172
+    checksum: db8a1f999820523b187cae9f6d80bd23796befefe8925b59cecf6996bb001a558db63af86bd48c2cc69857ea3a9d3bce
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v3/googlenet-v3.xml
+  - name: FP16/googlenet-v3.bin
+    size: 47638874
+    checksum: 0d323c28d7f2194dd88cab561e28ad249ef14cd2e205f85c01f103f7671b8425c98d75f509409d6bcfdfd915242308eb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v3/googlenet-v3.bin
+
+framework: dldt 
+        

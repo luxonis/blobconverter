@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/colorization-v2.xml
+    size: 130214
+    checksum: 8e8611d3c4cebc67d28c1c5aaee6db89ffd37395a4ba84279a534af1142d3fcffb822b441efbec0ba0eea3ba8bae1ef3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/colorization-v2/colorization-v2.xml
+  - name: FP16/colorization-v2.bin
+    size: 64472074
+    checksum: 4dcec0ba748eef10a2384ce01d54e8098018cf4d623410135f4e82ada2578329e330cba4ef29c0b730a85cd011465063
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/colorization-v2/colorization-v2.bin
+
+framework: dldt 
+        

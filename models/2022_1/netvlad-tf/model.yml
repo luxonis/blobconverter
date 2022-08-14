@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/netvlad-tf.xml
+    size: 111883
+    checksum: e00c637713dcbf4a78a307dccad881fd4a880e95750653806c422b76f74acd0230933137a682dda175a556d7ec1b96ed
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/netvlad-tf/netvlad-tf.xml
+  - name: FP16/netvlad-tf.bin
+    size: 298004388
+    checksum: 6332d9057207661ed6365e685164b49d8fc3aef5b84aa17fc3e5623bf8b1a33ec36117c60f3e3707816b12545f0efaed
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/netvlad-tf/netvlad-tf.bin
+
+framework: dldt 
+        

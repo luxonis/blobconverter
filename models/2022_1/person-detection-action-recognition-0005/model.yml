@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-detection-action-recognition-0005.xml
+    size: 1177541
+    checksum: 5f4e52ac0f040071063866c5f128a806c7ab53de7000d2e5fb42b0969c96b10b0685c4859ba56a14ca766b6e6f1dac58
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-action-recognition-0005/person-detection-action-recognition-0005.xml
+  - name: FP16/person-detection-action-recognition-0005.bin
+    size: 3900230
+    checksum: fe6dad4fd84d8a93bc9ddaa8aba18a2b776959306117b98d3af9f3e693c4c2eeb573a180837208c351c66858c39c61ef
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-action-recognition-0005/person-detection-action-recognition-0005.bin
+
+framework: dldt 
+        

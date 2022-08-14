@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/pedestrian-detection-adas-0002.xml
+    size: 360760
+    checksum: b049a9f67c738d7d18c0418fd43620e190e9c2b1af06151af824cb681c2a329bfd255db17a39f453ee04ff801ef70cc1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pedestrian-detection-adas-0002/pedestrian-detection-adas-0002.xml
+  - name: FP16/pedestrian-detection-adas-0002.bin
+    size: 2330176
+    checksum: 135a2bf5d9c710a999f8329e9a249adcb4b73ab83bce83992757025475f83b6868d164c134cc96d162613babc3418e63
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pedestrian-detection-adas-0002/pedestrian-detection-adas-0002.bin
+
+framework: dldt 
+        

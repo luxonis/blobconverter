@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ctpn.xml
+    size: 256805
+    checksum: d5458873ec7a2154f9be9b5d72a65a7c7dfbd7b0740968abf9e95cfeed0d9e417d63386109cce63e49b0929f28099e76
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ctpn/ctpn.xml
+  - name: FP16/ctpn.bin
+    size: 35786656
+    checksum: 47653485fbd2c9997fed19e1665ff8027815b729d943a095377fcc60efd26092ad762f963483e473b335ce9411d9009b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ctpn/ctpn.bin
+
+framework: dldt 
+        

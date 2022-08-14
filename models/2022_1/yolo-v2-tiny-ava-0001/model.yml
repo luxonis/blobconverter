@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolo-v2-tiny-ava-0001.xml
+    size: 62731
+    checksum: d31f4394dc05d8659224c9e61e3c660d63f3c408559ec783e9967f2cbc03047e690125a4200f3d4144b1371ef47b2325
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.xml
+  - name: FP16/yolo-v2-tiny-ava-0001.bin
+    size: 31717480
+    checksum: 0c4fda488487df145da316623cc83a630bfb5ac2b26174f21109c06fdc15d86418f5ec81977047f6bde2b2ab0302a506
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.bin
+
+framework: dldt 
+        

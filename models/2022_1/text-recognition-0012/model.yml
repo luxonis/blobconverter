@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-recognition-0012.xml
+    size: 180945
+    checksum: b051f30ed85d0760e23f737d60aade34d7bb6988f727e15a3a7d0de318d6feb84f682cf559e026ece2bea0c447ace07e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-0012/text-recognition-0012.xml
+  - name: FP16/text-recognition-0012.bin
+    size: 23735510
+    checksum: 388fc04d891e3ee692e97901c63a9793a8bbc0b15d33a7b42e12c9d5243ed80c3a94df033c3116181719a26dc513e0e1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-0012/text-recognition-0012.bin
+
+framework: dldt 
+        

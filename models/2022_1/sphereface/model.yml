@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/sphereface.xml
+    size: 87664
+    checksum: d3916af2b0def0769a7592a892d5b28b535318e88a1447195e5ceaba7da63b03d2a25ee36e9e24f6252e0541a4215c2e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/sphereface/sphereface.xml
+  - name: FP16/sphereface.bin
+    size: 45333912
+    checksum: 53a80bafab75bc5a8d77391d24322d229702f8dbb3d326f27ab5e4307dc3d4c76ee05a2022124914a6effd232aaf4afc
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/sphereface/sphereface.bin
+
+framework: dldt 
+        

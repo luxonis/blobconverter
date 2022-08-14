@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/shufflenet-v2-x0.5.xml
+    size: 281889
+    checksum: be0ce92a20e42506c56e5b862c4b2bde64e231d2fc83d3670be02e7ec29af39e55ef68f47b24060cb4bf523c16b05af4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/shufflenet-v2-x0.5/shufflenet-v2-x0.5.xml
+  - name: FP16/shufflenet-v2-x0.5.bin
+    size: 2725700
+    checksum: 3f98f182cd760de2fe4e3106865001a2951b6c5c0f14d3e5378f6c3a6ce8d5517acdc20ec1b8749c5887f500a937c594
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/shufflenet-v2-x0.5/shufflenet-v2-x0.5.bin
+
+framework: dldt 
+        

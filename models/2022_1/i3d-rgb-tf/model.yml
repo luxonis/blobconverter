@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/i3d-rgb-tf.xml
+    size: 348296
+    checksum: b6cccb1335c5ac11698fd873f20687f68024d389684483ab447e7e363e0fae06dd2155243c56feec14d7750f578655b7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/i3d-rgb-tf/i3d-rgb-tf.xml
+  - name: FP16/i3d-rgb-tf.bin
+    size: 25380036
+    checksum: 02cd5c0719975ffdd6981a105c0e36898a2e00b498cad5afcd21b07df975485102abe44e89880e3eb30e488bedb2bdcf
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/i3d-rgb-tf/i3d-rgb-tf.bin
+
+framework: dldt 
+        

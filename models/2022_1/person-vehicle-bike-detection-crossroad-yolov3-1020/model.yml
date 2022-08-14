@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-vehicle-bike-detection-crossroad-yolov3-1020.xml
+    size: 451041
+    checksum: 0c3eb169e5766c5889f2ebb5b178626c8bbd4072124dc59d78dc65fba32e8244a8b4b643dbcd8c9ff8379d88c4c25669
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-crossroad-yolov3-1020/person-vehicle-bike-detection-crossroad-yolov3-1020.xml
+  - name: FP16/person-vehicle-bike-detection-crossroad-yolov3-1020.bin
+    size: 123844258
+    checksum: 09a059889cc55f8a17ab03bdc5d038f2524528f6053f1941ece796b9f8059b7bc8d7a93284aa61a7f9a529a8ded815ba
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-crossroad-yolov3-1020/person-vehicle-bike-detection-crossroad-yolov3-1020.bin
+
+framework: dldt 
+        

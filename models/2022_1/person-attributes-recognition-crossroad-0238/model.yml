@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-attributes-recognition-crossroad-0238.xml
+    size: 494569
+    checksum: 02e112f4c76bb84eddd252abf4064b4635f4702a7a983638737964796318a39cd9c90d1cd6d402bd45f566dee65825c7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0238/person-attributes-recognition-crossroad-0238.xml
+  - name: FP16/person-attributes-recognition-crossroad-0238.bin
+    size: 43594122
+    checksum: 76255d155ef4dd7da220b1340cef1e97e4bd51864067836254c2300388d7720969c0e5fc830f1919b769cdbb2ec1c388
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0238/person-attributes-recognition-crossroad-0238.bin
+
+framework: dldt 
+        

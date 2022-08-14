@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/handwritten-japanese-recognition-0001.xml
+    size: 66790
+    checksum: d0f3a3b8f8e5e98c4e9cef3ad0d28eeb0b5e390ac61e8ac8ede90089927a96bded88cbf6a4f06762d1bff4c0ad5e77d4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-japanese-recognition-0001/handwritten-japanese-recognition-0001.xml
+  - name: FP16/handwritten-japanese-recognition-0001.bin
+    size: 33984638
+    checksum: e0ee63f7b23d0d2efd09c46fad8a6b02a08acd6e75c2eceac78bc3bc65f2b21719a5e94937bdf31756ed1f75e559dafb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-japanese-recognition-0001/handwritten-japanese-recognition-0001.bin
+
+framework: dldt 
+        

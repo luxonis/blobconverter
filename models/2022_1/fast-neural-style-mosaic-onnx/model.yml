@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/fast-neural-style-mosaic-onnx.xml
+    size: 199991
+    checksum: 604d31ff5b31f17398eeeceeb114c0bce58fc3cbd021cc29f5b423e114cedab50490b6d334543e1c992c6d5e6c9776af
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fast-neural-style-mosaic-onnx/fast-neural-style-mosaic-onnx.xml
+  - name: FP16/fast-neural-style-mosaic-onnx.bin
+    size: 3358600
+    checksum: d6abcd25c22efc80347d2e4ffc91288ffc1bd79d95073369eca91456e8023a0d4fce28f2dc4270a62710019b217026fe
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fast-neural-style-mosaic-onnx/fast-neural-style-mosaic-onnx.bin
+
+framework: dldt 
+        

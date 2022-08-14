@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/efficientdet-d1-tf.xml
+    size: 1497471
+    checksum: 20fbed03a7319755c42eccffbc9527e3eb56b8c3dd5fcc68bcc31ccf5aa33ccf9f33bbc16a73d78a2d38c7904884de91
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientdet-d1-tf/efficientdet-d1-tf.xml
+  - name: FP16/efficientdet-d1-tf.bin
+    size: 13544602
+    checksum: a7137c60423a9ac75b040546c39133d5be15f5c741f0c2a8a6ffb5d36d719581953ccd03439e6eb3f0d1bddc51dbf511
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientdet-d1-tf/efficientdet-d1-tf.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-detection-raisinghand-recognition-0001.xml
+    size: 1177546
+    checksum: af8a0e7760fa416e556689bc11992218ea4bb625acfb22d738c2b391d07e64d5ba22b0c9aa477ba3e012acfb2e89eb9e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-raisinghand-recognition-0001/person-detection-raisinghand-recognition-0001.xml
+  - name: FP16/person-detection-raisinghand-recognition-0001.bin
+    size: 3899974
+    checksum: 04e3cdc2ad58033545e035e0f349ccd2d2ca6d829b87703e758f4ddb489f066f0f8a6b1b4a76098b30c062d310369626
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-raisinghand-recognition-0001/person-detection-raisinghand-recognition-0001.bin
+
+framework: dldt 
+        

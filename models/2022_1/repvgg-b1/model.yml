@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/repvgg-b1.xml
+    size: 122822
+    checksum: 0cd363b3520f207258798a2811644f91baaed5e749b2529cbf66f3cfc2b437a0ff8e1b524d29314df9127c55b26431df
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/repvgg-b1/repvgg-b1.xml
+  - name: FP16/repvgg-b1.bin
+    size: 103658998
+    checksum: 1ca80a4f6d73d4963582288cbca2f675136cb8670c0f76b269810cda82f5bf1b1abc8e610fd02eebcb819618e17a2306
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/repvgg-b1/repvgg-b1.bin
+
+framework: dldt 
+        

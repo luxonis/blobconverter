@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/googlenet-v2-tf.xml
+    size: 380238
+    checksum: 341731e9bf1128257e973d29826149c933b0cffb6184032039792031d3fe091558c5af8104f9e44b42cff8b91460e781
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v2-tf/googlenet-v2-tf.xml
+  - name: FP16/googlenet-v2-tf.bin
+    size: 22358794
+    checksum: 585ea73f28f2643986277b438efec915bf3d42045aa51658f8b0a61061300922a6a88c4240b800bd48fe8d6d9a4e6554
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/googlenet-v2-tf/googlenet-v2-tf.bin
+
+framework: dldt 
+        

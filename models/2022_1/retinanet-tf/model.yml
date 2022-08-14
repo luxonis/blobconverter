@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/retinanet-tf.xml
+    size: 995381
+    checksum: cf44ccc216bd1aff7e5adcfb0bd83204b846ee6ee6743d5ca89cf693deba987a3bee3e863f32d09605e0a413a9c00c91
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/retinanet-tf/retinanet-tf.xml
+  - name: FP16/retinanet-tf.bin
+    size: 75885054
+    checksum: 63ca5ebc2c93e1b3da94cd27c0b2e29c1384c54159240644b7894b080dfc79254813bc50464620dab86d8034095637bd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/retinanet-tf/retinanet-tf.bin
+
+framework: dldt 
+        

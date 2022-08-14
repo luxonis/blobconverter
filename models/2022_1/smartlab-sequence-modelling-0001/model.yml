@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/smartlab-sequence-modelling-0001.xml
+    size: 686158
+    checksum: fa27496259d3d3596ef0f7ec33309f9dd3495a962e4adb7fcb3f4bd8700bdc31955aedb6ec390caa562df9aaf2670145
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/smartlab-sequence-modelling-0001/smartlab-sequence-modelling-0001.xml
+  - name: FP16/smartlab-sequence-modelling-0001.bin
+    size: 2036680
+    checksum: 9fd6b8dc7dc4735229b842a697d9f3dae38e36189f4b52bd3d89b9fb59ce0aa9d0142ba0857279db812f07e6f651ad5d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/smartlab-sequence-modelling-0001/smartlab-sequence-modelling-0001.bin
+
+framework: dldt 
+        

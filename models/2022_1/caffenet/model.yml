@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/caffenet.xml
+    size: 43472
+    checksum: ca049c995ecce6039ef01bd4da630cf99896d757dd8fb0fa0b033bf36f8d5c2f154dc42ef0c8a65c19d55e4279e250a9
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/caffenet/caffenet.xml
+  - name: FP16/caffenet.bin
+    size: 121930494
+    checksum: 89213ea93d59fcfb55229d128790432d3af1fd444f7f26dda596db124a4cfac3d49db68c9e3186a36977373f680b820e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/caffenet/caffenet.bin
+
+framework: dldt 
+        

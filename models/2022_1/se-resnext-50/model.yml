@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/se-resnext-50.xml
+    size: 408359
+    checksum: 5f1d316792dce9de2578d2059f25c8bb1d32a45ea4f598f731a8d92395eb5da9224a8259e197a5d67981c20843d6e174
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-resnext-50/se-resnext-50.xml
+  - name: FP16/se-resnext-50.bin
+    size: 55051606
+    checksum: a292bd8e43912436c5fd5b422bfd83fe3d40e370793efd21d8b8a63f10752a6d49fa495f7fe707b9cc374b1eb4b6b7ab
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-resnext-50/se-resnext-50.bin
+
+framework: dldt 
+        

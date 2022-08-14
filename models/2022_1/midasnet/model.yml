@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/midasnet.xml
+    size: 545315
+    checksum: 2e79057be82ce6e54620d3b70a7de8707f7b66287289b69da34f27dd8613887532f5c156fd1d83237d6f8ca81be22b68
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/midasnet/midasnet.xml
+  - name: FP16/midasnet.bin
+    size: 208162720
+    checksum: 0442393c18ee28c8fba7484891ec217e54a6af32e94f34fefff2d5e81439db58b432e75993a7f6692bd0a7543c66694a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/midasnet/midasnet.bin
+
+framework: dldt 
+        

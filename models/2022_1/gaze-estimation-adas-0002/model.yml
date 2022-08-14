@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/gaze-estimation-adas-0002.xml
+    size: 111481
+    checksum: 0a52150dfbf79bae3efc8d5789a7dd2ac013cfb8c95faa07700feb4f2807bb97528350df8ee776d31673d4346f37eb4e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.xml
+  - name: FP16/gaze-estimation-adas-0002.bin
+    size: 3764742
+    checksum: cbb7c2732fb0e6a4dd74ef081c1b92338c881831120b62b36828ed9b12f5563e00e4436755641c64abe91a3ed2648534
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.bin
+
+framework: dldt 
+        

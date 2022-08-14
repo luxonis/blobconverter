@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/action-recognition-0001-encoder.xml
+    size: 157155
+    checksum: b08fee7aaf15735596475bc87ab290ea1a374df93fee5411837b47ef5c4e3d1e456641f6b5f219d51a628ceed29886f4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/action-recognition-0001-encoder/action-recognition-0001-encoder.xml
+  - name: FP16/action-recognition-0001-encoder.bin
+    size: 42552326
+    checksum: ba4ed6f218b5b6c2ee56009019453acef0f86e4dfefa5e354c10c60beecea5b4ed7ec830608936a63315193c5aa3f133
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/action-recognition-0001-encoder/action-recognition-0001-encoder.bin
+
+framework: dldt 
+        

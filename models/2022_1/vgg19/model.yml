@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vgg19.xml
+    size: 87005
+    checksum: f7e50d0c0a2b65054eacde934755548ee112533122382ac2f88df5e62b4a33a94be757e3e160ab9eac4eb51a7139100e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vgg19/vgg19.xml
+  - name: FP16/vgg19.bin
+    size: 287334518
+    checksum: 91df7266e780a61694c8c0f8573c7e343870867daec72668ae09f76f1144f10e5cfbfcb792618a95e50af8b54a15a723
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vgg19/vgg19.bin
+
+framework: dldt 
+        

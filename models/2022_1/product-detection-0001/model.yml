@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/product-detection-0001.xml
+    size: 472172
+    checksum: f3e5590964b588c8b5ada514df8a17f0211ca5cce548e1609731abbbe5f989b8c2cb0a13e239cc7f5402c1673205d95d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/product-detection-0001/product-detection-0001.xml
+  - name: FP16/product-detection-0001.bin
+    size: 6425078
+    checksum: 9266c40e6416b0e011a89ee2a2f3819fd4b0967c8ff0006162647cb3e6519086e28248c7dea6f7f9c40409b1109aaa34
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/product-detection-0001/product-detection-0001.bin
+
+framework: dldt 
+        

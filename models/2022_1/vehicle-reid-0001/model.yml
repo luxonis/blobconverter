@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vehicle-reid-0001.xml
+    size: 693454
+    checksum: 13abf683d27ae27f717b67be54a01dd0e39ec96fab3e759d9b6d545e68a5382f27209d4778e6ca748d2e4fe7e3bdf123
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-reid-0001/vehicle-reid-0001.xml
+  - name: FP16/vehicle-reid-0001.bin
+    size: 4317956
+    checksum: 218be2edfe201889ed6e81cd1702901fc4248575840be500552a4b13e1afb5fc1d60929a381d21f420c9a5ef3bf48bf5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-reid-0001/vehicle-reid-0001.bin
+
+framework: dldt 
+        

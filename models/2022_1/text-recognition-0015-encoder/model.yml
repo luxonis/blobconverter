@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-recognition-0015-encoder.xml
+    size: 495545
+    checksum: af0a2fc55d555a2c3a017ac7ad48eb787020b86cd9804ddf6a7bedff808b418e7cb1b25ed5196d0fdf623b47645e27fd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-0015-encoder/text-recognition-0015-encoder.xml
+  - name: FP16/text-recognition-0015-encoder.bin
+    size: 796124064
+    checksum: 9841ca3ba84b0f21094e455283bf8112191a95c0f3045f6653c829ac2fbee5c761a9cfb15e55bbb7ac1c53d065875a96
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-0015-encoder/text-recognition-0015-encoder.bin
+
+framework: dldt 
+        

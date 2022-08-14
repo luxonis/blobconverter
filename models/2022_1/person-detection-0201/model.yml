@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-detection-0201.xml
+    size: 300010
+    checksum: 82179541ae057bc834371de49a0e83761bc2caf2f119da21d69a70a522ecb653d01b7332d8781cb150b5ba5bc8f355f8
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-0201/person-detection-0201.xml
+  - name: FP16/person-detection-0201.bin
+    size: 3634654
+    checksum: 04e3d6857621efb86886f571d1686d60e35cca18dad3ccde29a72bf1e79ce4bce022915d5664f10c933c0cdae9034b05
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-0201/person-detection-0201.bin
+
+framework: dldt 
+        

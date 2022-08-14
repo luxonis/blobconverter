@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/faster_rcnn_inception_resnet_v2_atrous_coco.xml
+    size: 1512622
+    checksum: 7b4ab61f616d6969bca677fa32ff0aa552dd40f859dcc8a157a137fd571f99ffb62c07fee16256bab37606215a1f2215
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faster_rcnn_inception_resnet_v2_atrous_coco/faster_rcnn_inception_resnet_v2_atrous_coco.xml
+  - name: FP16/faster_rcnn_inception_resnet_v2_atrous_coco.bin
+    size: 120041308
+    checksum: 70c8a309ca67b37bb1a8fdae9f2be89168a978b0be6a188be97f748b3165d04b35a67836301c54d31c6595062ab3b955
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faster_rcnn_inception_resnet_v2_atrous_coco/faster_rcnn_inception_resnet_v2_atrous_coco.bin
+
+framework: dldt 
+        

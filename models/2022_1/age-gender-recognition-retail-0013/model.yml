@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/age-gender-recognition-retail-0013.xml
+    size: 50297
+    checksum: 804ed9724a6250dc35f22280386b7ccf5c821d0270216631f937887fdef0563fb982845997c8cb6e542dea2e6d7e7d95
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/age-gender-recognition-retail-0013/age-gender-recognition-retail-0013.xml
+  - name: FP16/age-gender-recognition-retail-0013.bin
+    size: 4276038
+    checksum: e29ee4d32f9e72669c705ff6c29e9fd33efe5381c5fdb44fc322587c0729f1278041bea6e041f86f0ecf21a67183da01
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/age-gender-recognition-retail-0013/age-gender-recognition-retail-0013.bin
+
+framework: dldt 
+        

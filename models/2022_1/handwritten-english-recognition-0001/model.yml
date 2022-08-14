@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/handwritten-english-recognition-0001.xml
+    size: 122889
+    checksum: 9bf9118d2509487ec316eeb962d0d0e634cf99d67df3a23b36f9d0ade933dfe8db0ea2eddd66be66a1badb505a0934b2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-english-recognition-0001/handwritten-english-recognition-0001.xml
+  - name: FP16/handwritten-english-recognition-0001.bin
+    size: 11112606
+    checksum: 9945c0f9521d597a02b0ad20fc8a309ab521ecf7bc94e429a7818b6b32468d0e882c20c1fd933e1db063ff99b2280209
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-english-recognition-0001/handwritten-english-recognition-0001.bin
+
+framework: dldt 
+        

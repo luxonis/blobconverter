@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/head-pose-estimation-adas-0001.xml
+    size: 88191
+    checksum: 7932d36cc2259e051aaa9c6e361502ec2035b72c1ba60e260afbdbbde137574b858e1c56ffdd0a3dc81ea9f74525f67a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/head-pose-estimation-adas-0001/head-pose-estimation-adas-0001.xml
+  - name: FP16/head-pose-estimation-adas-0001.bin
+    size: 3823810
+    checksum: b9aac8c49fbc95c189b7e8deab18826a6593feda45f9e31a38ac5da7a1f071264c5d5a1e1d642fc75d94c51bf5c1cdaf
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/head-pose-estimation-adas-0001/head-pose-estimation-adas-0001.bin
+
+framework: dldt 
+        

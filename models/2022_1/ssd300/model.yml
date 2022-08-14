@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ssd300.xml
+    size: 221513
+    checksum: 1f5db39824e48f86dab540e9c0ccf137bf5d4bcbb3ee4a4f2f22992fddc3690c7efd54fe0e1cc72fbea91c3c9ac6f535
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd300/ssd300.xml
+  - name: FP16/ssd300.bin
+    size: 52571082
+    checksum: 43f2424db3a17ab541ebcf3fb4304572420fcb56db1fb7cba51587a7a1a979dcbe72d3617ec8c8422bfaa30e064dfc33
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd300/ssd300.bin
+
+framework: dldt 
+        

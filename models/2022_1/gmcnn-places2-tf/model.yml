@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/gmcnn-places2-tf.xml
+    size: 274885
+    checksum: 99aa454a97311ba8b70b4173aeda8612bbd8b9dbb78559ecface508d910ca982b8de46d56d14a04aa214736502af6ef4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gmcnn-places2-tf/gmcnn-places2-tf.xml
+  - name: FP16/gmcnn-places2-tf.bin
+    size: 24858494
+    checksum: 15f9117e688ec1f76377bb7d98c5f05d9d27ce3f2335c7c849659620cdc25695252e369fda1ccce2d862c3350fc11493
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gmcnn-places2-tf/gmcnn-places2-tf.bin
+
+framework: dldt 
+        

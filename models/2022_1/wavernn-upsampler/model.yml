@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/wavernn-upsampler.xml
+    size: 157835
+    checksum: bd97c093d9c6f8e9a39c745b3a8377f5e5f5ea7bb0d10a70638e8ea91ad8e7a4feb65c2e5ba83dee9bfca9963c57c6c1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wavernn-upsampler/wavernn-upsampler.xml
+  - name: FP16/wavernn-upsampler.bin
+    size: 796322
+    checksum: 2b534a7f154a2b42b15aea42d8b09b5062bede6be8ced58c9710051c8523fb0c0410078ba6e3e2eeb6148a3690e6a73c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wavernn-upsampler/wavernn-upsampler.bin
+
+framework: dldt 
+        

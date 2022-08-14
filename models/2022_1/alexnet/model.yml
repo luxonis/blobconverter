@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/alexnet.xml
+    size: 43455
+    checksum: 4e2997e49705c94f4ba590a73c6df780259f847926b9eb2c9e3867df54b3d622a1b3688cbf284b4e8f74101525488be0
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/alexnet/alexnet.xml
+  - name: FP16/alexnet.bin
+    size: 121930494
+    checksum: 7283bd9175cec27dd9d07f87e74bf586d167d4a145fabf485fadeee694a02ebdbc3ac463d655479added831d7d0347bf
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/alexnet/alexnet.bin
+
+framework: dldt 
+        

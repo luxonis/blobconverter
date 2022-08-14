@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/hrnet-v2-c1-segmentation.xml
+    size: 1617299
+    checksum: 829684ccabaf5a0bf06c24dc193e05fe6cc9ae5c54612521e8ebac6f778ac2020fe6985526c02c4f068dd30d030971f7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/hrnet-v2-c1-segmentation/hrnet-v2-c1-segmentation.xml
+  - name: FP16/hrnet-v2-c1-segmentation.bin
+    size: 132953702
+    checksum: 5c881704bf21dc2939b3e574fcf5f3370ef08ee459b08e7752f9609c08f308210e8e566849c52ad11fe34d68cb4d498a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/hrnet-v2-c1-segmentation/hrnet-v2-c1-segmentation.bin
+
+framework: dldt 
+        

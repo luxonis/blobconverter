@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilenet-v2-pytorch.xml
+    size: 217630
+    checksum: ff4fcf227b4bed50898a37a66921015bcf6c8c4c1f169d665350815741ad6f73819aff84fec09001155cd7ca2a9c2c5d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v2-pytorch/mobilenet-v2-pytorch.xml
+  - name: FP16/mobilenet-v2-pytorch.bin
+    size: 6975670
+    checksum: ed5d0fa40b9b75ce034ab97c5b3c8448c82c98b7315f70073019f6958c8d279de9838b18661922ffadeea1bf18af56c9
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v2-pytorch/mobilenet-v2-pytorch.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-to-speech-en-0001-generation.xml
+    size: 298555
+    checksum: ba8290e2b185283c1bd2ef4fdafd34dc400b39ac88979c6a59fd27aeaf1c88acc3fc1e6adc72a17cf1825f7a2e0f60ea
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-to-speech-en-0001-generation/text-to-speech-en-0001-generation.xml
+  - name: FP16/text-to-speech-en-0001-generation.bin
+    size: 25541512
+    checksum: 7bb3b17cbfde2c10a95d625fa378a8753690bd48349e49a025904461b01bbe35d149c2a3724f9b9b2169d074580e4970
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-to-speech-en-0001-generation/text-to-speech-en-0001-generation.bin
+
+framework: dldt 
+        

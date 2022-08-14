@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/fcrn-dp-nyu-depth-v2-tf.xml
+    size: 657922
+    checksum: dfcc47caef1f80f64306053ea2e234d5ba3289743fe895cb708c81eb8b4b1fcbe7fd15113b3b3f9323ab4a43880fb723
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fcrn-dp-nyu-depth-v2-tf/fcrn-dp-nyu-depth-v2-tf.xml
+  - name: FP16/fcrn-dp-nyu-depth-v2-tf.bin
+    size: 127084738
+    checksum: ea91c91902eaadcc3815654b10491af05953be39ebf9ed9059a045755630739a88c64d3fbc3dd5649fb4c273ef2a062d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fcrn-dp-nyu-depth-v2-tf/fcrn-dp-nyu-depth-v2-tf.bin
+
+framework: dldt 
+        

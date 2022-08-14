@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolo-v2-tiny-vehicle-detection-0001.xml
+    size: 57565
+    checksum: 7928fece546f99694f9065f55c9d1ab41f7c9406217aab5a730cfe86718a9f38c9ffb7a27ba89431c72c608366e48b5c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.xml
+  - name: FP16/yolo-v2-tiny-vehicle-detection-0001.bin
+    size: 22459060
+    checksum: 27d152cc3ee970dc4aa3b869ae5b69216afa89f1600f4734e054731904cce456cf61c0076b9e5a0faadfd42ae67a84d5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.bin
+
+framework: dldt 
+        

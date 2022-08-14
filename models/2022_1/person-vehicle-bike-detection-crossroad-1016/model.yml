@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-vehicle-bike-detection-crossroad-1016.xml
+    size: 324138
+    checksum: f7c295a84007a30d0ccaea221bf5badd2e1db9274a5941ef5b92a5c7273dc99e279a170efc963c6772b0576ed4e0c156
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-crossroad-1016/person-vehicle-bike-detection-crossroad-1016.xml
+  - name: FP16/person-vehicle-bike-detection-crossroad-1016.bin
+    size: 5774062
+    checksum: 49cd6831f5b23c129aba3672fd90a4be14fa95b92e34d9650d2663c5bcbf4a37032c0e5d979c74fbc169f291ac5bb85c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-vehicle-bike-detection-crossroad-1016/person-vehicle-bike-detection-crossroad-1016.bin
+
+framework: dldt 
+        

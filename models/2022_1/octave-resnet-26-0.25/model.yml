@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/octave-resnet-26-0.25.xml
+    size: 533723
+    checksum: da480b34bbd932f012c915d076a7c3d8e916dc33d07740833aae006123db757c3621a923bdf9dd69f28bd6c3c34dcf24
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/octave-resnet-26-0.25/octave-resnet-26-0.25.xml
+  - name: FP16/octave-resnet-26-0.25.bin
+    size: 31979432
+    checksum: 946a6f323141ac8b3bddcfe09e856034810738b8fae71d9a40524675810f2cab7cacfabe2e96317be033f0c573451f41
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/octave-resnet-26-0.25/octave-resnet-26-0.25.bin
+
+framework: dldt 
+        

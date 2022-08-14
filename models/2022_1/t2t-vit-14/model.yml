@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/t2t-vit-14.xml
+    size: 765339
+    checksum: 6ac05b2c5574f7418f2370549b0eb347a3305d7c33bdc77c36e5500305a57f9129144779aef6657fd2aac7e0d9cae05a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/t2t-vit-14/t2t-vit-14.xml
+  - name: FP16/t2t-vit-14.bin
+    size: 43091696
+    checksum: 83c58908b0bc3bac87ece12fec5f521868d36cb7e98899a513489e1a5316ddf946971f170f6a2d21b30b154fc37cff16
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/t2t-vit-14/t2t-vit-14.bin
+
+framework: dldt 
+        

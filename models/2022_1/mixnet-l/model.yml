@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mixnet-l.xml
+    size: 816556
+    checksum: 192bb3114ffe9098f323fca3cdcd88829a3a8218bb5e9cc266320c41e4b7078e56d8a5fec0d663e77c5cb5d872ffa54a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mixnet-l/mixnet-l.xml
+  - name: FP16/mixnet-l.bin
+    size: 14639212
+    checksum: 66c7997b447f60736151f445b59302dd4870c024ed3c2bfaafa63c0243602d5bf9d6f3ae08492b5768319459711e8f64
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mixnet-l/mixnet-l.bin
+
+framework: dldt 
+        

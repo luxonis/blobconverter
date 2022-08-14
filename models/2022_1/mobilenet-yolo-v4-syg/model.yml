@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilenet-yolo-v4-syg.xml
+    size: 550376
+    checksum: ba4583b35789a693abbbf7aaa637d61cd2d2f2580de27a7faa21f3ac2fb2df5eefe87ea621358933e2e8a9e5b8c4170d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-yolo-v4-syg/mobilenet-yolo-v4-syg.xml
+  - name: FP16/mobilenet-yolo-v4-syg.bin
+    size: 20730786
+    checksum: 25cca53cb9b98ab1dac198e8aee149d4f018f7d4899f5802a21b147f91a631f543381bd2147037deb4c12d045cd7dcb9
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-yolo-v4-syg/mobilenet-yolo-v4-syg.bin
+
+framework: dldt 
+        

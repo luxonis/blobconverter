@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vehicle-license-plate-detection-barrier-0123.xml
+    size: 398373
+    checksum: 8bee1d48de4110a527540b8d01e45f9adb5e75786b0eec4c14a88bf972227830a7e34e03976b06b8a510e229794145f6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-license-plate-detection-barrier-0123/vehicle-license-plate-detection-barrier-0123.xml
+  - name: FP16/vehicle-license-plate-detection-barrier-0123.bin
+    size: 1105486
+    checksum: bede3b5832d9865b2f698acd766856a60bb55f1d1d1da0b6fa5951f09fef1b00851502e47415a92156b24cd38518c03c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-license-plate-detection-barrier-0123/vehicle-license-plate-detection-barrier-0123.bin
+
+framework: dldt 
+        

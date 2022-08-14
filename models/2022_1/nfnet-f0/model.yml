@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/nfnet-f0.xml
+    size: 518312
+    checksum: 1a8c49dbea1464905432c0893e20609a15b76191f487d7cf5cedc95ac85e9be51910f23a4e4fffa8ba7c64862d129368
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/nfnet-f0/nfnet-f0.xml
+  - name: FP16/nfnet-f0.bin
+    size: 142888942
+    checksum: 4303f6425de6249bd3b8a14566710216aa4b81ecd3e8c2965ee28e8a58853b6dc039e71f7f0276252aa8b72c6baf68c7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/nfnet-f0/nfnet-f0.bin
+
+framework: dldt 
+        

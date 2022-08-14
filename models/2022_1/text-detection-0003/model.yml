@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-detection-0003.xml
+    size: 402196
+    checksum: 43d2b0bcf3987776ce0fa138213e3cffc400a4442a2ea21456d8fb8a0f0c6377b1c09226d9e3c21b6032be1003a5a363
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-detection-0003/text-detection-0003.xml
+  - name: FP16/text-detection-0003.bin
+    size: 13493136
+    checksum: b0845764135d39aa24dbf3c86378c502ea1a23cc2f63a15b276394c6d72ab02c4a241d7760e6d31544201e463f032733
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-detection-0003/text-detection-0003.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/efficientnet-b0-pytorch.xml
+    size: 358573
+    checksum: 20048b68266b4d5faac56b1193ec1d86548cfebe98de60a93b696a05a57d88a706ad22958dd4d599d458c09a362d43f8
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientnet-b0-pytorch/efficientnet-b0-pytorch.xml
+  - name: FP16/efficientnet-b0-pytorch.bin
+    size: 10535118
+    checksum: 1b954d618cf48ed4e3448351d4a0a5f95a7502296272ec8fe480c89f7b11892a717ac6296f0db2b900ddb6152cefb942
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientnet-b0-pytorch/efficientnet-b0-pytorch.bin
+
+framework: dldt 
+        

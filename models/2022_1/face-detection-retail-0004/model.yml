@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/face-detection-retail-0004.xml
+    size: 164628
+    checksum: a649d43620b4f86f24a40a57b6178f7cedbabdfb03effd5d3370320e38a6f9d62a0b6ced3ffe23dfe20f471dfceb4f2c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-detection-retail-0004/face-detection-retail-0004.xml
+  - name: FP16/face-detection-retail-0004.bin
+    size: 1176544
+    checksum: 374d4e680c55847fb98a24848e19074818da6d89916f8a16c46639b666c1f8f4d217a2a5dddce0e19a8dd52fa88c19d1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-detection-retail-0004/face-detection-retail-0004.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/smartlab-object-detection-0001.xml
+    size: 498165
+    checksum: 6b855e31ace7f07a0a79f1def98ed332c18d97ac3bb0a27a6c3298c0d2526dcf23165bf8e7293a02028cc44dc1f4f4af
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/smartlab-object-detection-0001/smartlab-object-detection-0001.xml
+  - name: FP16/smartlab-object-detection-0001.bin
+    size: 1781914
+    checksum: 92d93011e3be961b8634011dbed3331da9f950e4adb40248a2346869113f29ddd1e0c88b3498877b7958bc2d1689c844
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/smartlab-object-detection-0001/smartlab-object-detection-0001.bin
+
+framework: dldt 
+        

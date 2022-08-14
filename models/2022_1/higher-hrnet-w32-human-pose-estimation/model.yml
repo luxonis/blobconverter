@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/higher-hrnet-w32-human-pose-estimation.xml
+    size: 1432023
+    checksum: 9e999012967a9f5f94399554149f82cf5101fbb8f55ce13fffbc282f876ac142d8cffbf588e82a2b307f82fd3fb54909
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/higher-hrnet-w32-human-pose-estimation/higher-hrnet-w32-human-pose-estimation.xml
+  - name: FP16/higher-hrnet-w32-human-pose-estimation.bin
+    size: 57235918
+    checksum: a8d55dac1b3de61bb82eb4fbf7dffdd150888694ff66fe6a66d3100e61f05095b682766ccca2c1864c0bdf8798d72e2d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/higher-hrnet-w32-human-pose-estimation/higher-hrnet-w32-human-pose-estimation.bin
+
+framework: dldt 
+        

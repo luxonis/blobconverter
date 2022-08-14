@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/pelee-coco.xml
+    size: 737245
+    checksum: 04a4e4798aade86a49375c94baabe77aa9f939e6e6e8fcb066b7f8e4f9649cfb2ba7d147c60944fbe85c9f23787b43f1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pelee-coco/pelee-coco.xml
+  - name: FP16/pelee-coco.bin
+    size: 11944728
+    checksum: 1ef82f876d37e5cc883cfc068df56a984e254f9d56697a140ac4801ad7d984e8401a8fd3d40e37bcdc2bd690d799f53a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pelee-coco/pelee-coco.bin
+
+framework: dldt 
+        

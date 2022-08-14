@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/se-inception.xml
+    size: 429949
+    checksum: 81ad55bcfc693d8dd3fa95aeb2ef10e04d5c19fe6f2dd611c1095df3314d751d9f8571ed8232eda7b7619097a2b33ba7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-inception/se-inception.xml
+  - name: FP16/se-inception.bin
+    size: 23843250
+    checksum: 3e0e12ddf149a71e61cf2596da6ff57bfe11e1a6228e5ab450f83f7d2d03aa65082e6993a0d86388637ee9c9ac92c6d5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-inception/se-inception.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-recognition-resnet-fc.xml
+    size: 149151
+    checksum: 609913a4400c0a82ee96e92c3feeb440ddaaa24b7e9b9058850a3338d2fe9d005de6f77a9514648a88318ea3b5ccd62f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-resnet-fc/text-recognition-resnet-fc.xml
+  - name: FP16/text-recognition-resnet-fc.bin
+    size: 355933630
+    checksum: 97d848d861f386ee52744015a302c99bee44e4dfef32762cad8bc2b8e432e32ac0093319a0ac9e1146285d9cd841fa2c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-recognition-resnet-fc/text-recognition-resnet-fc.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/face-reidentification-retail-0095.xml
+    size: 382044
+    checksum: cf64003784f3f3d54bc3a37ab3c81f857505f9a764175056d02a8e2d9e0d8b97e9e7a8b672f73639e951bb9cb056af7f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-reidentification-retail-0095/face-reidentification-retail-0095.xml
+  - name: FP16/face-reidentification-retail-0095.bin
+    size: 2213628
+    checksum: 802a00762eb563acb377eeac0e96bc97384a0d2788e0a977414d0f235e1e1ee90e278579ff5579f32c606d2cb046482a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-reidentification-retail-0095/face-reidentification-retail-0095.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/single-image-super-resolution-1033.xml
+    size: 79229
+    checksum: c42d6ece769741a3552da75e9bc1f92bb504f8bb33b5bf6b322b77b890683c946fc88ba7791d15dd995fd5c14e85f3b2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.xml
+  - name: FP16/single-image-super-resolution-1033.bin
+    size: 60938
+    checksum: a944b9287810c9d054a1fe7614f6e827fca275c956c1c0e1f32e17bb1daf9a32463bbc1a13f6f2dca1c8b9ccb0334795
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.bin
+
+framework: dldt 
+        

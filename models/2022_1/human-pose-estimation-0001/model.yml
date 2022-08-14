@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/human-pose-estimation-0001.xml
+    size: 248520
+    checksum: e3e2e4910ccdc4216d1f601b58cabe334fe9ee82c2cbc3e68b90141d546b772f500c34f9448a291465070696a5f0d30a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.xml
+  - name: FP16/human-pose-estimation-0001.bin
+    size: 8197356
+    checksum: 2a6e2987d88220a1b852bf22cfce07bc9415623f68972a7663e5fb25c319848f63a70c6ba9a7a0c7b4a06fa6ce16dda3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.bin
+
+framework: dldt 
+        

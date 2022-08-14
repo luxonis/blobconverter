@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilenet-v2-1.0-224.xml
+    size: 255899
+    checksum: b10b501c4f7266bd382ba29605997b709bf0b62a9b2d9dafcf26bb93ce2d639d88648eddb72f98d86c81c1dbd651bb16
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v2-1.0-224/mobilenet-v2-1.0-224.xml
+  - name: FP16/mobilenet-v2-1.0-224.bin
+    size: 6978266
+    checksum: 1bd01835ef3832a2e218ae1872a12320826dfb15045c23f6b61a4967d31c9551b5d96934b220545e600a426a590021ea
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v2-1.0-224/mobilenet-v2-1.0-224.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/regnetx-3.2gf.xml
+    size: 343583
+    checksum: 7ab8c64bf560983795bc750f281b2d9932d3b31b3da4847c4bc69c1f1aee3288212519256f76615c0c011a696bc02286
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/regnetx-3.2gf/regnetx-3.2gf.xml
+  - name: FP16/regnetx-3.2gf.bin
+    size: 30530582
+    checksum: f62f25406ff7a3ebfeb7b11b4642b091fbf9892fb321d2013901bb3114bf9b65c72746e7126f7ce6587f2e27dde83d6c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/regnetx-3.2gf/regnetx-3.2gf.bin
+
+framework: dldt 
+        

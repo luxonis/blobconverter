@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/quartznet-15x5-en.xml
+    size: 526067
+    checksum: 040026ab5f7e79517f8c35188d3e3b95bd7d89e9d7b0eee22a66e0a480240aa498bf7ca1cead5de0ea67a862ef3befcb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/quartznet-15x5-en/quartznet-15x5-en.xml
+  - name: FP16/quartznet-15x5-en.bin
+    size: 37771546
+    checksum: 92b688f87316845c0245edeeb21fbc73cbba6598f78e19457ae6f8d049a048d38e6113e2147eb756c7d68ac36acb441d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/quartznet-15x5-en/quartznet-15x5-en.bin
+
+framework: dldt 
+        

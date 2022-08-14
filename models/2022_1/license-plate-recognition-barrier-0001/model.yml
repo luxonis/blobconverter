@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/license-plate-recognition-barrier-0001.xml
+    size: 81537
+    checksum: 2a59169161d96f431be97f10b734786189dfe09b4a330ce075c29b672c6d3f3e075d9d7609f5228617e141a51b1ad0dc
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.xml
+  - name: FP16/license-plate-recognition-barrier-0001.bin
+    size: 2436038
+    checksum: 92cb3edbeb253b930391f85a15a6b251c7e6aa572ad98ef9eec8dcccba6240b7e6bf613668c3f0e423dd8eeab580cba1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.bin
+
+framework: dldt 
+        

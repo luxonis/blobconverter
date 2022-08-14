@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/f3net.xml
+    size: 515220
+    checksum: 7025921eb245b7fec9be3c03cfc4f7faeae390b6bb5c27c64c229ffbb14628b758cee071e55e7e59c52e9e776056322a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/f3net/f3net.xml
+  - name: FP16/f3net.bin
+    size: 50558138
+    checksum: ae47041eefa253a900059eb634f27f50a390aeced66ff049908339226a9581abcf782495c668ad757678f565c2fbab9d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/f3net/f3net.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/resnest-50-pytorch.xml
+    size: 662352
+    checksum: 74ce7ef660ad18491a53873a253c98278b449deb4395a738d7d2bd8c277d39507b6f9e1164041f184caa7036a57480aa
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnest-50-pytorch/resnest-50-pytorch.xml
+  - name: FP16/resnest-50-pytorch.bin
+    size: 54898350
+    checksum: db345f06fbc4f1b6ef7835fa44304377b0e3ed133cabb5f11c86150e95b09634e69e7f865f3cb2e7627e8f632d7f0a8b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnest-50-pytorch/resnest-50-pytorch.bin
+
+framework: dldt 
+        

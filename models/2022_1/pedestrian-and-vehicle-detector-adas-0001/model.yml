@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/pedestrian-and-vehicle-detector-adas-0001.xml
+    size: 360903
+    checksum: c81fd478f4a370c9a700608bcbededf8e0e2cfe108b15fa69b0676c4625d9bd103657f66580c53b68fe4db92996faee5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pedestrian-and-vehicle-detector-adas-0001/pedestrian-and-vehicle-detector-adas-0001.xml
+  - name: FP16/pedestrian-and-vehicle-detector-adas-0001.bin
+    size: 3299336
+    checksum: 1fb684773fa9ff3eabb6dc5103d396461066b3e1eb1221b18d7ab54941d7d90da47de1e7667761878585d05b7b407f67
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/pedestrian-and-vehicle-detector-adas-0001/pedestrian-and-vehicle-detector-adas-0001.bin
+
+framework: dldt 
+        

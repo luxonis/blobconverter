@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/faceboxes-pytorch.xml
+    size: 157387
+    checksum: b89c94f6bb04fbcbbf54acc48bd0b8de49515ad0482c0cd54f224ff3459cee5f156b93c5326a9e9e098803ecb8966d6b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faceboxes-pytorch/faceboxes-pytorch.xml
+  - name: FP16/faceboxes-pytorch.bin
+    size: 2011802
+    checksum: 2c3f397ef79ed0d0502e235a0021529f13e21662259ab89c849f8e1eccbb1c299e8b9772d81770bf47b8a449d13e517d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faceboxes-pytorch/faceboxes-pytorch.bin
+
+framework: dldt 
+        

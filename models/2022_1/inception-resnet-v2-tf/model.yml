@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/inception-resnet-v2-tf.xml
+    size: 1032041
+    checksum: b7a3ea3914fec5a7d350e3a658b09047d05dcaef2cd4802a7130b7e04c3359ac28e31a7892592bf5935a63a9e180c80f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/inception-resnet-v2-tf/inception-resnet-v2-tf.xml
+  - name: FP16/inception-resnet-v2-tf.bin
+    size: 60445674
+    checksum: b57b5f2758609ff8ebcf1111196c8b22139101510041b12c686eed211fadbde80f3c5b20b617c872c57619d49643fd99
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/inception-resnet-v2-tf/inception-resnet-v2-tf.bin
+
+framework: dldt 
+        

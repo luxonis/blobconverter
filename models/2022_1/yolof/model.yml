@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolof.xml
+    size: 514812
+    checksum: c57f6cad7e89c068d465b2b3ea3517c551da3e7b9d041df7cc1b0ae2d2f59335c2dbaa809dde47b6b152b426c61b4405
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolof/yolof.xml
+  - name: FP16/yolof.bin
+    size: 96455934
+    checksum: cee75e44ff91207bcf5f58e301c0c7380178bf59e76579207c2ea68ccde1f84c80228f02bc40c7263ba3c9a06dd75f99
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolof/yolof.bin
+
+framework: dldt 
+        

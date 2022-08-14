@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/icnet-camvid-ava-0001.xml
+    size: 558206
+    checksum: 3fad66db7ac6a520f129c0491a366a92f4be06fcccbd58e3266626fd39048453b879b223e9973482e11caefd184ef0c9
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/icnet-camvid-ava-0001/icnet-camvid-ava-0001.xml
+  - name: FP16/icnet-camvid-ava-0001.bin
+    size: 53408610
+    checksum: 6268d290665b7a01c67f559b524e3ee4085d6fe2434ce5f93c207c408375884a1441d8abbbe771b2fa777e5735b24ce4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/icnet-camvid-ava-0001/icnet-camvid-ava-0001.bin
+
+framework: dldt 
+        

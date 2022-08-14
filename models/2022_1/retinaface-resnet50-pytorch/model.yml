@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/retinaface-resnet50-pytorch.xml
+    size: 385114
+    checksum: d32f11badabef5bfa81ec75a3b42e4685e091c0dc4425c5a170ccc991f02cded95db35a275b44d5a6916326cfacc9658
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/retinaface-resnet50-pytorch/retinaface-resnet50-pytorch.xml
+  - name: FP16/retinaface-resnet50-pytorch.bin
+    size: 54529372
+    checksum: 9540810a906e205dd6300dacb8f32ea6ea91cd197839d10e179957c560d66738e9c8926e65ace510f5cd97ca4cc1f74d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/retinaface-resnet50-pytorch/retinaface-resnet50-pytorch.bin
+
+framework: dldt 
+        

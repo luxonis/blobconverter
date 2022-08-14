@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-reidentification-retail-0277.xml
+    size: 693131
+    checksum: 376f6bab9c043ca9801c7b719fbca4560391a8f0e363d1191650019e2db1aa48657261e2a8a83471cc3340971d81569a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-reidentification-retail-0277/person-reidentification-retail-0277.xml
+  - name: FP16/person-reidentification-retail-0277.bin
+    size: 4178790
+    checksum: 338fa5f50c61aacff4f062348d2e10bd9b12813484f26875c060c4fa340b0b93d0d97a0a06c9e6668dcc8c3fe4ce9775
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-reidentification-retail-0277/person-reidentification-retail-0277.bin
+
+framework: dldt 
+        

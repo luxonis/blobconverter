@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/text-image-super-resolution-0001.xml
+    size: 18205
+    checksum: 072e549b8c791f9dec2bd88613648984ca968a4a2d39b03cb1ce953a2715dcbe039aa9b902945cbbdd9414e51f8f6698
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.xml
+  - name: FP16/text-image-super-resolution-0001.bin
+    size: 5418
+    checksum: 3403c611e626cf9e647f0cc7674e5379129af4385c4fe747cec9556fbb114708a7a6793a321e2d072a7e3cd4c0190cb7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.bin
+
+framework: dldt 
+        

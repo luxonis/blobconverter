@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/resnet-34-pytorch.xml
+    size: 162897
+    checksum: 21f42f4ad8989a7914e195c4b843ecbab624994771380c61a9abcd16aac9b04ceb8ad79ae87c5e7630e720445953e3b8
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnet-34-pytorch/resnet-34-pytorch.xml
+  - name: FP16/resnet-34-pytorch.bin
+    size: 43578358
+    checksum: 2f30242e3e50876b9435d96473db1bf9877358749b46867db8ab2e130381931a0531800949b196b5eac7ea5e36e424d9
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/resnet-34-pytorch/resnet-34-pytorch.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ssd_mobilenet_v1_fpn_coco.xml
+    size: 503944
+    checksum: 4835d0208ae59dc28785571c58ebe18820ac0d3a4b808b0ceff5450d35f682ef4483dc80f12a6956b1bab55b746d724b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd_mobilenet_v1_fpn_coco/ssd_mobilenet_v1_fpn_coco.xml
+  - name: FP16/ssd_mobilenet_v1_fpn_coco.bin
+    size: 61866104
+    checksum: a34360fdb66c60a460c7ba06f665d0fc68996214910b096597c3e8863915edef84acbaf8d0d3dd46ceafbb7596859ea6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd_mobilenet_v1_fpn_coco/ssd_mobilenet_v1_fpn_coco.bin
+
+framework: dldt 
+        

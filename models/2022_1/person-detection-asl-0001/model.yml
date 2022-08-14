@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-detection-asl-0001.xml
+    size: 1012094
+    checksum: a21c327f09b43efcfec45996526ec9aeb01b9953c4fd3ae134b13efa956cf6a3d7ed88236ce83eccde6c990dad4f0d2b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-asl-0001/person-detection-asl-0001.xml
+  - name: FP16/person-detection-asl-0001.bin
+    size: 2013354
+    checksum: f64cda32f165683ff590b0b06d8e64de7b0b17c327ac2abe1e67d9e5986c8ac6ab59ecfdf731b92b6333094eb339d3b1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-asl-0001/person-detection-asl-0001.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/noise-suppression-poconetlike-0001.xml
+    size: 1525944
+    checksum: 6169d7f2176d52a194ddc45200dd31c0b58b3718d5f1dcfab32748180eb17d764ad044c30d71c76fda290b73b19a578e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/noise-suppression-poconetlike-0001/noise-suppression-poconetlike-0001.xml
+  - name: FP16/noise-suppression-poconetlike-0001.bin
+    size: 14795010
+    checksum: 3599121b3f7eddac7bb81e0186bace4f23631e4ecd99b7985812a9dd24f2c4c08322b5023e76ec6e11309c263ed88594
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/noise-suppression-poconetlike-0001/noise-suppression-poconetlike-0001.bin
+
+framework: dldt 
+        

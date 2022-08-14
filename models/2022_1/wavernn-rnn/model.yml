@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/wavernn-rnn.xml
+    size: 54129
+    checksum: 1cf52f60d04a2c27c011e4986b483ec26a3e700a549b73b013a2b4512a2a4d4a51661a4c5e4f41de82f2401ad4b0ecb2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wavernn-rnn/wavernn-rnn.xml
+  - name: FP16/wavernn-rnn.bin
+    size: 7665756
+    checksum: 9f770913f71335f990024a027c5cbfde6751ef099f616e612822f4195b6ada16bbe96560e8b7e4731765e0a246aee92b
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wavernn-rnn/wavernn-rnn.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/deeplabv3.xml
+    size: 294684
+    checksum: 3fd60f35e5c2bd0328f5501ac2f60b6b729a01bf1752f3d9f6df382400756121d34eae7fbe07e166163b8e9205d125f6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/deeplabv3/deeplabv3.xml
+  - name: FP16/deeplabv3.bin
+    size: 4194178
+    checksum: 1fa70826186cd5fabcf1cb5a6c315687468e7f96f8cc5e6c8a7ec62da7cf1c9e28afaac825af9e8782487648deb59a50
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/deeplabv3/deeplabv3.bin
+
+framework: dldt 
+        

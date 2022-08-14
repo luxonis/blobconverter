@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/horizontal-text-detection-0001.xml
+    size: 979892
+    checksum: cd48e5cfebe88b69ed821a155cff63e6e14f91c289f109192069cbaad3ec33df7661be160f0a1e6c300fcbf1d10b21a1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/horizontal-text-detection-0001/horizontal-text-detection-0001.xml
+  - name: FP16/horizontal-text-detection-0001.bin
+    size: 3876900
+    checksum: ae5f36ce93f050e9412719dfee45d1fb531f4f0406a6b86e1f89127bb7b9db3a7680e7401f400dd1973287552d20f95e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/horizontal-text-detection-0001/horizontal-text-detection-0001.bin
+
+framework: dldt 
+        

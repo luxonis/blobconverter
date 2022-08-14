@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/wav2vec2-base.xml
+    size: 829874
+    checksum: 7b5d0557186761b2b28f7fdf252e3d4be09fc2ed1b2621460787f2cd0b9cddd2470e30819a681c4e36bceb66a884a9ff
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wav2vec2-base/wav2vec2-base.xml
+  - name: FP16/wav2vec2-base.bin
+    size: 188791072
+    checksum: 5ee3b3f87109b32b768cd259dc7e6b988732f903e41cb1555a291b2e745de49ccbc3411c461f948ee5528a93f2401246
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/wav2vec2-base/wav2vec2-base.bin
+
+framework: dldt 
+        

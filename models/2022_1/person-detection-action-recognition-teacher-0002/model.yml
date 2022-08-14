@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/person-detection-action-recognition-teacher-0002.xml
+    size: 1177549
+    checksum: a06812870b3db2fe662b8eedd503f228cd2d8cf17bc25b30f28619aedc6d701dff0be92a9b04356eb02f53247b065ba6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-action-recognition-teacher-0002/person-detection-action-recognition-teacher-0002.xml
+  - name: FP16/person-detection-action-recognition-teacher-0002.bin
+    size: 3900230
+    checksum: a84de6e8fb31f9414bbc6c07c114d70f5bc75975dfdb86eaae8f45857d0c7966d211440ed557f1f8b9fd68e3e69daef7
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-detection-action-recognition-teacher-0002/person-detection-action-recognition-teacher-0002.bin
+
+framework: dldt 
+        

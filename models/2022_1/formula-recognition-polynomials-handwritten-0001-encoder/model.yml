@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/formula-recognition-polynomials-handwritten-0001-encoder.xml
+    size: 251340
+    checksum: fee51fe55f82a42c82291ca962dfae15ca04f352bf9dd516c846ebd770bfc54d9b1fc1033f0d585b44d6fe9574788d41
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/formula-recognition-polynomials-handwritten-0001-encoder/formula-recognition-polynomials-handwritten-0001-encoder.xml
+  - name: FP16/formula-recognition-polynomials-handwritten-0001-encoder.bin
+    size: 22604576
+    checksum: 92c891404feaceb0d785cf9513f8ab8b5f76f669e181c49e06da14af1481f2e0a550304cbef6e208bb012e9cbb7c81f3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/formula-recognition-polynomials-handwritten-0001-encoder/formula-recognition-polynomials-handwritten-0001-encoder.bin
+
+framework: dldt 
+        

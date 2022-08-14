@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/facial-landmarks-35-adas-0002.xml
+    size: 406087
+    checksum: 536d66f889f50f00723d27903bf9e1365a75a1c180cf0a83b1ffbf44940ccae38232fb3cde037cfd55cbdcafc7c55fc4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facial-landmarks-35-adas-0002/facial-landmarks-35-adas-0002.xml
+  - name: FP16/facial-landmarks-35-adas-0002.bin
+    size: 9190584
+    checksum: 0fa627392d3a73a98f20185feef1b32ff483fb016bb585b2b48d460af19973dae1fccc0565bcfa3577e910bbebeb2ca4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facial-landmarks-35-adas-0002/facial-landmarks-35-adas-0002.bin
+
+framework: dldt 
+        

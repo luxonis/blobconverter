@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/driver-action-recognition-adas-0002-encoder.xml
+    size: 211460
+    checksum: 91a041b3b0590bddebf1fbf17990343457a7dedd74e79bbee281518d4585f62e00725c9ebff5d75be24453ea5caf1106
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.xml
+  - name: FP16/driver-action-recognition-adas-0002-encoder.bin
+    size: 5725382
+    checksum: f2e55701ee5272e18ca45de63a9530a2dc9398ee7d45522ea7c949c9d4a8a55e3e4fe7eb9e9bf8948ccac6309efe4176
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.bin
+
+framework: dldt 
+        

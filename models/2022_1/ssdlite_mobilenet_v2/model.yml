@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ssdlite_mobilenet_v2.xml
+    size: 535961
+    checksum: 47fe375d15e2659419ad125e57a7e7aaf30763211cb3635531f9ccbfb1b025d14b8e3a19ef5e36da5ec3eaa7805460b6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssdlite_mobilenet_v2/ssdlite_mobilenet_v2.xml
+  - name: FP16/ssdlite_mobilenet_v2.bin
+    size: 8950538
+    checksum: f01ad7defa42e062015c9c9baee9950f0f10bee53b44f99e0f32c49df92d62e26e683ebf7dfa9093ee62025cd96413ce
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssdlite_mobilenet_v2/ssdlite_mobilenet_v2.bin
+
+framework: dldt 
+        

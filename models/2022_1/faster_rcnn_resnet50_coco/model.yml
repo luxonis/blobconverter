@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/faster_rcnn_resnet50_coco.xml
+    size: 375491
+    checksum: 9da9370ab00c5d7a0719d5b864dcfd2bf2efb626dadda64ba7a36ef505d34d08add56014b780c499f4f8a4e65563324f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faster_rcnn_resnet50_coco/faster_rcnn_resnet50_coco.xml
+  - name: FP16/faster_rcnn_resnet50_coco.bin
+    size: 58323870
+    checksum: fcf86715061b805f4c49274a374c9988ff8a5e99b1c805a2f9d70af7eff3ec1c60e21535c64762979fdf0f7846ae8267
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/faster_rcnn_resnet50_coco/faster_rcnn_resnet50_coco.bin
+
+framework: dldt 
+        

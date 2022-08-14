@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/handwritten-simplified-chinese-recognition-0001.xml
+    size: 131842
+    checksum: 47dda2e4b602351c72f9a87a1f811df826e8ea1f7459673e25c8b08a8d2280777d64abada2caa61b361328f202b5906f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-simplified-chinese-recognition-0001/handwritten-simplified-chinese-recognition-0001.xml
+  - name: FP16/handwritten-simplified-chinese-recognition-0001.bin
+    size: 34535856
+    checksum: 2fcc9dbf1a6462ab58ed6d5b8dbc1c737bdd37ff5ea88b4f343045dd4ca1da43f03ff1f0306008625a102ed4fbd5ce6a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-simplified-chinese-recognition-0001/handwritten-simplified-chinese-recognition-0001.bin
+
+framework: dldt 
+        

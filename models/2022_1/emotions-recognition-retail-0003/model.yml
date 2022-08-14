@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/emotions-recognition-retail-0003.xml
+    size: 64117
+    checksum: d2d19ad2bc9c020bdc2f04f4cf7117d7519ea48209aadba7ab4a943b0354e55a3e6c40ac4eebaa684193bd9d0edde8d0
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/emotions-recognition-retail-0003/emotions-recognition-retail-0003.xml
+  - name: FP16/emotions-recognition-retail-0003.bin
+    size: 4965014
+    checksum: 707923353b0e5bec597a3f6b0372d4c400f2c0dddad6994e041967c883d28d8dbae99f69bb7b2a835edbc0f3c5d43fc1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/emotions-recognition-retail-0003/emotions-recognition-retail-0003.bin
+
+framework: dldt 
+        

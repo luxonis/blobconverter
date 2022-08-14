@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/se-resnet-50.xml
+    size: 411844
+    checksum: 7715e5632bd3bb4d646c42e1d742763ff5e66e23514679157acf2c288e74004350251ba96fba8938dd489366f4367c95
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-resnet-50/se-resnet-50.xml
+  - name: FP16/se-resnet-50.bin
+    size: 56122966
+    checksum: e4c2f44ea96164132d924321669ebb6980dfe6fda3bd33c789c44c3d4ecf8b5fbc7141aeafe4cb008753d5693e16779e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/se-resnet-50/se-resnet-50.bin
+
+framework: dldt 
+        

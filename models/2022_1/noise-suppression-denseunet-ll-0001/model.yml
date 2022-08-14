@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/noise-suppression-denseunet-ll-0001.xml
+    size: 831626
+    checksum: 2427145fc6f96f5556b76294615dc44f6b5e47689a99d721025d0b3319650661538f8c23ba929ae8af9b09a6019f0825
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/noise-suppression-denseunet-ll-0001/noise-suppression-denseunet-ll-0001.xml
+  - name: FP16/noise-suppression-denseunet-ll-0001.bin
+    size: 8625568
+    checksum: 356a8628ce4fa90b062628dabb02d6066769cde0825b97eb83e8bd2dcd2ee6b4df28c204d8895cc2033e13a2e7e9de7c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/noise-suppression-denseunet-ll-0001/noise-suppression-denseunet-ll-0001.bin
+
+framework: dldt 
+        

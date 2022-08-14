@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mobilenet-v3-small-1.0-224-tf.xml
+    size: 408627
+    checksum: 76f1b2ebe5ff9a7a5491ae00073d8732d6115831965239fccd0e8deaf6732f97c8f119e76c99bb7270f8dbcfee0731a5
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v3-small-1.0-224-tf/mobilenet-v3-small-1.0-224-tf.xml
+  - name: FP16/mobilenet-v3-small-1.0-224-tf.bin
+    size: 5074008
+    checksum: cc26442d046d9f74efa60719d360f6b187db86211614dfbc76354b8fd768101ec4d1c10c836f01fdfbb83ac19e1a8bf6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mobilenet-v3-small-1.0-224-tf/mobilenet-v3-small-1.0-224-tf.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/hbonet-0.25.xml
+    size: 388710
+    checksum: ef35e153e014159075c55701403f5f030850ff78947497b30cb233e8443053a22f68af79f55dcc3eb3b691867911fa38
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/hbonet-0.25/hbonet-0.25.xml
+  - name: FP16/hbonet-0.25.bin
+    size: 3860062
+    checksum: c99c3fab80d5b973d2465ce02ceeae3460ecb461402d06c55de3773532382004980e0217ddcb04322af8c7d62ff484cf
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/hbonet-0.25/hbonet-0.25.bin
+
+framework: dldt 
+        

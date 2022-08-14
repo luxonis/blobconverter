@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/icnet-camvid-ava-sparse-60-0001.xml
+    size: 558226
+    checksum: 51b8f05144136ed12265d4a93f66dbb1b98b703f67f2bffc0869435496147999a2e4917efce1d54700a9f236891323d1
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/icnet-camvid-ava-sparse-60-0001/icnet-camvid-ava-sparse-60-0001.xml
+  - name: FP16/icnet-camvid-ava-sparse-60-0001.bin
+    size: 53408610
+    checksum: c5eeaa34b2a6f877402c6b2187f1474d42c8731776a876f2f65f0eb89da1c4d2ae5eaa4d668f1707e2cc91897d76a024
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/icnet-camvid-ava-sparse-60-0001/icnet-camvid-ava-sparse-60-0001.bin
+
+framework: dldt 
+        

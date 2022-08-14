@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ctdet_coco_dlav0_512.xml
+    size: 254437
+    checksum: b7e4babc609184273123a9f29b6a38c45435ed6b48486c1ec6fd19e085c5cf432053734ef5166f5050d3f4a11b3bda9c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ctdet_coco_dlav0_512/ctdet_coco_dlav0_512.xml
+  - name: FP16/ctdet_coco_dlav0_512.bin
+    size: 35821198
+    checksum: c702d39a4909d0b8f6ed97abfdf54097bcd9c532f2b281461e2658906eaab07c1a85586a8953a9fab61d1d0221b29d5f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ctdet_coco_dlav0_512/ctdet_coco_dlav0_512.bin
+
+framework: dldt 
+        

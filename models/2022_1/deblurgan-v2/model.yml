@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/deblurgan-v2.xml
+    size: 1033151
+    checksum: 394c9c6b4afbc8c8381aa43c46146cdc20e79900717c9b64dabc16a2928ae75ff0476a4e7e16a8e501a5104234023633
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/deblurgan-v2/deblurgan-v2.xml
+  - name: FP16/deblurgan-v2.bin
+    size: 4213426
+    checksum: f4b64aeb6bdfb155717de108c208dc11047b6718fb94bcd7cf4b504e3c44357bcf49be82fc067b451c86446151ef3e62
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/deblurgan-v2/deblurgan-v2.bin
+
+framework: dldt 
+        

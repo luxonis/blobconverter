@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/face-recognition-resnet100-arcface-onnx.xml
+    size: 687219
+    checksum: abade53aedeeb3f9ff675643304d49be536231bfd3ff0a1003a82c62457faa5b5c20016168278e025ce6e0717f504de6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-recognition-resnet100-arcface-onnx/face-recognition-resnet100-arcface-onnx.xml
+  - name: FP16/face-recognition-resnet100-arcface-onnx.bin
+    size: 130263954
+    checksum: 1b342636b7a44617b7d728097dcdf2687d43d33479129ef95689fb74e1b86d092587b014a857ecea0e2780d295576f33
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/face-recognition-resnet100-arcface-onnx/face-recognition-resnet100-arcface-onnx.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/dla-34.xml
+    size: 173015
+    checksum: a9a52f80e076497ab3c8fad9e2a71579699cf04784dc85bd29ad88501c2ccb7ae87749c335e8135770a2c19cdc008dfa
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/dla-34/dla-34.xml
+  - name: FP16/dla-34.bin
+    size: 31468742
+    checksum: 93867fc413e41e1fa9d4d0a8a3558400051cd4e14ab3a143110e1df720fc97bfe077a63dfcb35368fe78bb9a8c411081
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/dla-34/dla-34.bin
+
+framework: dldt 
+        

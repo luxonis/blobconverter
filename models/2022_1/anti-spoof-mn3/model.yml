@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/anti-spoof-mn3.xml
+    size: 317962
+    checksum: 359e32b38f6764e0176bbe561646b742030dd8e05449e39ca54059f91b7de1d8506be40d0a67f70089ee50e69e98d661
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/anti-spoof-mn3/anti-spoof-mn3.xml
+  - name: FP16/anti-spoof-mn3.bin
+    size: 6032858
+    checksum: 3ef07dc3adcf12902e1a95cc7b57123b82e294e197f278e7ed66762a5efe4ca41121e501fd1eb8a72ea50d57ed5fffdc
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/anti-spoof-mn3/anti-spoof-mn3.bin
+
+framework: dldt 
+        

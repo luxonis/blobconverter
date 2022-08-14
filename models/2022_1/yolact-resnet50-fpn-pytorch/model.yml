@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolact-resnet50-fpn-pytorch.xml
+    size: 452151
+    checksum: a32b83bfa6334a9486cb0bf2f6e9cdbfccdd1775276cf0a659a3b37e4355b1da4a9eb1ab110dd89906f5d741f3346cfe
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolact-resnet50-fpn-pytorch/yolact-resnet50-fpn-pytorch.xml
+  - name: FP16/yolact-resnet50-fpn-pytorch.bin
+    size: 62466852
+    checksum: 13064156559e530292f4b05648d536cbddac5da1d56ea7de94219e4efb3e9f8923a90b1c75149d716a5453965c07967c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolact-resnet50-fpn-pytorch/yolact-resnet50-fpn-pytorch.bin
+
+framework: dldt 
+        

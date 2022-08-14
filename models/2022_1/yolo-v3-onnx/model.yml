@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolo-v3-onnx.xml
+    size: 682093
+    checksum: 601fe61b5db9255004e0ad24a4fa2d8882f5ef477857e4d3d48ae877fa16eaaec85763215a9c07e0269795daf3c758ec
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v3-onnx/yolo-v3-onnx.xml
+  - name: FP16/yolo-v3-onnx.bin
+    size: 123846391
+    checksum: 02e4e9cf62dd7c74ac6003cb27fd4bd4dd63c33beddb058d4a228333d71e7a2dd860a02e245a2de471c1c065a1e6a7b4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v3-onnx/yolo-v3-onnx.bin
+
+framework: dldt 
+        

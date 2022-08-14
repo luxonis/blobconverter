@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ssd512.xml
+    size: 248271
+    checksum: 31a82a8d743c293faa559ddbec5d5d4ac40b1d7baa24231f6adbf20700aba854ed190585a66af6a4347471e46a1df7d6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd512/ssd512.xml
+  - name: FP16/ssd512.bin
+    size: 54377462
+    checksum: a6e5dcfb4a3bd6fb3d3f8911d81b4ef06c00251533bbf9bba4dbe90e761d9ab0daea252882f3bd9c7e93fea9671bcd2c
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd512/ssd512.bin
+
+framework: dldt 
+        

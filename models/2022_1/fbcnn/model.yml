@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/fbcnn.xml
+    size: 370668
+    checksum: e8c99de6abfa8796351150194373ec6442caf51a992082359b1abcf09a382355dd2c119c783c06a10feafd007150679a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fbcnn/fbcnn.xml
+  - name: FP16/fbcnn.bin
+    size: 143821386
+    checksum: dda4e7650985649874fda2c709bfab17769160fb593403197a846ad0d1cd264aa456d24274fb7b12f7bbdeb400dbdebd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/fbcnn/fbcnn.bin
+
+framework: dldt 
+        

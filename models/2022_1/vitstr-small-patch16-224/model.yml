@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vitstr-small-patch16-224.xml
+    size: 532631
+    checksum: 5338feeecf83943e325fe009ade55b5f81d419635ab483017e852428ef76c153e4c9125c07fc6859b448225f9603ad72
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vitstr-small-patch16-224/vitstr-small-patch16-224.xml
+  - name: FP16/vitstr-small-patch16-224.bin
+    size: 43012332
+    checksum: 65597a1587cc50842d69a6db64ec226290184fe5b1b3d52c1e578641d33e789277b378aa88676e4b3ea75b4fd15ce158
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vitstr-small-patch16-224/vitstr-small-patch16-224.bin
+
+framework: dldt 
+        

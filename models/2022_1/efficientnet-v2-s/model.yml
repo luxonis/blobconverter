@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/efficientnet-v2-s.xml
+    size: 861319
+    checksum: dfd474a30024c569b423f90a51f52307304b3b31a982efd490f50e1292f603f59ccca7c6f22ded99c9120467e6fbadbb
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientnet-v2-s/efficientnet-v2-s.xml
+  - name: FP16/efficientnet-v2-s.bin
+    size: 42763294
+    checksum: 9def94b3134b86b500f04c2b242564314669ca67321537710b95969f8d90daaf6824ac6817247ef6409618fabfc360fd
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/efficientnet-v2-s/efficientnet-v2-s.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/handwritten-score-recognition-0003.xml
+    size: 148604
+    checksum: 769e962558727a061908975a4bc5cc04be135e0c377a3d8f25fcd00fe749fcc793af62763fdd9eb43857b5c4c9b0ad6f
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-score-recognition-0003/handwritten-score-recognition-0003.xml
+  - name: FP16/handwritten-score-recognition-0003.bin
+    size: 20561062
+    checksum: c56da3edce3cfbdfeaaa2c68890732599999de63e4b58bc583c553061e5c8465816b39a4e04a9a4cb9a6b18df720419d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/handwritten-score-recognition-0003/handwritten-score-recognition-0003.bin
+
+framework: dldt 
+        

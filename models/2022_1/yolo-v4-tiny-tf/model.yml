@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/yolo-v4-tiny-tf.xml
+    size: 142664
+    checksum: 77062034efb4a48eed0962689c0d572a91f7ec3f34640ae5774e0814667e73b54c4a7e47e5c321002596db544b03308e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v4-tiny-tf/yolo-v4-tiny-tf.xml
+  - name: FP16/yolo-v4-tiny-tf.bin
+    size: 12107134
+    checksum: 07f6e610cb3d192394d242efea3c876ea16214ca3e33a0393fbbdc3b7d9449ac183828240d37251182ee58bfdf4fd846
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v4-tiny-tf/yolo-v4-tiny-tf.bin
+
+framework: dldt 
+        

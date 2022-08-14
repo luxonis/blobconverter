@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/formula-recognition-medium-scan-0001-im2latex-encoder.xml
+    size: 167907
+    checksum: 10d009e33242d43d970d973ba60bf482803dc521d24f18e74e6f2da0622dc03b624fcba400f453d77f18f9673ac9dac4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/formula-recognition-medium-scan-0001-im2latex-encoder/formula-recognition-medium-scan-0001-im2latex-encoder.xml
+  - name: FP16/formula-recognition-medium-scan-0001-im2latex-encoder.bin
+    size: 6488864
+    checksum: 5cc13877ced963e777d51c420d6150bf34f771c00b4831df21bc3bb8455d9759dd34d33c8948f6a6e0746027c6fbe932
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/formula-recognition-medium-scan-0001-im2latex-encoder/formula-recognition-medium-scan-0001-im2latex-encoder.bin
+
+framework: dldt 
+        

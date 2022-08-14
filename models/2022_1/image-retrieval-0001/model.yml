@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/image-retrieval-0001.xml
+    size: 253636
+    checksum: a0de97dc5cddff49bf75314e97c2d2796dc2de03eaa366179ab1515b0f46c664faf9f39e30264d1f6834629f2e214858
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/image-retrieval-0001/image-retrieval-0001.xml
+  - name: FP16/image-retrieval-0001.bin
+    size: 5069682
+    checksum: 1950afcd71cc5cf0aa07762fc7ef8e0b6099cd1518a8b65d32d2e01bd80083d8dc6d1e8aa8adbe4a632b93d377530c4a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/image-retrieval-0001/image-retrieval-0001.bin
+
+framework: dldt 
+        

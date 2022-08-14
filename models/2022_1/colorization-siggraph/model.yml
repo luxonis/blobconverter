@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/colorization-siggraph.xml
+    size: 177620
+    checksum: fd1f3e9469b2e03586cecabaa295a1b56c94c3c36820e0312849d0e92ffd3804c121c4a1ce3bcced3ddcb83a153bfcab
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/colorization-siggraph/colorization-siggraph.xml
+  - name: FP16/colorization-siggraph.bin
+    size: 68101814
+    checksum: 11c34147063584e5ed5ebdd0efdc020514be88ab6b8c16494e0d11fef01e1b7de1f91941bdc391e4c453d3556e6168da
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/colorization-siggraph/colorization-siggraph.bin
+
+framework: dldt 
+        

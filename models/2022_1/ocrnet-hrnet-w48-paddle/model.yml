@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ocrnet-hrnet-w48-paddle.xml
+    size: 1746381
+    checksum: 9e0e110435146feff97af15fea86583b535e659da3e1dd55d5864fa5a2f40be1c8456cc6f1fbc230d36f69ed4ddcf02a
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ocrnet-hrnet-w48-paddle/ocrnet-hrnet-w48-paddle.xml
+  - name: FP16/ocrnet-hrnet-w48-paddle.bin
+    size: 140651862
+    checksum: 3a077ca7fc0de36e6f702ccb6e142775abb0a55f3ba4b0efc49b62ccbdbdfa504ad517de5ead05d3fa244c72f6d22b49
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ocrnet-hrnet-w48-paddle/ocrnet-hrnet-w48-paddle.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/road-segmentation-adas-0001.xml
+    size: 625261
+    checksum: 5e288e528cd80c3c47d3ff0b424ba9da54f54d5d4af1e78d9c474f118e04fd1fb87aeee95539eb6bf0b2a2deb75443d3
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/road-segmentation-adas-0001/road-segmentation-adas-0001.xml
+  - name: FP16/road-segmentation-adas-0001.bin
+    size: 368616
+    checksum: ceb049b365760f1bb9139a60578362e78c912900284cdd6ac89892fa7cd5b1b491838834d12d37188470e9f900278fe4
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/road-segmentation-adas-0001/road-segmentation-adas-0001.bin
+
+framework: dldt 
+        

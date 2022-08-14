@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/densenet-121-tf.xml
+    size: 776396
+    checksum: 4ce28b48225f7222ba245169a5335b256269caca1a2a338c35fbbac521d0b0044bca7af9bc4ee1b33c09227dc63b9ca2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/densenet-121-tf/densenet-121-tf.xml
+  - name: FP16/densenet-121-tf.bin
+    size: 15942830
+    checksum: ee7220c727396d6ebbc16371a9658a1500fec934a46a9d74aad984ca8e8197698a95424bfdc0114440c4aba96e07539d
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/densenet-121-tf/densenet-121-tf.bin
+
+framework: dldt 
+        

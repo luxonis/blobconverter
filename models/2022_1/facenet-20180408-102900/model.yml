@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/facenet-20180408-102900.xml
+    size: 737063
+    checksum: e2653b1db233ce5e8939572ff3fc8307d049492bf36839bf62dd972fc1e71743741aba1c0d9aafb34cd782ce3360c4ff
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facenet-20180408-102900/facenet-20180408-102900.xml
+  - name: FP16/facenet-20180408-102900.bin
+    size: 46936864
+    checksum: 8ceb1e767254cc27f5fcba5b9ed0775d003593ac1ed91cf4b851ec42bcad1dc41eaaf2b74a5f3898679966b03fdf22ea
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/facenet-20180408-102900/facenet-20180408-102900.bin
+
+framework: dldt 
+        

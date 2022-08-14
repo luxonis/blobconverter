@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/single-human-pose-estimation-0001.xml
+    size: 592011
+    checksum: 74b883cec13a397ae3f75af3fd086c31dbefa53b66eb4f2249eda8615e0ce2e422d1ed2fe545664b61fc81524e4af591
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-human-pose-estimation-0001/single-human-pose-estimation-0001.xml
+  - name: FP16/single-human-pose-estimation-0001.bin
+    size: 81113976
+    checksum: e1561c71bb38cf90c2a62cb48f5378ca81b777ae48effee1713a48b11c855327ba657e4185e01c803cb8952f08ad64a6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-human-pose-estimation-0001/single-human-pose-estimation-0001.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/ssd-resnet34-1200-onnx.xml
+    size: 405369
+    checksum: 487f95169f27f8196305592df70b801181ee796e5a9ff1893d0a5c39d46b45a49a42d8f5606dd0455fed8f36304eae72
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd-resnet34-1200-onnx/ssd-resnet34-1200-onnx.xml
+  - name: FP16/ssd-resnet34-1200-onnx.bin
+    size: 40117056
+    checksum: f23fc6548a9e25027854924471b92619b4d161b5cc599903874cf1429753d25b14d2d8b790bfa6af65de126e6dd55b4e
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/ssd-resnet34-1200-onnx/ssd-resnet34-1200-onnx.bin
+
+framework: dldt 
+        

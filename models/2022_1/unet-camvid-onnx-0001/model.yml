@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/unet-camvid-onnx-0001.xml
+    size: 107200
+    checksum: 6900a0f0da2679760913c986099a052ba8a7127ea26ce90419eb97fdd9cf163006aa49e7bbdb9451f08881eefc049a84
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/unet-camvid-onnx-0001/unet-camvid-onnx-0001.xml
+  - name: FP16/unet-camvid-onnx-0001.bin
+    size: 62064934
+    checksum: 6288a955d2758130a610f317e88c1a3f51d730f5d51c459fbef133587219839b9093af3c25b0c8c95fab678b852098f6
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/unet-camvid-onnx-0001/unet-camvid-onnx-0001.bin
+
+framework: dldt 
+        

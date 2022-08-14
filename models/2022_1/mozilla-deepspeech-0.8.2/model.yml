@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/mozilla-deepspeech-0.8.2.xml
+    size: 47744
+    checksum: 10dae54bb2e148ead1b5ab970bb3c1797d26795827f023f03761df312081457108c5238ccf7a2b22237af218f90cd439
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mozilla-deepspeech-0.8.2/mozilla-deepspeech-0.8.2.xml
+  - name: FP16/mozilla-deepspeech-0.8.2.bin
+    size: 94449844
+    checksum: 8fd9063dfee29a69776078b50336bd34596c5528001603d7d9675eba67dd606345f884917bcacd4d0b0e5a3ad6313d36
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/mozilla-deepspeech-0.8.2/mozilla-deepspeech-0.8.2.bin
+
+framework: dldt 
+        

@@ -1,0 +1,16 @@
+
+description: empty
+license: empty        
+task_type: object_attributes
+files:
+  - name: FP16/vehicle-detection-adas-0002.xml
+    size: 323465
+    checksum: f990f42d1a66e415821650532cf6644d5a1ef994e0e917629e068bc73bd637401f5a6bded83426be287f3fa3fbfb8691
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-detection-adas-0002/vehicle-detection-adas-0002.xml
+  - name: FP16/vehicle-detection-adas-0002.bin
+    size: 2157328
+    checksum: c5e281f2624a4fda0ac5199b35ab605e008fc99925d1b3a341198e129fdd02f8a4441963e3215f7b14afc62218de24b2
+    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/vehicle-detection-adas-0002/vehicle-detection-adas-0002.bin
+
+framework: dldt 
+        
