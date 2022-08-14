@@ -14,6 +14,17 @@ import yaml
 import hashlib
 import boto3
 import botocore
+import sentry_sdk
+import requests
+
+
+SENTRY_TOKEN = os.getenv("SENTRY_TOKEN")
+LOG_URL = os.getenv("LOG_URL")
+
+if SENTRY_TOKEN is not None:
+    sentry_sdk.init(
+        dsn=SENTRY_TOKEN
+    )
 
 app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 
@@ -27,8 +38,17 @@ bucket = boto3.resource('s3', aws_access_key_id=os.getenv("AWS_ACCESS"), aws_sec
 class EnvResolver:
     def __init__(self):
         self.version = request.args.get('version')
-        if self.version == "2021.4" or self.version is None or self.version == "":
-            self.base_path = Path("/opt/intel/openvino")
+        self.compiler_path = None
+        if self.version == "2022.1" or self.version is None or self.version == "":
+            self.base_path = Path("/opt/intel/openvino2022_1")
+            self.cache_path = Path("/tmp/modeldownloader/2022_1")
+            self.version = "2022.1"
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1")
+            self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
+        elif self.version == "2021.4":
+            self.base_path = Path("/opt/intel/openvino2021_4")
             self.cache_path = Path("/tmp/modeldownloader/2021_4")
             self.version = "2021.4"
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2021.4/converter.py")
@@ -83,33 +103,48 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
-            raise ValueError(f'Unknown version: "{self.version}", available: "2021.4", "2021.3", "2021.2", "2021.1", "2020.4", "2020.3", "2020.2", "2020.1", "2019.R3"')
+            raise ValueError(f'Unknown version: "{self.version}", available: "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
         self.cache_path.mkdir(parents=True, exist_ok=True)
 
-        self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
+        if self.compiler_path is None:
+            self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
 
         self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
-            self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
+            if self.version in ["2022.1"]:
+                self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_")
+            else:
+                self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
         elif self.model_zoo_type == "depthai":
             self.model_zoo_path = Path(__file__).parent / Path("depthai-model-zoo/models")
         else:
             raise ValueError(f'Unknown zoo name: "{self.model_zoo_type}", available: "intel", "depthai"')
 
         self.env = os.environ.copy()
-        self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
+        
         self.env['INTEL_OPENVINO_DIR'] = str(self.base_path)
         self.env['OpenCV_DIR'] = str(self.base_path / Path("opencv/cmake"))
-        self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/deployment_tools/inference_engine/external/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/deployment_tools/inference_engine/external/tbb/lib:{self.base_path}/deployment_tools/inference_engine/lib/intel64:"
-        self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/external/hddl"))
+       
         self.env['INTEL_CVSDK_DIR'] = str(self.base_path)
         self.env['INSTALLDIR'] = str(self.base_path)
-        self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.6:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/deployment_tools/model_optimizer"
-        self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         self.env['VIRTUAL_ENV'] = str(self.venv_path.absolute())
+
+        if self.version == "2022.1":
+            self.env['InferenceEngine_DIR'] = str(self.base_path / Path("runtime/cmake"))
+            self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/tools/compile_tool:{self.base_path}/extras/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/runtime/3rdparty/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/runtime/3rdparty/tbb/lib:{self.base_path}/runtime/lib/intel64:"
+            self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("runtime/3rdparty/hddl"))
+            self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.8:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/extras/opencv/python"
+            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        else:
+            self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
+            self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/deployment_tools/inference_engine/external/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/deployment_tools/inference_engine/external/tbb/lib:{self.base_path}/deployment_tools/inference_engine/lib/intel64:"
+            self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/external/hddl"))
+            self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.6:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/deployment_tools/model_optimizer"
+            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            
 
     @property
     def executable(self):
@@ -152,6 +187,15 @@ class EnvResolver:
 
 def sha256sum(filename):
     h  = hashlib.sha256()
+    b  = bytearray(128*1024)
+    mv = memoryview(b)
+    with open(filename, 'rb', buffering=0) as f:
+        for n in iter(lambda : f.readinto(mv), 0):
+            h.update(mv[:n])
+    return h.hexdigest()
+
+def sha384sum(filename):
+    h  = hashlib.sha384()
     b  = bytearray(128*1024)
     mv = memoryview(b)
     with open(filename, 'rb', buffering=0) as f:
@@ -206,6 +250,12 @@ def parse_config(config_path, name, data_type, env):
                 if not file["source"]["url"].startswith("file://"):
                     raise BadRequest("You need to supply \"sha256\" parameter for file when using a remote source")
                 file["sha256"] = sha256sum(local_path)
+            if "sha384" not in file:
+                if not file["source"]["url"].startswith("file://"):
+                    raise BadRequest("You need to supply \"sha384\" parameter for file when using a remote source")
+                file["sha384"] = sha384sum(local_path)
+            if "checksum" not in file:
+                file["checksum"] = file["sha384"]
 
     with open(config_path, "w", encoding='utf8') as f:
         yaml.dump(config, f , default_flow_style=False, allow_unicode=True)
@@ -214,7 +264,14 @@ def parse_config(config_path, name, data_type, env):
 
 
 def prepare_compile_config(shaves, env):
-    if env.version.startswith('2020'):
+    if env.version.startswith('2022'):
+        config_file_content = {
+            'MYRIAD_NUMBER_OF_SHAVES': shaves,
+            'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
+            'MYRIAD_THROUGHPUT_STREAMS': 1,
+            'MYRIAD_ENABLE_MX_BOOT':'NO'
+        }
+    elif env.version.startswith('2020'):
         config_file_content = {
             'VPU_MYRIAD_PLATFORM': 'VPU_MYRIAD_2480',
             'VPU_NUMBER_OF_SHAVES': shaves,
@@ -230,7 +287,7 @@ def prepare_compile_config(shaves, env):
     config_file_path = env.workdir / "myriad_compile_config.txt"
     with open(config_file_path, "w") as f:
         f.writelines(
-            [f"{key} {config_file_content[key]}\r\n" for key in config_file_content.keys()]
+            [f"{key} {config_file_content[key]}\n" for key in config_file_content.keys()]
         )
 
     return config_file_path
@@ -255,6 +312,11 @@ def compile():
     data_type = request.values.get('data_type', "FP16")
     download_ir = request.values.get('download_ir', "false").lower() == "true"
     no_cache = request.args.get('no_cache', "false") == "true"
+
+    if (LOG_URL is not None):
+        content = f"{name}, Params: {myriad_params_advanced}"
+        requests.post(LOG_URL, json={"text": content })
+
     if config_file is None:
         if use_zoo:
             zoo_path = fetch_from_zoo(env, name)
@@ -300,8 +362,10 @@ def compile():
 
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
-
+    if env.version == "2022.1":
+        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
+    else:
+        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
     hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.values)}).encode())
     if config_file is not None:
         hash_obj.update(raw_config.encode())
@@ -314,17 +378,24 @@ def compile():
         return jsonify(commands)
 
     data = None
+    model_from_cache = False
     try:
         if not no_cache or not download_ir:
+            print(f"Trying to get blob {req_hash} from cache...")
             data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
             with out_path.open("wb") as f:
                 f.write(data)
+            print(f"Data {req_hash} found in cache...")
+            
     except botocore.exceptions.ClientError as ex:
+        print(f"Data {req_hash} not found in cache...")
         if ex.response['Error']['Code'] != 'NoSuchKey':
             raise ex
     if data is None:
         for command in commands:
             env.run_command(command)
+    else:
+        model_from_cache = True
 
     major, minor = env.version.replace('_R3', '').split('.')
     with open(out_path, 'rb+') as f:
@@ -332,8 +403,9 @@ def compile():
         f.write(int(major).to_bytes(4, byteorder="little"))
         f.write(int(minor).to_bytes(4, byteorder="little"))
 
-        if not download_ir:
+        if not download_ir and not model_from_cache:
             f.seek(0)
+            print(f"Uploading final blob {req_hash} to the cache...")
             bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     if download_ir:
@@ -357,6 +429,7 @@ def compile():
 @app.errorhandler(CommandFailed)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
+    sentry_sdk.capture_exception(error)
     response.status_code = error.status_code
     return response
 
@@ -364,6 +437,9 @@ def handle_invalid_usage(error):
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
     env = EnvResolver()
+    if env.version == "2022.1" and env.model_zoo_type == "intel":
+        with open('./models/openvino_2022_1.json', 'r') as file:
+            return file.read()
     _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")
     return jsonify(available=stdout.decode().split())
 

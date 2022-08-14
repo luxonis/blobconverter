@@ -11,6 +11,8 @@ services:
     environment:
       AWS_ACCESS: ${AWS_ACCESS}
       AWS_SECRET: ${AWS_SECRET}
+    restart: always
+
   nginx:
     build: ./nginx
     ports:

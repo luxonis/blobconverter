@@ -15,15 +15,10 @@ import requests
 
 
 class Versions:
+    v2022_1 = "2022.1"
     v2021_4 = "2021.4"
     v2021_3 = "2021.3"
     v2021_2 = "2021.2"
-    v2021_1 = "2021.1"
-    v2020_4 = "2020.4"
-    v2020_3 = "2020.3"
-    v2020_2 = "2020.2"
-    v2020_1 = "2020.1"
-    v2019_R3 = "2019.R3"
 
 
 def get_filename(url):
@@ -101,7 +96,7 @@ class ConfigBuilder:
 
 __defaults = {
     "url": "https://blobconverter.luxonis.com",
-    "version": Versions.v2021_4,
+    "version": Versions.v2022_1,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
     "compile_params": ["-ip U8"],

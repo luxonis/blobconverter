@@ -195,6 +195,9 @@ out/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
+# cypress node modules
+node_modules/
+
 # JIRA plugin
 atlassian-ide-plugin.xml
 
