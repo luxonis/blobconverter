@@ -104,6 +104,13 @@ function* convertModel({payload}) {
     
     data.append('myriad_shaves', payload["advanced-option-input-shaves"]);
     data.append('myriad_params_advanced', payload["advanced-option-input-compiler"]);
+
+    console.log(openVinoVersion)
+    console.log(openVinoVersion.includes("RVC3"))
+    if(openVinoVersion.includes("RVC3")){
+      data.append('quantization_domain', payload["advanced-option-input-quantization"]);
+    }
+
     const response = yield request(
       POST,
       'compile',

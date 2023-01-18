@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 versions = {
+    "2022_1_RVC3" : Path("/opt/intel/openvino2022_1_RVC3/tools/requirements.txt"),
     "2022_1": Path("/opt/intel/openvino2022_1/tools/requirements.txt"),
     "2021_4": Path("/opt/intel/openvino2021_4/deployment_tools/model_optimizer/requirements.txt"),
     "2021_3": Path("/opt/intel/openvino2021_3/deployment_tools/model_optimizer/requirements.txt"),
@@ -21,6 +22,9 @@ def abs_str(path: Path):
 
 
 def create_venv(name: str, req_path: Path, interpreter):
+
+    #print(os.listdir("/opt/intel"))
+    #print(os.listdir("/opt/intel/openvino2022_1_RVC3"))
  
     venv_path = Path("/app") / "venvs" / ("venv"+name)
     venv_python_path = venv_path / "bin" / "python"
@@ -39,6 +43,9 @@ def create_venv(name: str, req_path: Path, interpreter):
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2021.4.2", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2021.4.2", "protobuf==3.15.6"], env=new_env)
     if name in ["2022_1"]:
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2022.1.0", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2022.1.0", "protobuf==3.15.6"], env=new_env)
+    if name in ["2022_1_RVC3"]:
+        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "/opt/intel/openvino2022_1_RVC3/openvino-2022.1.0-7080-cp38-cp38-manylinux_2_31_x86_64.whl", 
+        "/opt/intel/openvino2022_1_RVC3/openvino_dev-2022.1.0-7080-py3-none-any.whl", "protobuf==3.15.6"], env=new_env)
 
 
 if __name__ == "__main__":

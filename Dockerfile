@@ -7,6 +7,8 @@ RUN yarn build
 
 FROM openvino/ubuntu20_dev:2022.1.0
 
+WORKDIR /
+COPY openvino_files/openvino2022_1_RVC3/ /opt/intel/openvino2022_1_RVC3/
 COPY --from=openvino/ubuntu20_dev:2022.1.0 /opt/intel/openvino /opt/intel/openvino2022_1
 COPY --from=openvino/ubuntu20_dev:2021.4.2 /opt/intel/openvino /opt/intel/openvino2021_4
 COPY --from=openvino/ubuntu20_dev:2021.3 /opt/intel/openvino /opt/intel/openvino2021_3

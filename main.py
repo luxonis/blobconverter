@@ -47,6 +47,14 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1")
             self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
+        if self.version == "2022.1_RVC3":
+            self.base_path = Path("/opt/intel/openvino2022_1_RVC3")
+            self.cache_path = Path("/tmp/modeldownloader/2022_1_RVC3")
+            self.version = "2022.1_RVC3"
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1_RVC3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1_RVC3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1_RVC3")
+            self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
         elif self.version == "2021.4":
             self.base_path = Path("/opt/intel/openvino2021_4")
             self.cache_path = Path("/tmp/modeldownloader/2021_4")
@@ -103,7 +111,7 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
-            raise ValueError(f'Unknown version: "{self.version}", available: "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
+            raise ValueError(f'Unknown version: "{self.version}", available: "2022.1_RVC3", "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
@@ -114,7 +122,7 @@ class EnvResolver:
 
         self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
-            if self.version in ["2022.1"]:
+            if self.version in ["2022.1", "2022.1_RVC3"]:
                 self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_")
             else:
                 self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
@@ -132,7 +140,7 @@ class EnvResolver:
         self.env['INSTALLDIR'] = str(self.base_path)
         self.env['VIRTUAL_ENV'] = str(self.venv_path.absolute())
 
-        if self.version == "2022.1":
+        if self.version in ["2022.1", "2022.1_RVC3"]:
             self.env['InferenceEngine_DIR'] = str(self.base_path / Path("runtime/cmake"))
             self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/tools/compile_tool:{self.base_path}/extras/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/runtime/3rdparty/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/runtime/3rdparty/tbb/lib:{self.base_path}/runtime/lib/intel64:"
             self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("runtime/3rdparty/hddl"))
@@ -264,7 +272,11 @@ def parse_config(config_path, name, data_type, env):
 
 
 def prepare_compile_config(shaves, env):
-    if env.version.startswith('2022'):
+    if env.version.endswith('RVC3'):
+        config_file_content = {
+            'PERFORMANCE_HINT': 'THROUGHPUT'
+        }
+    elif env.version.startswith('2022'):
         config_file_content = {
             'MYRIAD_NUMBER_OF_SHAVES': shaves,
             'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
@@ -312,6 +324,9 @@ def compile():
     data_type = request.values.get('data_type', "FP16")
     download_ir = request.values.get('download_ir', "false").lower() == "true"
     no_cache = request.args.get('no_cache', "false") == "true"
+    quantization_domain = request.args.get('quantization_domain', "ABC")
+
+    print(f"GOT QUANTIZATION DOMAIN: {quantization_domain}")
 
     if (LOG_URL is not None):
         content = f"{name}, Params: {myriad_params_advanced}"
@@ -362,7 +377,9 @@ def compile():
 
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    if env.version == "2022.1":
+    if env.version == "2022.1_RVC3":
+        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d VPUX.3400 {myriad_params_advanced}")
+    elif env.version == "2022.1":
         commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
     else:
         commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
@@ -376,6 +393,10 @@ def compile():
 
     if request.args.get("dry", "false") == "true":
         return jsonify(commands)
+
+    # TODO: We need to split the commands here to add XML fixers for RVC3.
+
+    # TODO: After XML fixers are added, we need to add Quantization here and update the path.
 
     data = None
     model_from_cache = False
@@ -397,7 +418,7 @@ def compile():
     else:
         model_from_cache = True
 
-    major, minor = env.version.replace('_R3', '').split('.')
+    major, minor = env.version.replace('_R3', '').replace('_RVC3', '').split('.')
     with open(out_path, 'rb+') as f:
         f.seek(60)
         f.write(int(major).to_bytes(4, byteorder="little"))
@@ -436,6 +457,7 @@ def handle_invalid_usage(error):
 
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
+    # TODO: Add RVC3 models
     env = EnvResolver()
     if env.version == "2022.1" and env.model_zoo_type == "intel":
         with open('./models/openvino_2022_1.json', 'r') as file:

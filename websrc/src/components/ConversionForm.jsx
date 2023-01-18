@@ -7,7 +7,8 @@ import _ from 'lodash';
 import {
   availableZooModelsSelector,
   conversionInProgressSelector,
-  modelSourceSelector
+  modelSourceSelector,
+  openVinoVersionSelector
 } from "../redux/selectors/dashboard";
 import {makeAction} from "../redux/actions/makeAction";
 import {CHANGE_MODAL, CONVERT_MODEL} from "../redux/actions/actionTypes";
@@ -45,7 +46,7 @@ const resolveSteps = source => {
   }
 }
 
-const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
+const ConversionForm = ({modelSource, openvinoVersion, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
   const [advanced, setAdvanced] = React.useState(true);
   const [shaves, setShaves] = React.useState(4);
   const steps = resolveSteps(modelSource);
@@ -66,57 +67,59 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
                   <label htmlFor="openvino-xml">Model name</label>
                   <input id="config-name" name="config-name" required/>
                 </div>
-                <div className="form-group">
+                <div className="form-group input-group">
                   <label htmlFor="openvino-xml">Config file (.yml)</label>
-                  <input id="config-file" name="config-file" type="file" accept=".yml" required/>
+                  <input id="config-file" name="config-file" className="form-control" type="file" accept=".yml" required/>
                 </div>
               </>
             }
             {
               modelSource === "openvino" &&
               <>
-                <div className="form-group">
+                <div className="form-group input-group">
                   <label htmlFor="openvino-xml">Definition file (.xml)</label>
-                  <input id="openvino-xml" name="openvino-xml" type="file" accept=".xml" required/>
+                  <input id="openvino-xml" name="openvino-xml" className="form-control" type="file" accept=".xml" required/>
                 </div>
-                <div className="form-group">
+                <div className="form-group input-group">
                   <label htmlFor="openvino-bin">Weights file (.bin)</label>
-                  <input id="openvino-bin" name="openvino-bin" type="file" accept=".bin" required/>
+                  <input id="openvino-bin" name="openvino-bin" className="form-control" type="file" accept=".bin" required/>
                 </div>
               </>
             }
             {
               modelSource === "caffe" &&
               <>
-                <div className="form-group">
+                <div className="form-group input-group">
                   <label htmlFor="caffe-model">Model file (.caffemodel)</label>
-                  <input id="caffe-model" name="caffe-model" type="file" accept=".caffemodel" required/>
+                  <input id="caffe-model" name="caffe-model" className="form-control" type="file" accept=".caffemodel" required/>
                 </div>
-                <div className="form-group">
+                <div className="form-group input-group">
                   <label htmlFor="caffe-proto">Proto file (.prototxt)</label>
-                  <input id="caffe-proto" name="caffe-proto" type="file" accept=".prototxt" required/>
+                  <input id="caffe-proto" name="caffe-proto" className="form-control" type="file" accept=".prototxt" required/>
                 </div>
               </>
             }
             {
               modelSource === "tf" &&
-              <div className="form-group">
+              <div className="form-group input-group">
                 <label htmlFor="tf-model">Model file (.pb)</label>
-                <input id="tf-model" name="tf-model" type="file" accept=".pb" required/>
+                <input id="tf-model" name="tf-model" className="form-control" type="file" accept=".pb" required/>
               </div>
             }
             {
               modelSource === "onnx" &&
-              <div className="form-group">
-                <label htmlFor="onnx-model">Model file (.onnx)</label>
-                <input id="onnx-model" name="onnx-model" type="file" accept=".onnx" required/>
-              </div>
+              <>
+                <div className="form-group input-group">
+                  <label htmlFor="onnx-model">Model file (.onnx)</label>
+                  <input id="onnx-model" className="form-control" name="onnx-model" type="file" accept=".onnx" required/>
+                </div>
+              </>
             }
             {
               modelSource === "zoo" &&
               <div className="form-group">
                 <label htmlFor="zoo-name">Model name</label>
-                <select id="zoo-name" name="zoo-name">
+                <select id="zoo-name" name="zoo-name" className="form-select">
                   {
                     availableZooModels.map(model => (
                       <option key={model} value={model}>{model}</option>
@@ -135,9 +138,18 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
           <div className="upper-border">Conversion steps</div>
           <div className="steps">
             {
-              steps.map((step, index) => (
+              /*steps.map((step, index) => (
                 <div className="step" key={index}>
                   <img src={stepImg} alt=""/>
+                  <span className="step-label">{index + 1}</span>
+                  <span className="step-descr">
+                    <p className="title">{step.title}</p>
+                    <p className="subtitle">{step.subtitle}</p>
+                  </span>
+                </div>
+              ))*/
+              steps.map((step, index) => (
+                <div className="step" key={index}>
                   <span className="step-label">{index + 1}</span>
                   <span className="step-descr">
                     <p className="title">{step.title}</p>
@@ -149,7 +161,7 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
           </div>
           <div className="lower-border">
             <Button variant="outline-secondary" onClick={() => {prevStep(); setAdvanced(false)}}>Back</Button>
-            <Button variant="outline-success" type="submit" disabled={inProgress}>
+            <Button variant="outline-luxonis" type="submit" disabled={inProgress}>
               {
                 inProgress
                   ? <>
@@ -168,12 +180,12 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
               _.includes(["onnx", "tf", "caffe"], modelSource) &&
                 <div className="advanced-option">
                   <label htmlFor="advanced-option-input-optimizer"><span>Model optimizer</span> params:</label>
-                  <input type="text" id="advanced-option-input-optimizer" name="advanced-option-input-optimizer" defaultValue={model_optimizer_step['cli_params']}/>
+                  <textarea className="form-control" rows="2" type="text" id="advanced-option-input-optimizer" name="advanced-option-input-optimizer" defaultValue={model_optimizer_step['cli_params']}/>
                 </div>
             }
             <div className="advanced-option">
-              <label htmlFor="advanced-option-input-compiler"><span>MyriadX compile</span> params:</label>
-              <input type="text" id="advanced-option-input-compiler" name="advanced-option-input-compiler" defaultValue={myriad_compile_step['cli_params']}/>
+              <label htmlFor="advanced-option-input-compiler"><span>Compile</span> parameters:</label>
+              <textarea rows="1" className="form-control" type="text" id="advanced-option-input-compiler" name="advanced-option-input-compiler" defaultValue={myriad_compile_step['cli_params']}/>
             </div>
             <div className="advanced-option">
               <label htmlFor="advanced-option-input-shaves"><span>Shaves</span>: {shaves}</label>
@@ -183,6 +195,15 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
                 <span>16</span>
               </div>
             </div>
+            {
+              _.includes(["2022.1_RVC3"], openvinoVersion) &&
+              <div className="advanced-option">
+                <label htmlFor="advanced-option-input-quantization"><span>Quantization</span> domain:</label>
+                <select defaultValue="none" className="form-select" id="advanced-option-input-quantization" name="advanced-option-input-quantization" disabled>
+                  <option value="none">None (coming soon)</option>
+                </select>
+              </div>
+            }
           </div>
           <div className="lower-border">
             You can read more about advanced options <a href="https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html">here</a>
@@ -197,7 +218,9 @@ const ConversionForm = ({modelSource, prevStep, availableZooModels, convertModel
 }
 
 ConversionForm.propTypes = {
+
   modelSource: PropTypes.string,
+  openvinoVersion: PropTypes.string,
   prevStep: PropTypes.func.isRequired,
   convertModel: PropTypes.func.isRequired,
   changeModal: PropTypes.func.isRequired,
@@ -206,6 +229,7 @@ ConversionForm.propTypes = {
 
 const mapStateToProps = state => ({
   modelSource: modelSourceSelector(state),
+  openvinoVersion: openVinoVersionSelector(state),
   availableZooModels: availableZooModelsSelector(state),
   inProgress: conversionInProgressSelector(state)
 })

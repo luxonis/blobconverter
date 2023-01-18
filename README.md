@@ -9,6 +9,8 @@
 
 ## Usage
 
+First, download RVC3 files from [here](https://drive.google.com/file/d/1NTN2AX8yLcn7Jvk077Fq8lYsYyLAK-ve) and extract them to `./openvino_files/openvino2022_1_RVC3/`.
+
 - Docker-Compose
 
     ```
