@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/yolo-v2-tiny-vehicle-detection-0001.xml
-    size: 57565
-    checksum: 7928fece546f99694f9065f55c9d1ab41f7c9406217aab5a730cfe86718a9f38c9ffb7a27ba89431c72c608366e48b5c
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.xml
-  - name: FP16/yolo-v2-tiny-vehicle-detection-0001.bin
-    size: 22459060
-    checksum: 27d152cc3ee970dc4aa3b869ae5b69216afa89f1600f4734e054731904cce456cf61c0076b9e5a0faadfd42ae67a84d5
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.bin
-
-framework: dldt 
-        
+- checksum: 7928fece546f99694f9065f55c9d1ab41f7c9406217aab5a730cfe86718a9f38c9ffb7a27ba89431c72c608366e48b5c
+  name: FP16/yolo-v2-tiny-vehicle-detection-0001.xml
+  size: 57565
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.xml
+- checksum: 27d152cc3ee970dc4aa3b869ae5b69216afa89f1600f4734e054731904cce456cf61c0076b9e5a0faadfd42ae67a84d5
+  name: FP16/yolo-v2-tiny-vehicle-detection-0001.bin
+  size: 22459060
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001.bin
+- checksum: 5a2550af977c2705dd028a7fb5cd3fb8a02937bd3c273c590ec3fb6bbbf0451aca459c677a055ae0ec167813422fc060
+  name: FP16-INT8/yolo-v2-tiny-vehicle-detection-0001.xml
+  size: 72378
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001-int8.xml
+- checksum: 6e0157516c54008bd28bc91c5aede1fa0cec7b5f168666611aaee2862efd66c72baecced96fe42dc52c3990c4f12e987
+  name: FP16-INT8/yolo-v2-tiny-vehicle-detection-0001.bin
+  size: 11244398
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-vehicle-detection-0001/yolo-v2-tiny-vehicle-detection-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

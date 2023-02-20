@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/yolo-v2-tiny-ava-sparse-60-0001.xml
-    size: 62847
-    checksum: aafaa8611cb8b4374f0e90eae35908af0210c6d4e60976126d4c01f1f2ba70968e7e4eff559fd19587c927af34bb3900
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001.xml
-  - name: FP16/yolo-v2-tiny-ava-sparse-60-0001.bin
-    size: 31717480
-    checksum: b11251da2728fc406c281c0aa2b574dd68e2a9b77f9b54dd6691c9b14f58baec7180a4ed9ce89827869888a6bf09832f
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001.bin
-
-framework: dldt 
-        
+- checksum: aafaa8611cb8b4374f0e90eae35908af0210c6d4e60976126d4c01f1f2ba70968e7e4eff559fd19587c927af34bb3900
+  name: FP16/yolo-v2-tiny-ava-sparse-60-0001.xml
+  size: 62847
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001.xml
+- checksum: b11251da2728fc406c281c0aa2b574dd68e2a9b77f9b54dd6691c9b14f58baec7180a4ed9ce89827869888a6bf09832f
+  name: FP16/yolo-v2-tiny-ava-sparse-60-0001.bin
+  size: 31717480
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001.bin
+- checksum: 8d72483a8cd1dbfdbc6cec6bb5a713bc6e2b06b2e09dbe7b7986716e2c9dfdb026da1ebf6ab8a44f6ba8cea67aa06213
+  name: FP16-INT8/yolo-v2-tiny-ava-sparse-60-0001.xml
+  size: 76509
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001-int8.xml
+- checksum: d90339e40377336df1b50a818bca85925d12dd96db239cdd96f16c7dd5933e7cb67b79349992fc460a6dc9ad5cf059f1
+  name: FP16-INT8/yolo-v2-tiny-ava-sparse-60-0001.bin
+  size: 15874674
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-sparse-60-0001/yolo-v2-tiny-ava-sparse-60-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

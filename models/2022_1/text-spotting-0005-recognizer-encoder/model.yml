@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/text-spotting-0005-recognizer-encoder.xml
-    size: 15271
-    checksum: 71d4f0b0b0d829e459eff938b91342fecaec3ffc5e2fa7effd60cfd5aaf8d549e6bfb9e33acefd9974e76895ac7cf7aa
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder.xml
-  - name: FP16/text-spotting-0005-recognizer-encoder.bin
-    size: 2655744
-    checksum: 814811b3b95e8da8b95bf3aaf8db7061faa356023130e125eed7fa942f8cca2e752c30d401a96e6e9ce006ef29d17e4f
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder.bin
-
-framework: dldt 
-        
+- checksum: 71d4f0b0b0d829e459eff938b91342fecaec3ffc5e2fa7effd60cfd5aaf8d549e6bfb9e33acefd9974e76895ac7cf7aa
+  name: FP16/text-spotting-0005-recognizer-encoder.xml
+  size: 15271
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder.xml
+- checksum: 814811b3b95e8da8b95bf3aaf8db7061faa356023130e125eed7fa942f8cca2e752c30d401a96e6e9ce006ef29d17e4f
+  name: FP16/text-spotting-0005-recognizer-encoder.bin
+  size: 2655744
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder.bin
+- checksum: b7651fc064862c3b24de8e529c16058d9f5babf82d7ca9de9091b9c017823447a41639c9ebd4729e7f58ef30ebf3d73b
+  name: FP16-INT8/text-spotting-0005-recognizer-encoder.xml
+  size: 25295
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder-int8.xml
+- checksum: 6b88c969521742dfb47fe18a241d3b1092d69f3f5887be0831e768050b0052b0ed2c061ea8e0d487607441b0a9ab14e5
+  name: FP16-INT8/text-spotting-0005-recognizer-encoder.bin
+  size: 1317880
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-spotting-0005-recognizer-encoder/text-spotting-0005-recognizer-encoder-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

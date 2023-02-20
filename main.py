@@ -31,8 +31,15 @@ app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 UPLOAD_FOLDER = Path('/tmp/blobconverter')
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
-bucket = boto3.resource('s3', aws_access_key_id=os.getenv("AWS_ACCESS"), aws_secret_access_key=os.getenv("AWS_SECRET"))\
-    .Bucket('blobconverter')
+AWS_ACCESS = os.getenv("AWS_ACCESS")
+AWS_SECRET = os.getenv("AWS_SECRET")
+# ugly fix to prevent caching
+AWS_CACHE = (AWS_ACCESS is not None and AWS_ACCESS != "") and (AWS_SECRET is not None and AWS_SECRET != "")
+print(AWS_CACHE)
+
+if AWS_CACHE:
+    bucket = boto3.resource('s3', aws_access_key_id=AWS_ACCESS, aws_secret_access_key=AWS_SECRET)\
+        .Bucket('blobconverter')
 
 
 class EnvResolver:
@@ -47,7 +54,7 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1")
             self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
-        if self.version == "2022.1_RVC3":
+        elif self.version == "2022.1_RVC3":
             self.base_path = Path("/opt/intel/openvino2022_1_RVC3")
             self.cache_path = Path("/tmp/modeldownloader/2022_1_RVC3")
             self.version = "2022.1_RVC3"
@@ -116,6 +123,8 @@ class EnvResolver:
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
         self.cache_path.mkdir(parents=True, exist_ok=True)
+        (self.cache_path / "FP16").mkdir(parents=True, exist_ok=True)
+        (self.cache_path / "FP16-INT8").mkdir(parents=True, exist_ok=True)
 
         if self.compiler_path is None:
             self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
@@ -123,7 +132,8 @@ class EnvResolver:
         self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
             if self.version in ["2022.1", "2022.1_RVC3"]:
-                self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_")
+                # model zoo for 2022.1 and 2022.1_RVC3 is in the same directory. FP16-INT8 data type is what supports INT8.
+                self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_").replace("_RVC3", "")
             else:
                 self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
         elif self.model_zoo_type == "depthai":
@@ -308,6 +318,33 @@ def prepare_compile_config(shaves, env):
 def fetch_from_zoo(env, name):
     return next(env.model_zoo_path.rglob(f'**/{name}/model.yml'), None)
 
+def format_model_list(models_available_fp16, models_available_int8, models_unavailable):
+    output = {
+        "version": "2", 
+        "available" : [], 
+        "unavailable" : []
+    }
+
+    for model in models_available_fp16:
+        entry = {
+            "name" : model,
+            "data_types": ["FP16"]
+        }
+        if model in models_available_int8:
+            entry["data_types"].append("FP16-INT8")
+            models_available_int8.remove(model)
+
+        output["available"].append(entry)
+    
+    for model in models_available_int8:
+        entry = {
+            "name" : model,
+            "data_types": ["FP16-INT8"]
+        }
+        output["available"].append(entry)
+    
+    return output
+
 
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
@@ -361,8 +398,9 @@ def compile():
     xml_path = env.workdir / name / data_type / (name + ".xml")
     if len(file_paths) == 0:
         commands.append(
-            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
+            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path / data_type} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
+        print(commands)
     if use_zoo:
         preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
         if preconvert_script is not None:
@@ -400,18 +438,19 @@ def compile():
 
     data = None
     model_from_cache = False
-    try:
-        if not no_cache or not download_ir:
-            print(f"Trying to get blob {req_hash} from cache...")
-            data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
-            with out_path.open("wb") as f:
-                f.write(data)
-            print(f"Data {req_hash} found in cache...")
-            
-    except botocore.exceptions.ClientError as ex:
-        print(f"Data {req_hash} not found in cache...")
-        if ex.response['Error']['Code'] != 'NoSuchKey':
-            raise ex
+    if AWS_CACHE:
+        try:
+            if not no_cache or not download_ir:
+                print(f"Trying to get blob {req_hash} from cache...")
+                data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+                with out_path.open("wb") as f:
+                    f.write(data)
+                print(f"Data {req_hash} found in cache...")
+                
+        except botocore.exceptions.ClientError as ex:
+            print(f"Data {req_hash} not found in cache...")
+            if ex.response['Error']['Code'] != 'NoSuchKey':
+                raise ex
     if data is None:
         for command in commands:
             env.run_command(command)
@@ -424,10 +463,11 @@ def compile():
         f.write(int(major).to_bytes(4, byteorder="little"))
         f.write(int(minor).to_bytes(4, byteorder="little"))
 
-        if not download_ir and not model_from_cache:
-            f.seek(0)
-            print(f"Uploading final blob {req_hash} to the cache...")
-            bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+        if AWS_CACHE:
+            if not download_ir and not model_from_cache:
+                f.seek(0)
+                print(f"Uploading final blob {req_hash} to the cache...")
+                bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     if download_ir:
         zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
@@ -457,13 +497,22 @@ def handle_invalid_usage(error):
 
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
-    # TODO: Add RVC3 models
+    # TODO: Add RVC3 models for Intel zoo
     env = EnvResolver()
     if env.version == "2022.1" and env.model_zoo_type == "intel":
         with open('./models/openvino_2022_1.json', 'r') as file:
-            return file.read()
+            data = json.loads(file.read())  # format to new style for now
+            return format_model_list(data["available"], [], data["unavailable"])
+    elif env.version == "2022.1_RVC3" and env.model_zoo_type == "depthai":
+        with open('./models/depthai_2022_1_RVC3.json', 'r') as file:
+            data = json.loads(file.read())  # format to new style for now
+            return format_model_list(data["available"], [], data["unavailable"])
+    elif env.version == "2022.1_RVC3" and env.model_zoo_type == "intel":
+        with open('./models/intel_2022_1_RVC3_new.json', 'r') as file:
+            return file.read()  # proper format
     _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")
-    return jsonify(available=stdout.decode().split())
+    
+    return format_model_list(stdout.decode().split(), [], [])
 
 
 @app.route("/update", methods=['GET'])

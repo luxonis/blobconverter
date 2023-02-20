@@ -1,0 +1,24 @@
+{
+    "available": [
+        {
+            "name": "coneslayer_416x416",
+            "data_types" : ["FP16"]
+        },
+        {
+            "name": "yolov6n",
+            "data_types" : ["FP16", "FP16-INT8"]
+        }
+    ],
+    "unavailable": [
+        "7_segment_recognition_256x750",
+        "depth_estimation_mbnv2_240x320",
+        "depth_estimation_mbnv2_480x640",
+        "facial_landmarks_68_160x160",
+        "hrdepth_192x640",
+        "mask_rcnn_resnet50_coco_300x300",
+        "micronet_m0_224x224",
+        "mobile_object_localizer_192x192",
+        "padim_wood_256x256",
+        "yolop_320x320"
+    ]
+}

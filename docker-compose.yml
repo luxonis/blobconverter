@@ -5,7 +5,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    image: ghcr.io/luxonis/blobconverter:latest
     volumes:
       - ./depthai-model-zoo:/app/depthai-model-zoo
     environment:
@@ -22,10 +21,10 @@ services:
       - api
     volumes:
       - ./log:/log:z
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - /certbot/www:/var/www/certbot/:ro
+      - /certbot/conf/:/etc/nginx/ssl/:ro
   certbot:
     image: certbot/certbot:latest
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - /certbot/www/:/var/www/certbot/:rw
+      - /certbot/conf/:/etc/letsencrypt/:rw

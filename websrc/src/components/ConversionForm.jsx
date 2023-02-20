@@ -34,6 +34,8 @@ const resolveSteps = source => {
     case "file":
     case "zoo":
       return [model_downloader_step, model_optimizer_step, myriad_compile_step]
+    case "zoo-depthai":
+      return [model_downloader_step, model_optimizer_step, myriad_compile_step]
     case "caffe":
     case "tf":
     case "onnx":
@@ -46,10 +48,19 @@ const resolveSteps = source => {
   }
 }
 
+
+
 const ConversionForm = ({modelSource, openvinoVersion, prevStep, availableZooModels, convertModel, inProgress, changeModal}) => {
   const [advanced, setAdvanced] = React.useState(true);
   const [shaves, setShaves] = React.useState(4);
+  const [selected_data_type, setDataType] = React.useState("");
   const steps = resolveSteps(modelSource);
+  const typeCheck = React.useRef();
+  const selectDataType = e => {
+    setDataType(e.target[e.target.selectedIndex].getAttribute('data-type'));
+    typeCheck.current.checked = false;
+  }
+
   return (
 
     <form onSubmit={e => {
@@ -116,14 +127,28 @@ const ConversionForm = ({modelSource, openvinoVersion, prevStep, availableZooMod
               </>
             }
             {
-              modelSource === "zoo" &&
+              (modelSource === "zoo" || modelSource === "zoo-depthai" ) &&
               <div className="form-group">
                 <label htmlFor="zoo-name">Model name</label>
-                <select id="zoo-name" name="zoo-name" className="form-select">
+                <select id="zoo-name" name="zoo-name" className="form-select" onChange={e => selectDataType(e)}>
                   {
-                    availableZooModels.map(model => (
-                      <option key={model} value={model}>{model}</option>
-                    ))
+                    availableZooModels.map(model => {
+                      if (model.name !== undefined) {
+                        if (model.data_types.includes("FP16-INT8")){
+                          return <option key={model.name} value={model.name} data-type="FP16-INT8">{model.name} (FP16/INT8)</option>
+                        } else {
+                          return <option key={model.name} value={model.name} data-type="FP16">{model.name} (FP16)</option>
+                        }
+                      } else {
+                        return <option key={model} value={model} data-type="FP16">{model} (FP16)</option>
+                      }
+                    })
+                    //})
+                    //availableZooModels.map(model => (
+                    //  <option key={model.name} value={model.name}>{model.name}</option>
+                    //))
+                    
+
                   }
                 </select>
               </div>
@@ -196,12 +221,23 @@ const ConversionForm = ({modelSource, openvinoVersion, prevStep, availableZooMod
               </div>
             </div>
             {
-              _.includes(["2022.1_RVC3"], openvinoVersion) &&
+             /* _.includes(["2022.1_RVC3"], openvinoVersion) &&
               <div className="advanced-option">
                 <label htmlFor="advanced-option-input-quantization"><span>Quantization</span> domain:</label>
                 <select defaultValue="none" className="form-select" id="advanced-option-input-quantization" name="advanced-option-input-quantization" disabled>
                   <option value="none">None (coming soon)</option>
                 </select>
+              </div>*/
+            }
+            {
+              _.includes(["2022.1_RVC3"], openvinoVersion) &&
+              <div className="advanced-option">
+                <div className="form-check form-check-inline">
+                  <label className="form-check-label" htmlFor="advanced-option-input-int8">
+                    <span>INT8 Quantized</span> model
+                  </label>
+                  <input ref={typeCheck} className="form-check-input ml-3" type="checkbox" value="FP16-INT8" id="advanced-option-input-int8" name="advanced-option-input-int8" disabled={selected_data_type !== "FP16-INT8" ? true : false}/>
+                </div>
               </div>
             }
           </div>

@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/gaze-estimation-adas-0002.xml
-    size: 111481
-    checksum: 0a52150dfbf79bae3efc8d5789a7dd2ac013cfb8c95faa07700feb4f2807bb97528350df8ee776d31673d4346f37eb4e
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.xml
-  - name: FP16/gaze-estimation-adas-0002.bin
-    size: 3764742
-    checksum: cbb7c2732fb0e6a4dd74ef081c1b92338c881831120b62b36828ed9b12f5563e00e4436755641c64abe91a3ed2648534
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.bin
-
-framework: dldt 
-        
+- checksum: 0a52150dfbf79bae3efc8d5789a7dd2ac013cfb8c95faa07700feb4f2807bb97528350df8ee776d31673d4346f37eb4e
+  name: FP16/gaze-estimation-adas-0002.xml
+  size: 111481
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.xml
+- checksum: cbb7c2732fb0e6a4dd74ef081c1b92338c881831120b62b36828ed9b12f5563e00e4436755641c64abe91a3ed2648534
+  name: FP16/gaze-estimation-adas-0002.bin
+  size: 3764742
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002.bin
+- checksum: 0769733d2ddca497f62e8fd18c9276d22723826c4c6b9b18bb030552e8e7633b0f47fb99de839b6c473b071e245a5865
+  name: FP16-INT8/gaze-estimation-adas-0002.xml
+  size: 147906
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002-int8.xml
+- checksum: 32be63595a71ac0383ad08c3d7a5ebc23954276ea9ebcc50d909b85d18816d5c6091db4095d874400ae08799bfa5322e
+  name: FP16-INT8/gaze-estimation-adas-0002.bin
+  size: 1893394
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/gaze-estimation-adas-0002/gaze-estimation-adas-0002-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

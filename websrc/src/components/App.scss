@@ -74,9 +74,9 @@ input {
   font-size: 14px;
 }
 
-select {
-  font-size: 14px;
-}
+//select {
+//  font-size: 14px;
+//}
 
 .form-control, input, textarea {
   background-color: #f5f5f5;
@@ -385,7 +385,7 @@ select {
         flex-direction: column;
         justify-content: space-around;
         align-items: flex-start;
-        padding: 35px 55px 35px 25px;
+        padding: 35px 55px 5px 25px;
 
         .advanced-option {
           text-align: left;

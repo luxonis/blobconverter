@@ -9,13 +9,13 @@ files:
   size: 101290152
   source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-0001/yolo-v2-ava-0001.bin
 - checksum: cba03125b8a09e4cc14bfc23f2a417514bc3aa75c1658ae00155d71431a47d425c000f2fadf6f2d807ed0a1caa4bde84
-  name: FP16-INT8/yolo-v2-ava-0001.xml
+  name: FP16-INT8/yolo-v2-ava-0001-quantized.xml
   size: 182973
-  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-0001/yolo-v2-ava-0001-int8.xml
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-0001/yolo-v2-ava-0001-quantized.xml
 - checksum: 1e799cff915cc09cd01026ee322ad70f10551e12c00f3fd3699cd8711a604214588743e78690b60392fafc31f6b5c790
-  name: FP16-INT8/yolo-v2-ava-0001.bin
+  name: FP16-INT8/yolo-v2-ava-0001-quantized.bin
   size: 50697466
-  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-0001/yolo-v2-ava-0001-int8.bin
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-0001/yolo-v2-ava-0001-quantized.bin
 framework: dldt
 license: empty
 task_type: object_attributes

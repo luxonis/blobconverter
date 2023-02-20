@@ -16,17 +16,20 @@ const openVinoVersions = [
 ]
 
 const modelSources = [
-  {label: "Caffe Model", value: "caffe"},
-  {label: "TensorFlow Model", value: "tf"},
-  {label: "ONNX Model", value: "onnx"},
-  {label: "OpenVino Model", value: "openvino"},
-  {label: "OpenVino Zoo Model", value: "zoo"},
+  {label: "Caffe", value: "caffe"},
+  {label: "TensorFlow", value: "tf"},
+  {label: "ONNX", value: "onnx"},
+  {label: "OpenVino", value: "openvino"},
+  {label: "OpenVino Model Zoo", value: "zoo"},
+  {label: "DepthAI Model Zoo", value: "zoo-depthai"}
 ]
 
 const modelSourcesRVC3 = [
-  {label: "TensorFlow Model", value: "tf"},
-  {label: "ONNX Model", value: "onnx"},
-  {label: "OpenVino Model", value: "openvino"},
+  {label: "TensorFlow", value: "tf"},
+  {label: "ONNX", value: "onnx"},
+  {label: "OpenVino", value: "openvino"},
+  {label: "OpenVino Model Zoo", value: "zoo"},
+  {label: "DepthAI Model Zoo", value: "zoo-depthai"}
 ]
 
 const TypeChooser = ({modelSource, openVinoVersion, submitDisabled, nextStep, setOpenVino, setModelSource}) => (

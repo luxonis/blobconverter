@@ -15,6 +15,7 @@ import requests
 
 
 class Versions:
+    v2022_1_RVC3 = "2022.1_RVC3"
     v2022_1 = "2022.1"
     v2021_4 = "2021.4"
     v2021_3 = "2021.3"
@@ -95,7 +96,7 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "https://blobconverter.luxonis.com",
+    "url": "https://dev-blobconverter.luxonis.com",
     "version": Versions.v2022_1,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
@@ -483,14 +484,17 @@ def from_config(name, path, **kwargs):
     return compile_blob(blob_name=name, req_data=body, req_files=files, **kwargs)
 
 
-def zoo_list(version=None, url=None):
+def zoo_list(version=None, url=None, zoo_type=None):
     if url is None:
         url = __defaults["url"]
     if version is None:
         version = __defaults["version"]
+    if zoo_type is None:
+        zoo_type = __defaults["zoo_type"]
 
     url_params = {
-        'version': version
+        'version': version,
+        'zoo_type' : zoo_type
     }
 
     response = requests.get("{}/zoo_models?{}".format(url, urllib.parse.urlencode(url_params)))

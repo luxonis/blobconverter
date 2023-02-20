@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/yolo-v2-ava-sparse-35-0001.xml
-    size: 144631
-    checksum: 2eddb20f91f871a8dbcf25671aa1f151d2860f2188403d8a41c68be2f031f40440435c14c3497e8b2275cba1f9d9ee0e
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001.xml
-  - name: FP16/yolo-v2-ava-sparse-35-0001.bin
-    size: 101290152
-    checksum: 37cdb3181d26142d80e241ba9ecc5f72144511eacf3904a7554d52101114ff18656d98ce7fd3bf66b5d01a5bfaac317c
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001.bin
-
-framework: dldt 
-        
+- checksum: 2eddb20f91f871a8dbcf25671aa1f151d2860f2188403d8a41c68be2f031f40440435c14c3497e8b2275cba1f9d9ee0e
+  name: FP16/yolo-v2-ava-sparse-35-0001.xml
+  size: 144631
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001.xml
+- checksum: 37cdb3181d26142d80e241ba9ecc5f72144511eacf3904a7554d52101114ff18656d98ce7fd3bf66b5d01a5bfaac317c
+  name: FP16/yolo-v2-ava-sparse-35-0001.bin
+  size: 101290152
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001.bin
+- checksum: 36cb9f586d6b548714caf8016439fc642874cb967b8a511162bbc122460417586f77c1da8cc522a8d8392165df2c27b2
+  name: FP16-INT8/yolo-v2-ava-sparse-35-0001.xml
+  size: 183003
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001-int8.xml
+- checksum: 764f84bb97efc85f2be904126eb7affef17edfd45c2ae1a2bf2628e1280895019d122c1a98b03aa5ad2427580525df6e
+  name: FP16-INT8/yolo-v2-ava-sparse-35-0001.bin
+  size: 50697466
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-ava-sparse-35-0001/yolo-v2-ava-sparse-35-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

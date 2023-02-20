@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/license-plate-recognition-barrier-0001.xml
-    size: 81537
-    checksum: 2a59169161d96f431be97f10b734786189dfe09b4a330ce075c29b672c6d3f3e075d9d7609f5228617e141a51b1ad0dc
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.xml
-  - name: FP16/license-plate-recognition-barrier-0001.bin
-    size: 2436038
-    checksum: 92cb3edbeb253b930391f85a15a6b251c7e6aa572ad98ef9eec8dcccba6240b7e6bf613668c3f0e423dd8eeab580cba1
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.bin
-
-framework: dldt 
-        
+- checksum: 2a59169161d96f431be97f10b734786189dfe09b4a330ce075c29b672c6d3f3e075d9d7609f5228617e141a51b1ad0dc
+  name: FP16/license-plate-recognition-barrier-0001.xml
+  size: 81537
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.xml
+- checksum: 92cb3edbeb253b930391f85a15a6b251c7e6aa572ad98ef9eec8dcccba6240b7e6bf613668c3f0e423dd8eeab580cba1
+  name: FP16/license-plate-recognition-barrier-0001.bin
+  size: 2436038
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001.bin
+- checksum: 9f1cb692d8ac5eba5f07e21da2319996adc39c73e6202787cb613489769e21acbccc7b94322e5b69009f70c79ddee8f5
+  name: FP16-INT8/license-plate-recognition-barrier-0001.xml
+  size: 116073
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001-int8.xml
+- checksum: 008b22ce6b4cb5298dd6cd0aa770335b6482e0388337e692721b6dbda8eb865701974d2af38f13e0fbec3cf8bb6b1466
+  name: FP16-INT8/license-plate-recognition-barrier-0001.bin
+  size: 2041028
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/license-plate-recognition-barrier-0001/license-plate-recognition-barrier-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes
