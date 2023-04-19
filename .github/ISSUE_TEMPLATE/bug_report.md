@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Note**: Blobconverter is a simple wrapper around the OpenVINO tools, specifically:
-- Model optimizer: https://docs.luxonis.com/en/latest/pages/model_conversion/#model-optimizer
+- Model optimizer: https://docs.openvino.ai/2021.4/openvino_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html
 - Compile tool: https://docs.openvino.ai/2021.4/openvino_inference_engine_tools_compile_tool_README.html
 
 Most of the time, if the blobconverter returns an error, it's an **error thrown by Model Optimizer / Compile tool, NOT by blobconverter itself**. So please
