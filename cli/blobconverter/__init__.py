@@ -158,12 +158,13 @@ def is_valid_blob(blob_path):
 
     try:
         with convertedPath.open('rb+') as f:
+            f.seek(52)
+            magic_number = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
             f.seek(56)
             expected_size = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
             f.seek(0, os.SEEK_END)
             actual_size = f.tell()
-
-            return expected_size == actual_size
+            return expected_size <= actual_size and magic_number == 9709
     except:
         return False
 
