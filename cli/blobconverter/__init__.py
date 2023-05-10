@@ -484,14 +484,15 @@ def from_config(name, path, **kwargs):
     return compile_blob(blob_name=name, req_data=body, req_files=files, **kwargs)
 
 
-def zoo_list(version=None, url=None):
+def zoo_list(version=None, url=None, zoo_type='intel'):
     if url is None:
         url = __defaults["url"]
     if version is None:
         version = __defaults["version"]
 
     url_params = {
-        'version': version
+        'version': version,
+        'zoo_type': zoo_type
     }
 
     response = requests.get("{}/zoo_models?{}".format(url, urllib.parse.urlencode(url_params)))
