@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       context: .
     volumes:
-      - ./depthai-model-zoo:/app/depthai-model-zoo
+      - ./git:/app/git
     environment:
       AWS_ACCESS: ${AWS_ACCESS}
       AWS_SECRET: ${AWS_SECRET}

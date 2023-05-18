@@ -12,7 +12,7 @@ const openVinoVersions = [
   {label: "2021.3", value: "2021.3"},
   {label: "2021.4", value: "2021.4"},
   {label: "2022.1", value: "2022.1", default: true},
-  {label: "RVC3", value: "2022.1_RVC3"}
+  {label: "RVC3", value: "2022.3_RVC3"}
 ]
 
 const modelSources = [
@@ -69,12 +69,12 @@ const TypeChooser = ({modelSource, openVinoVersion, submitDisabled, nextStep, se
       <h2>Choose model source:</h2>
     </div>
     <div className="model-choices">
-      { openVinoVersion === "2022.1_RVC3" &&
+      { openVinoVersion === "2022.3_RVC3" &&
           modelSourcesRVC3.map(source => (
               <Button key={source.value} className={modelSource === source.value ? "active" : ''} variant="dark" size="lg" onClick={() => setModelSource(source.value)}>{source.label}</Button>
           ))
       }
-      { openVinoVersion !== "2022.1_RVC3" &&
+      { openVinoVersion !== "2022.3_RVC3" &&
         modelSources.map(source => (
           <Button key={source.value} className={modelSource === source.value ? "active" : ''} variant="dark" size="lg" onClick={() => setModelSource(source.value)}>{source.label}</Button>
         ))

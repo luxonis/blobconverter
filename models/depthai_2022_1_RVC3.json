@@ -43,5 +43,14 @@
         "mobile_object_localizer_192x192",
         "padim_wood_256x256",
         "yolop_320x320"
+    ],
+    "quantized": [
+        "emotion_recognition_lfw_64x64",
+        "hand_landmark_224x224",
+        "palm_detection_192x192",
+        "yolov6nr1_coco_640x352",
+        "face_detection_yunet_wider_120x160",
+        "mobileone_s0_imagenet_224x224",
+        "yolov6nr1_coco_512x288"
     ]
 }

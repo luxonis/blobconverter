@@ -1,12 +1,240 @@
 {
+    "version": "2",
     "available": [
         {
-            "name": "coneslayer_416x416",
-            "data_types" : ["FP16"]
+            "name": "yolov6n_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
         },
         {
-            "name": "yolov6n",
-            "data_types" : ["FP16", "FP16-INT8"]
+            "name": "facemesh_192x192",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "hand_landmark_224x224",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolov7_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "qr_code_detection_384x384",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov6n_coco_640x640",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "shufflenetv2_224x224",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "sbd_mask_classification_224x224",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "face-recognition-arcface-112x112",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "fast_depth_480x640",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov4_tiny_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov4_coco_608x608",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov7tiny_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "face_detection_yunet_160x120",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "emotion_recognition_lfw_64x64",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "palm_detection_192x192",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "mask_detection_300x300",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "deeplab_v3_mnv2_256x256",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "inceptionv4_299x299",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov6nr1_coco_640x352",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "east_text_detection_256x256",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "dmcount_540x960",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "person-reidentification-retail-0031_96x48",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov3_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "face_detection_yunet_wider_120x160",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolov5n_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mobileone_s0_imagenet_224x224",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "deeplab_v3_mnv2_513x513",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "ghostnet_320x256",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mobilenetv2_imagenet_embedder_224x224",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov6nr1_coco_512x288",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "coneslayer_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov6t_coco_416x416",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "image_quality_assessment_256x256",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "megadepth",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "scdepth_256x832",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "fast_depth_256x320",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "palm_detection_128x128",
+            "data_types": [
+                "FP16"
+            ]
         }
     ],
     "unavailable": [

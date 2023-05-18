@@ -54,13 +54,13 @@ class EnvResolver:
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1")
             self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
-        elif self.version == "2022.1_RVC3":
-            self.base_path = Path("/opt/intel/openvino2022_1_RVC3")
-            self.cache_path = Path("/tmp/modeldownloader/2022_1_RVC3")
-            self.version = "2022.1_RVC3"
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1_RVC3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1_RVC3/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1_RVC3")
+        elif self.version == "2022.3_RVC3":
+            self.base_path = Path("/opt/intel/openvino2022_3_RVC3")
+            self.cache_path = Path("/tmp/modeldownloader/2022_3_RVC3")
+            self.version = "2022.3_RVC3"
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.3_RVC3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.3_RVC3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2022_3_RVC3")
             self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
         elif self.version == "2021.4":
             self.base_path = Path("/opt/intel/openvino2021_4")
@@ -93,32 +93,9 @@ class EnvResolver:
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2020_4")
-        elif self.version == "2020.3":
-            self.base_path = Path("/opt/intel/openvino2020_3")
-            self.cache_path = Path("/tmp/modeldownloader/2020_3")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_3")
-        elif self.version == "2020.2":
-            self.base_path = Path("/opt/intel/openvino2020_2")
-            self.cache_path = Path("/tmp/modeldownloader/2020_2")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_2")
-        elif self.version == "2020.1":
-            self.base_path = Path("/opt/intel/openvino2020_1")
-            self.cache_path = Path("/tmp/modeldownloader/2020_1")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_1")
-        elif self.version == "2019_R3.1":
-            self.base_path = Path("/opt/intel/openvino2019_3")
-            self.cache_path = Path("/tmp/modeldownloader/2019_3")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
-            raise ValueError(f'Unknown version: "{self.version}", available: "2022.1_RVC3", "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
+            raise ValueError(f'Unknown version: "{self.version}", available: "2022.3_RVC3", "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
+
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
@@ -131,13 +108,12 @@ class EnvResolver:
 
         self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
-            if self.version in ["2022.1", "2022.1_RVC3"]:
-                # model zoo for 2022.1 and 2022.1_RVC3 is in the same directory. FP16-INT8 data type is what supports INT8.
-                self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_").replace("_RVC3", "")
+            if self.version in ["2022.1", "2022.3_RVC3"]:
+                self.model_zoo_path = Path("/app/models/2022_1")
             else:
                 self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
         elif self.model_zoo_type == "depthai":
-            self.model_zoo_path = Path(__file__).parent / Path("depthai-model-zoo/models")
+            self.model_zoo_path = Path(__file__).parent / Path("git/depthai-model-zoo/models")
         else:
             raise ValueError(f'Unknown zoo name: "{self.model_zoo_type}", available: "intel", "depthai"')
 
@@ -150,12 +126,12 @@ class EnvResolver:
         self.env['INSTALLDIR'] = str(self.base_path)
         self.env['VIRTUAL_ENV'] = str(self.venv_path.absolute())
 
-        if self.version in ["2022.1", "2022.1_RVC3"]:
+        if self.version in ["2022.1", "2022.3_RVC3"]:
             self.env['InferenceEngine_DIR'] = str(self.base_path / Path("runtime/cmake"))
             self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/tools/compile_tool:{self.base_path}/extras/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/runtime/3rdparty/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/runtime/3rdparty/tbb/lib:{self.base_path}/runtime/lib/intel64:"
             self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("runtime/3rdparty/hddl"))
             self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.8:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/extras/opencv/python"
-            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/{self.venv_path.absolute()}/lib/python3.8/site-packages/openvino/libs"
         else:
             self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
             self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/deployment_tools/inference_engine/external/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/deployment_tools/inference_engine/external/tbb/lib:{self.base_path}/deployment_tools/inference_engine/lib/intel64:"
@@ -415,8 +391,9 @@ def compile():
 
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    if env.version == "2022.1_RVC3":
-        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d VPUX.3400 {myriad_params_advanced}")
+    if env.version == "2022.3_RVC3":
+        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -d VPUX.3400 {myriad_params_advanced}")
+
     elif env.version == "2022.1":
         commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
     else:
@@ -431,10 +408,6 @@ def compile():
 
     if request.args.get("dry", "false") == "true":
         return jsonify(commands)
-
-    # TODO: We need to split the commands here to add XML fixers for RVC3.
-
-    # TODO: After XML fixers are added, we need to add Quantization here and update the path.
 
     data = None
     model_from_cache = False
@@ -458,16 +431,19 @@ def compile():
         model_from_cache = True
 
     major, minor = env.version.replace('_R3', '').replace('_RVC3', '').split('.')
-    with open(out_path, 'rb+') as f:
-        f.seek(60)
-        f.write(int(major).to_bytes(4, byteorder="little"))
-        f.write(int(minor).to_bytes(4, byteorder="little"))
 
-        if AWS_CACHE:
-            if not download_ir and not model_from_cache:
-                f.seek(0)
-                print(f"Uploading final blob {req_hash} to the cache...")
-                bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+
+    if not env.version in ["2022.3_RVC3"]:
+        with open(out_path, 'rb+') as f:
+            f.seek(60)
+            f.write(int(major).to_bytes(4, byteorder="little"))
+            f.write(int(minor).to_bytes(4, byteorder="little"))
+
+            if AWS_CACHE:
+                if not download_ir and not model_from_cache:
+                    f.seek(0)
+                    print(f"Uploading final blob {req_hash} to the cache...")
+                    bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     if download_ir:
         zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
@@ -502,12 +478,11 @@ def get_zoo_models():
     if env.version == "2022.1" and env.model_zoo_type == "intel":
         with open('./models/openvino_2022_1.json', 'r') as file:
             data = json.loads(file.read())  # format to new style for now
-            return format_model_list(data["available"], [], data["unavailable"])
-    elif env.version == "2022.1_RVC3" and env.model_zoo_type == "depthai":
-        with open('./models/depthai_2022_1_RVC3.json', 'r') as file:
-            data = json.loads(file.read())  # format to new style for now
-            return format_model_list(data["available"], [], data["unavailable"])
-    elif env.version == "2022.1_RVC3" and env.model_zoo_type == "intel":
+            return format_model_list(data["available"], [], [])
+    elif env.version == "2022.3_RVC3" and env.model_zoo_type == "depthai":
+        with open('./models/depthai_2022_1_RVC3_new.json', 'r') as file:
+            return file.read()
+    elif env.version == "2022.3_RVC3" and env.model_zoo_type == "intel":
         with open('./models/intel_2022_1_RVC3_new.json', 'r') as file:
             return file.read()  # proper format
     _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")

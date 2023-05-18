@@ -221,16 +221,7 @@ const ConversionForm = ({modelSource, openvinoVersion, prevStep, availableZooMod
               </div>
             </div>
             {
-             /* _.includes(["2022.1_RVC3"], openvinoVersion) &&
-              <div className="advanced-option">
-                <label htmlFor="advanced-option-input-quantization"><span>Quantization</span> domain:</label>
-                <select defaultValue="none" className="form-select" id="advanced-option-input-quantization" name="advanced-option-input-quantization" disabled>
-                  <option value="none">None (coming soon)</option>
-                </select>
-              </div>*/
-            }
-            {
-              _.includes(["2022.1_RVC3"], openvinoVersion) &&
+              _.includes(["2022.3_RVC3"], openvinoVersion) &&
               <div className="advanced-option">
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="advanced-option-input-int8">

@@ -7,9 +7,11 @@
 [![](https://img.shields.io/pypi/v/blobconverter.svg)](https://pypi.org/project/blobconverter/)
 [![Website](https://img.shields.io/badge/Website-BlobConverter-purpleblue)](http://blobconverter.luxonis.com/)
 
-## Usage
+## Prepare
 
-First, download RVC3 files from [here](https://drive.google.com/file/d/1NTN2AX8yLcn7Jvk077Fq8lYsYyLAK-ve) and extract them to `./openvino_files/openvino2022_1_RVC3/`.
+Download [OpenVINO with RVC3 support](https://drive.google.com/file/d/1IXtYi1Mwpsg3pr5cDXlEHdSUZlwJRTVP/view?usp=share_link), extract it to `openvino_files` and rename `install_dir` to `openvino2022_3_RVC3`.
+
+## Usage
 
 - Docker-Compose
 

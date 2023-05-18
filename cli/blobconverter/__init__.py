@@ -15,7 +15,7 @@ import requests
 
 
 class Versions:
-    v2022_1_RVC3 = "2022.1_RVC3"
+    v2022_3_RVC3 = "2022.3_RVC3"
     v2022_1 = "2022.1"
     v2021_4 = "2021.4"
     v2021_3 = "2021.3"
@@ -159,12 +159,14 @@ def is_valid_blob(blob_path):
 
     try:
         with convertedPath.open('rb+') as f:
+            f.seek(52)
+            magic_number = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
             f.seek(56)
             expected_size = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
             f.seek(0, os.SEEK_END)
             actual_size = f.tell()
 
-            return expected_size == actual_size
+            return expected_size <= actual_size and magic_number == 9709
     except:
         return False
 
@@ -484,7 +486,7 @@ def from_config(name, path, **kwargs):
     return compile_blob(blob_name=name, req_data=body, req_files=files, **kwargs)
 
 
-def zoo_list(version=None, url=None, zoo_type=None):
+def zoo_list(version=None, url=None, zoo_type='intel'):
     if url is None:
         url = __defaults["url"]
     if version is None:

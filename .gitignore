@@ -1,6 +1,9 @@
 # openvino_files should be downloaded through drive
 openvino_files/openvino2022_1_RVC3/*
+openvino_files/openvino2022_3_RVC3
 !openvino_files/openvino2022_1_RVC3/empty.txt
+
+test_scripts/
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
