@@ -5,13 +5,11 @@ import struct
 import sys
 import tempfile
 import urllib
-from pathlib import Path
 from os import path
+from pathlib import Path
 
-import boto3
-import botocore
-import yaml
 import requests
+import yaml
 
 
 class Versions:
@@ -31,7 +29,7 @@ def get_filename(url):
 
 def show_progress(curr, max):
     done = int(50 * curr / max)
-    sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50-done)) )
+    sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50 - done)))
     sys.stdout.flush()
 
 
@@ -169,29 +167,19 @@ def is_valid_blob(blob_path):
         return False
 
 
-# https://stackoverflow.com/a/54745657/5494277
-class __S3ProgressPercentage:
-    def __init__(self, o_s3bucket, key_name):
-        self._key_name = key_name
-        boto_client = o_s3bucket.meta.client
-        # ContentLength is an int
-        self._size = boto_client.head_object(Bucket=o_s3bucket.name, Key=key_name)['ContentLength']
-        self._seen_so_far = 0
+def __download_file_from_url(file_url, save_path):
+    response = requests.get(file_url)
 
-    def __call__(self, bytes_amount):
-        global __defaults
-        self._seen_so_far += bytes_amount
-        __defaults["progress_func"](self._seen_so_far, self._size)
+    if response.status_code == 200:
+        with open(save_path, 'wb') as file:
+            file.write(response.content)
+    else:
+        raise FileNotFoundError(f"File not found at {file_url}")
 
 
 def __download_from_s3_bucket(key, fpath: Path):
-    if __defaults["silent"]:
-        bucket.download_file(key, str(fpath.absolute()))
-    else:
-        progress = __S3ProgressPercentage(bucket, key)
-        bucket.download_file(key, str(fpath.absolute()), Callback=progress)
-        print()
-        print("Done")
+    url = f'https://blobconverter.s3.amazonaws.com/{key}'
+    __download_file_from_url(url, str(fpath))
 
 
 def __download_from_response(resp, fpath: Path):
@@ -289,16 +277,12 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
         if not __defaults["silent"]:
             print("Downloading {}...".format(blob_path))
 
-        if None in (s3, bucket):
-            __init_s3()
-
         try:
             if not download_ir:
                 __download_from_s3_bucket("{}.blob".format(req_hash), blob_path)
                 return blob_path
-        except botocore.exceptions.ClientError as ex:
-            if ex.response['Error']['Code'] not in ('NoSuchKey', '404'):
-                raise ex
+        except FileNotFoundError:
+            pass
 
     files = {
         name: open(path, 'rb') for name, path in req_files.items()
@@ -324,7 +308,6 @@ def compile_blob(blob_name, version=None, shaves=None, req_data=None, req_files=
     if download_ir:
         blob_path = blob_path.with_suffix('.zip')
     __download_from_response(response, blob_path)
-
     return blob_path
 
 
