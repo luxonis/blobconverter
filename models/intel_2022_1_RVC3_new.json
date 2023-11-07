@@ -9,12 +9,6 @@
             ]
         },
         {
-            "name": "colorization-siggraph",
-            "data_types": [
-                "FP16"
-            ]
-        },
-        {
             "name": "densenet-121",
             "data_types": [
                 "FP16"
@@ -58,19 +52,7 @@
             ]
         },
         {
-            "name": "face-recognition-resnet100-arcface-onnx",
-            "data_types": [
-                "FP16"
-            ]
-        },
-        {
             "name": "face-reidentification-retail-0095",
-            "data_types": [
-                "FP16"
-            ]
-        },
-        {
-            "name": "formula-recognition-medium-scan-0001-im2latex-encoder",
             "data_types": [
                 "FP16"
             ]
@@ -109,12 +91,6 @@
             ]
         },
         {
-            "name": "inception-resnet-v2-tf",
-            "data_types": [
-                "FP16"
-            ]
-        },
-        {
             "name": "landmarks-regression-retail-0009",
             "data_types": [
                 "FP16",
@@ -124,8 +100,7 @@
         {
             "name": "license-plate-recognition-barrier-0001",
             "data_types": [
-                "FP16",
-                "FP16-INT8"
+                "FP16"
             ]
         },
         {
@@ -167,7 +142,6 @@
         {
             "name": "person-attributes-recognition-crossroad-0230",
             "data_types": [
-                "FP16",
                 "FP16-INT8"
             ]
         },
@@ -281,12 +255,6 @@
             ]
         },
         {
-            "name": "wavernn-rnn",
-            "data_types": [
-                "FP16"
-            ]
-        },
-        {
             "name": "weld-porosity-detection-0001",
             "data_types": [
                 "FP16",
@@ -385,5 +353,11 @@
             ]
         }
     ],
-    "unavailable": []
+    "unavailable": [
+        "colorization-siggraph",
+        "face-recognition-resnet100-arcface-onnx",
+        "formula-recognition-medium-scan-0001-im2latex-encoder",
+        "inception-resnet-v2-tf",
+        "wavernn-rnn"
+    ]
 }

@@ -2,13 +2,19 @@
     "version": "2",
     "available": [
         {
-            "name": "yolov6n_coco_416x416",
+            "name": "facial_landmarks_68_160x160",
             "data_types": [
                 "FP16"
             ]
         },
         {
-            "name": "facemesh_192x192",
+            "name": "7_segment_recognition_256x750",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolov6n_coco_416x416",
             "data_types": [
                 "FP16"
             ]
@@ -96,7 +102,6 @@
         {
             "name": "palm_detection_192x192",
             "data_types": [
-                "FP16",
                 "FP16-INT8"
             ]
         },
@@ -152,8 +157,7 @@
         {
             "name": "face_detection_yunet_wider_120x160",
             "data_types": [
-                "FP16",
-                "FP16-INT8"
+                "FP16"
             ]
         },
         {
@@ -238,11 +242,11 @@
         }
     ],
     "unavailable": [
-        "7_segment_recognition_256x750",
         "depth_estimation_mbnv2_240x320",
         "depth_estimation_mbnv2_480x640",
-        "facial_landmarks_68_160x160",
+        "facemesh_192x192",
         "hrdepth_192x640",
+        "image_quality_assessment_256x256",
         "mask_rcnn_resnet50_coco_300x300",
         "micronet_m0_224x224",
         "mobile_object_localizer_192x192",
