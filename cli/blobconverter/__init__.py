@@ -96,7 +96,7 @@ class ConfigBuilder:
 
 
 __defaults = {
-    "url": "https://dev-blobconverter.luxonis.com",
+    "url": "https://blobconverter.luxonis.com",
     "version": Versions.v2022_1,
     "shaves": 4,
     "output_dir": Path.home() / Path('.cache/blobconverter'),
@@ -122,7 +122,7 @@ def __init_s3():
         bucket = s3.Bucket('blobconverter')
         s3.meta.client.head_bucket(Bucket=bucket.name)
     except botocore.exceptions.EndpointConnectionError:
-        # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
+        # Region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
         s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
         bucket = s3.Bucket('blobconverter')
         s3.meta.client.head_bucket(Bucket=bucket.name)
@@ -165,7 +165,6 @@ def is_valid_blob(blob_path):
             expected_size = struct.unpack("<I", f.read(4))[0]  # `<` means little endian, `I` means unsigned int 4 bytes
             f.seek(0, os.SEEK_END)
             actual_size = f.tell()
-
             return expected_size <= actual_size and magic_number == 9709
     except:
         return False
