@@ -495,7 +495,7 @@ def zoo_list(version=None, url=None, zoo_type='intel'):
 
     url_params = {
         'version': version,
-        'zoo_type' : zoo_type
+        'zoo_type': zoo_type
     }
 
     response = requests.get("{}/zoo_models?{}".format(url, urllib.parse.urlencode(url_params)))

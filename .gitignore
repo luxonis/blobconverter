@@ -230,3 +230,6 @@ yarn.lock
 tmp/
 tmp8/
 **/*.blob
+
+# PyPi credentials
+.pypirc
