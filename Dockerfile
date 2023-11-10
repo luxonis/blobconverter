@@ -31,6 +31,7 @@ ENV PYTHONUNBUFFERED 1
 
 ADD setup_container.py .
 RUN python3 setup_container.py
+RUN mkdir git
 ADD docker_scheduled.sh .
 ADD requirements.txt .
 ADD model_compiler model_compiler
