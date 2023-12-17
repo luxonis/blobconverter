@@ -36,6 +36,10 @@ def show_progress(curr, max):
     sys.stdout.flush()
 
 
+def is_valid_name(name):
+    return name.count(".") <= 1 and name.count("=") == 0
+
+
 class ConfigBuilder:
     def __init__(self, precision="FP16"):
         self.precision = precision
@@ -369,6 +373,11 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, proto_size=N
 
     proto_name = get_filename(proto)
     model_name = get_filename(model)
+
+    # print(f"CAFFE {proto_name} {model_name}")
+    if not is_valid_name(proto_name) or not is_valid_name(model_name):
+        raise ValueError("Input model files must not contain '.' or '=' characters!")
+
     files = {}
     builder = ConfigBuilder()\
         .task_type("detection")\
@@ -404,6 +413,10 @@ def from_onnx(model, data_type=None, optimizer_params=None, model_size=None, mod
     files = {}
     model_name = get_filename(model)
 
+    # print(f"ONNX {model_name}")
+    if not is_valid_name(model_name):
+        raise ValueError("Input model file must not contain '.' or '=' characters!")
+
     builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("onnx")\
@@ -433,6 +446,10 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, frozen_pb_size=Non
     files = {}
     frozen_pb_name = get_filename(frozen_pb)
 
+    # print(f"TF {frozen_pb_name}")
+    if not is_valid_name(frozen_pb_name):
+        raise ValueError("Input model file must not contain '.' or '=' characters!")
+
     builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("tf")\
@@ -457,6 +474,10 @@ def from_openvino(xml, bin, xml_size=None, xml_sha256=None, bin_size=None, bin_s
         .framework("dldt")
     xml_name = get_filename(xml)
     bin_name = get_filename(bin)
+
+    # print(f"IR {xml_name} {bin_name}")
+    if not is_valid_name(xml_name) or not is_valid_name(bin_name):
+        raise ValueError("Input model files must not contain '.' or '=' characters!")
 
     if str(xml).startswith("http"):
         builder = builder.with_file(name=xml_name, url=xml, size=xml_size, sha256=xml_sha256)
