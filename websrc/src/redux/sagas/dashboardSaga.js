@@ -35,6 +35,10 @@ function readAsJson(blob) {
   })
 }
 
+function isValidName(name) {
+  return name.split('.').length <= 2 && name.split('=').length === 1;
+}
+
 function* fetchModels() {
   try {
     const modelSource = yield select(modelSourceSelector);
@@ -77,26 +81,40 @@ function* convertModel({payload}) {
     } else {
       let framework = "";
       let optimizer_additional = "";
+      let valid_names = false;
       switch (modelSource) {
         case 'caffe': {
           framework = "caffe";
+          // Check for valid name
+          console.log("FILENAMES: ", payload['caffe-model'].name, payload['caffe-proto'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['caffe-model'].name} --input_proto=$dl_dir/${precision}/${payload['caffe-proto'].name}`
           break;
         }
         case 'openvino': {
           framework = "dldt";
+          // Check for valid name
+          console.log("FILENAMES: ", payload['openvino-bin'].name, payload['openvino-xml'].name)
           break;
         }
         case 'tf': {
           framework = "tf";
+          // Check for valid name
+          console.log("FILENAME: ", payload['tf-model'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['tf-model'].name}`
           break;
         }
         case 'onnx': {
           framework = "onnx";
+          // Check for valid name
+          console.log("FILENAME: ", payload['onnx-model'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['onnx-model'].name}`
           break;
         }
+      }
+      if (!valid_names) {
+        yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: {"message": "Input model files must not contain '.' or '=' characters!"}});
+        yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
+        return;
       }
       const filenames = Object.values(payload).map(item => item.name).filter(item => !!item)
       const yml = generateYaml({
