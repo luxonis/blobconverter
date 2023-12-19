@@ -81,32 +81,36 @@ function* convertModel({payload}) {
     } else {
       let framework = "";
       let optimizer_additional = "";
-      let valid_names = false;
+      let valid_names = true;
       switch (modelSource) {
         case 'caffe': {
           framework = "caffe";
           // Check for valid name
-          console.log("FILENAMES: ", payload['caffe-model'].name, payload['caffe-proto'].name)
+          valid_names = isValidName(payload['caffe-model'].name) && isValidName(payload['caffe-proto'].name)
+          console.log("FILENAMES: ", payload['caffe-model'].name, payload['caffe-proto'].name,  valid_names)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['caffe-model'].name} --input_proto=$dl_dir/${precision}/${payload['caffe-proto'].name}`
           break;
         }
         case 'openvino': {
           framework = "dldt";
           // Check for valid name
-          console.log("FILENAMES: ", payload['openvino-bin'].name, payload['openvino-xml'].name)
+          valid_names = isValidName(payload['openvino-bin'].name) && isValidName(payload['openvino-xml'].name)
+          console.log("FILENAMES: ", payload['openvino-bin'].name, payload['openvino-xml'].name, valid_names)
           break;
         }
         case 'tf': {
           framework = "tf";
           // Check for valid name
-          console.log("FILENAME: ", payload['tf-model'].name)
+          valid_names = isValidName(payload['tf-model'].name)
+          console.log("FILENAME: ", payload['tf-model'].name, valid_names)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['tf-model'].name}`
           break;
         }
         case 'onnx': {
           framework = "onnx";
           // Check for valid name
-          console.log("FILENAME: ", payload['onnx-model'].name)
+          valid_names = isValidName(payload['onnx-model'].name)
+          console.log("FILENAME: ", payload['onnx-model'].name, valid_names)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['onnx-model'].name}`
           break;
         }
