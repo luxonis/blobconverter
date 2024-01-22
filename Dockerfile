@@ -30,7 +30,13 @@ USER openvino
 ENV PYTHONUNBUFFERED 1
 
 ADD setup_container.py .
-RUN python3 setup_container.py
+RUN python3 setup_container.py 2022_3_RVC3
+RUN python3 setup_container.py 2022_1
+RUN python3 setup_container.py 2021_4
+RUN python3 setup_container.py 2021_3
+RUN python3 setup_container.py 2021_2
+RUN python3 setup_container.py 2021_1
+RUN python3 setup_container.py 2020_4
 RUN mkdir git
 ADD docker_scheduled.sh .
 ADD requirements.txt .

@@ -1,6 +1,8 @@
 import os
 import subprocess
 from pathlib import Path
+import argparse
+
 
 versions = {
     "2022_3_RVC3" : Path("/opt/intel/openvino2022_3_RVC3/python/python3.8/requirements.txt"),
@@ -42,6 +44,11 @@ def create_venv(name: str, req_path: Path, interpreter):
 
 
 if __name__ == "__main__":
-    for env_name, base_path in versions.items():
-        create_venv(env_name, base_path, "python3.8")
+    parser = argparse.ArgumentParser(description="A setup container script")
+    parser.add_argument("version", choices=["2022_3_RVC3", "2022_1", "2021_4", "2021_3", "2021_2", "2021_1", "2020_4"], help="Choose OpenVINO version")
+
+    args = parser.parse_args()
+    env_name = args.version
+
+    create_venv(env_name, versions[env_name], "python3.8")
 
