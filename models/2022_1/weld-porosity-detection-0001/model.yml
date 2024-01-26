@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/weld-porosity-detection-0001.xml
-    size: 97186
-    checksum: 696828ca2b9dba1fd9266134bec09224e3e1900abb38bbc886b286aa08725aefc7f3cfb2c26bbf2291851dbad878ed80
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001.xml
-  - name: FP16/weld-porosity-detection-0001.bin
-    size: 22346524
-    checksum: 9883a21299004b32db8cea4de39e6d04bb35eb987fdd95bfc81f779c1d68134c90eab623a8708c5e009f8dab25cab65e
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001.bin
-
-framework: dldt 
-        
+- checksum: 696828ca2b9dba1fd9266134bec09224e3e1900abb38bbc886b286aa08725aefc7f3cfb2c26bbf2291851dbad878ed80
+  name: FP16/weld-porosity-detection-0001.xml
+  size: 97186
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001.xml
+- checksum: 9883a21299004b32db8cea4de39e6d04bb35eb987fdd95bfc81f779c1d68134c90eab623a8708c5e009f8dab25cab65e
+  name: FP16/weld-porosity-detection-0001.bin
+  size: 22346524
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001.bin
+- checksum: edb0137a41e63c40fce55e83dbf110716a999dcba79df97b0174b6483e3d44c1de3098708d600231ec211df5f87360b1
+  name: FP16-INT8/weld-porosity-detection-0001.xml
+  size: 162672
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001-int8.xml
+- checksum: 7b879ca13c8bb8e913400b645ef476652d4ada31bcac512b05c6b7b4969aacdde616be3dd4f4a5f5e3f08e635cc253af
+  name: FP16-INT8/weld-porosity-detection-0001.bin
+  size: 11197380
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/weld-porosity-detection-0001/weld-porosity-detection-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

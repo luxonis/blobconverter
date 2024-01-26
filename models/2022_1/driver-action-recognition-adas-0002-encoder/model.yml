@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/driver-action-recognition-adas-0002-encoder.xml
-    size: 211460
-    checksum: 91a041b3b0590bddebf1fbf17990343457a7dedd74e79bbee281518d4585f62e00725c9ebff5d75be24453ea5caf1106
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.xml
-  - name: FP16/driver-action-recognition-adas-0002-encoder.bin
-    size: 5725382
-    checksum: f2e55701ee5272e18ca45de63a9530a2dc9398ee7d45522ea7c949c9d4a8a55e3e4fe7eb9e9bf8948ccac6309efe4176
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.bin
-
-framework: dldt 
-        
+- checksum: 91a041b3b0590bddebf1fbf17990343457a7dedd74e79bbee281518d4585f62e00725c9ebff5d75be24453ea5caf1106
+  name: FP16/driver-action-recognition-adas-0002-encoder.xml
+  size: 211460
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.xml
+- checksum: f2e55701ee5272e18ca45de63a9530a2dc9398ee7d45522ea7c949c9d4a8a55e3e4fe7eb9e9bf8948ccac6309efe4176
+  name: FP16/driver-action-recognition-adas-0002-encoder.bin
+  size: 5725382
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder.bin
+- checksum: adef64bd51921e4c571048eb039ce692a3ecead945f5f5e80256b3a9045a0634c7314cf743ddcaa9bdad66ccf577a00b
+  name: FP16-INT8/driver-action-recognition-adas-0002-encoder.xml
+  size: 394179
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder-int8.xml
+- checksum: bb05153ae864307801f47e8e917a3ec29daa99fd2122d7913bb8e01ef876f9f83347b29922c3a2eb5cff5e80c5932960
+  name: FP16-INT8/driver-action-recognition-adas-0002-encoder.bin
+  size: 2960345
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/driver-action-recognition-adas-0002-encoder/driver-action-recognition-adas-0002-encoder-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

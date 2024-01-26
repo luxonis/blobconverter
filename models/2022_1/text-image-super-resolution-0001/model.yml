@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/text-image-super-resolution-0001.xml
-    size: 18205
-    checksum: 072e549b8c791f9dec2bd88613648984ca968a4a2d39b03cb1ce953a2715dcbe039aa9b902945cbbdd9414e51f8f6698
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.xml
-  - name: FP16/text-image-super-resolution-0001.bin
-    size: 5418
-    checksum: 3403c611e626cf9e647f0cc7674e5379129af4385c4fe747cec9556fbb114708a7a6793a321e2d072a7e3cd4c0190cb7
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.bin
-
-framework: dldt 
-        
+- checksum: 072e549b8c791f9dec2bd88613648984ca968a4a2d39b03cb1ce953a2715dcbe039aa9b902945cbbdd9414e51f8f6698
+  name: FP16/text-image-super-resolution-0001.xml
+  size: 18205
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.xml
+- checksum: 3403c611e626cf9e647f0cc7674e5379129af4385c4fe747cec9556fbb114708a7a6793a321e2d072a7e3cd4c0190cb7
+  name: FP16/text-image-super-resolution-0001.bin
+  size: 5418
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001.bin
+- checksum: 39d8a717ae6c3f2ede2f2e7ba06fa6d30dee7e7c668cea6829bcb72c7c96925b0be66cfbd9966ef16b1ee1bcffcb9d1b
+  name: FP16-INT8/text-image-super-resolution-0001.xml
+  size: 25162
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001-int8.xml
+- checksum: 73d5bc184cef993f27c5910082f566cb70d0fe0464f42e8e87773d8079105c3b0e7a088ba5b38d31db28102fc14b5015
+  name: FP16-INT8/text-image-super-resolution-0001.bin
+  size: 4222
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/text-image-super-resolution-0001/text-image-super-resolution-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

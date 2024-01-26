@@ -31,8 +31,15 @@ app = Flask(__name__, static_url_path='', static_folder='websrc/build/')
 UPLOAD_FOLDER = Path('/tmp/blobconverter')
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
-bucket = boto3.resource('s3', aws_access_key_id=os.getenv("AWS_ACCESS"), aws_secret_access_key=os.getenv("AWS_SECRET"))\
-    .Bucket('blobconverter')
+AWS_ACCESS = os.getenv("AWS_ACCESS")
+AWS_SECRET = os.getenv("AWS_SECRET")
+# ugly fix to prevent caching
+AWS_CACHE = (AWS_ACCESS is not None and AWS_ACCESS != "") and (AWS_SECRET is not None and AWS_SECRET != "")
+print(AWS_CACHE)
+
+if AWS_CACHE:
+    bucket = boto3.resource('s3', aws_access_key_id=AWS_ACCESS, aws_secret_access_key=AWS_SECRET)\
+        .Bucket('blobconverter')
 
 
 class EnvResolver:
@@ -46,6 +53,14 @@ class EnvResolver:
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.1/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2022_1")
+            self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
+        elif self.version == "2022.3_RVC3":
+            self.base_path = Path("/opt/intel/openvino2022_3_RVC3")
+            self.cache_path = Path("/tmp/modeldownloader/2022_3_RVC3")
+            self.version = "2022.3_RVC3"
+            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2022.3_RVC3/converter.py")
+            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2022.3_RVC3/downloader.py")
+            self.venv_path = Path(__file__).parent / Path("venvs/venv2022_3_RVC3")
             self.compiler_path = self.base_path / Path("tools/compile_tool/compile_tool")
         elif self.version == "2021.4":
             self.base_path = Path("/opt/intel/openvino2021_4")
@@ -78,48 +93,27 @@ class EnvResolver:
             self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/converter.py")
             self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.4/downloader.py")
             self.venv_path = Path(__file__).parent / Path("venvs/venv2020_4")
-        elif self.version == "2020.3":
-            self.base_path = Path("/opt/intel/openvino2020_3")
-            self.cache_path = Path("/tmp/modeldownloader/2020_3")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.3/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_3")
-        elif self.version == "2020.2":
-            self.base_path = Path("/opt/intel/openvino2020_2")
-            self.cache_path = Path("/tmp/modeldownloader/2020_2")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.2/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_2")
-        elif self.version == "2020.1":
-            self.base_path = Path("/opt/intel/openvino2020_1")
-            self.cache_path = Path("/tmp/modeldownloader/2020_1")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2020.1/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2020_1")
-        elif self.version == "2019_R3.1":
-            self.base_path = Path("/opt/intel/openvino2019_3")
-            self.cache_path = Path("/tmp/modeldownloader/2019_3")
-            self.converter_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/converter.py")
-            self.downloader_path = Path(__file__).parent / Path("model_compiler/openvino_2019.3/downloader.py")
-            self.venv_path = Path(__file__).parent / Path("venvs/venv2019_3")
         else:
-            raise ValueError(f'Unknown version: "{self.version}", available: "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
+            raise ValueError(f'Unknown version: "{self.version}", available: "2022.3_RVC3", "2022.1", "2021.4", "2021.3", "2021.2", "2021.1", "2020.4"')
+
 
         self.workdir = UPLOAD_FOLDER / Path(uuid.uuid4().hex)
         self.workdir.mkdir(parents=True, exist_ok=True)
         self.cache_path.mkdir(parents=True, exist_ok=True)
+        (self.cache_path / "FP16").mkdir(parents=True, exist_ok=True)
+        (self.cache_path / "FP16-INT8").mkdir(parents=True, exist_ok=True)
 
         if self.compiler_path is None:
             self.compiler_path = self.base_path / Path("deployment_tools/inference_engine/lib/intel64/myriad_compile")
 
         self.model_zoo_type = request.values.get('zoo_type', "intel")
         if self.model_zoo_type == "intel":
-            if self.version in ["2022.1"]:
-                self.model_zoo_path = Path("/app/models/") / self.version.replace(".","_")
+            if self.version in ["2022.1", "2022.3_RVC3"]:
+                self.model_zoo_path = Path("/app/models/2022_1")
             else:
                 self.model_zoo_path = self.base_path / Path("deployment_tools/open_model_zoo/models")
         elif self.model_zoo_type == "depthai":
-            self.model_zoo_path = Path(__file__).parent / Path("depthai-model-zoo/models")
+            self.model_zoo_path = Path(__file__).parent / Path("git/depthai-model-zoo/models")
         else:
             raise ValueError(f'Unknown zoo name: "{self.model_zoo_type}", available: "intel", "depthai"')
 
@@ -132,12 +126,12 @@ class EnvResolver:
         self.env['INSTALLDIR'] = str(self.base_path)
         self.env['VIRTUAL_ENV'] = str(self.venv_path.absolute())
 
-        if self.version == "2022.1":
+        if self.version in ["2022.1", "2022.3_RVC3"]:
             self.env['InferenceEngine_DIR'] = str(self.base_path / Path("runtime/cmake"))
             self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/tools/compile_tool:{self.base_path}/extras/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/runtime/3rdparty/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/runtime/3rdparty/tbb/lib:{self.base_path}/runtime/lib/intel64:"
             self.env['HDDL_INSTALL_DIR'] = str(self.base_path / Path("runtime/3rdparty/hddl"))
             self.env['PYTHONPATH'] = f"{self.base_path}/python/python3.8:{self.base_path}/python/python3:{self.base_path}/deployment_tools/open_model_zoo/tools/accuracy_checker:{self.base_path}/extras/opencv/python"
-            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            self.env['PATH'] = f"{self.venv_path.absolute()}/bin:{self.base_path}/deployment_tools/model_optimizer:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/{self.venv_path.absolute()}/lib/python3.8/site-packages/openvino/libs"
         else:
             self.env['InferenceEngine_DIR'] = str(self.base_path / Path("deployment_tools/inference_engine/share"))
             self.env['LD_LIBRARY_PATH'] = f"{self.base_path}/opencv/lib:{self.base_path}/deployment_tools/ngraph/lib:/opt/intel/opencl:{self.base_path}/deployment_tools/inference_engine/external/hddl/lib:{self.base_path}/deployment_tools/inference_engine/external/gna/lib:{self.base_path}/deployment_tools/inference_engine/external/mkltiny_lnx/lib:{self.base_path}/deployment_tools/inference_engine/external/tbb/lib:{self.base_path}/deployment_tools/inference_engine/lib/intel64:"
@@ -264,7 +258,11 @@ def parse_config(config_path, name, data_type, env):
 
 
 def prepare_compile_config(shaves, env):
-    if env.version.startswith('2022'):
+    if env.version.endswith('RVC3'):
+        config_file_content = {
+            'PERFORMANCE_HINT': 'THROUGHPUT'
+        }
+    elif env.version.startswith('2022'):
         config_file_content = {
             'MYRIAD_NUMBER_OF_SHAVES': shaves,
             'MYRIAD_NUMBER_OF_CMX_SLICES': shaves,
@@ -296,6 +294,33 @@ def prepare_compile_config(shaves, env):
 def fetch_from_zoo(env, name):
     return next(env.model_zoo_path.rglob(f'**/{name}/model.yml'), None)
 
+def format_model_list(models_available_fp16, models_available_int8, models_unavailable):
+    output = {
+        "version": "2", 
+        "available" : [], 
+        "unavailable" : []
+    }
+
+    for model in models_available_fp16:
+        entry = {
+            "name" : model,
+            "data_types": ["FP16"]
+        }
+        if model in models_available_int8:
+            entry["data_types"].append("FP16-INT8")
+            models_available_int8.remove(model)
+
+        output["available"].append(entry)
+    
+    for model in models_available_int8:
+        entry = {
+            "name" : model,
+            "data_types": ["FP16-INT8"]
+        }
+        output["available"].append(entry)
+    
+    return output
+
 
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
@@ -312,6 +337,9 @@ def compile():
     data_type = request.values.get('data_type', "FP16")
     download_ir = request.values.get('download_ir', "false").lower() == "true"
     no_cache = request.args.get('no_cache', "false") == "true"
+    quantization_domain = request.args.get('quantization_domain', "ABC")
+
+    print(f"GOT QUANTIZATION DOMAIN: {quantization_domain}")
 
     if (LOG_URL is not None):
         content = f"{name}, Params: {myriad_params_advanced}"
@@ -346,8 +374,9 @@ def compile():
     xml_path = env.workdir / name / data_type / (name + ".xml")
     if len(file_paths) == 0:
         commands.append(
-            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path} --num_attempts 5 --name {name} --model_root {env.workdir}"
+            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path / data_type} --num_attempts 5 --name {name} --model_root {env.workdir}"
         )
+        print(commands)
     if use_zoo:
         preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
         if preconvert_script is not None:
@@ -362,7 +391,10 @@ def compile():
 
     out_path = xml_path.with_suffix('.blob')
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    if env.version == "2022.1":
+    if env.version == "2022.3_RVC3":
+        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -d VPUX.3400 {myriad_params_advanced}")
+
+    elif env.version == "2022.1":
         commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
     else:
         commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
@@ -379,34 +411,39 @@ def compile():
 
     data = None
     model_from_cache = False
-    try:
-        if not no_cache or not download_ir:
-            print(f"Trying to get blob {req_hash} from cache...")
-            data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
-            with out_path.open("wb") as f:
-                f.write(data)
-            print(f"Data {req_hash} found in cache...")
-            
-    except botocore.exceptions.ClientError as ex:
-        print(f"Data {req_hash} not found in cache...")
-        if ex.response['Error']['Code'] != 'NoSuchKey':
-            raise ex
+    if AWS_CACHE:
+        try:
+            if not no_cache or not download_ir:
+                print(f"Trying to get blob {req_hash} from cache...")
+                data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+                with out_path.open("wb") as f:
+                    f.write(data)
+                print(f"Data {req_hash} found in cache...")
+                
+        except botocore.exceptions.ClientError as ex:
+            print(f"Data {req_hash} not found in cache...")
+            if ex.response['Error']['Code'] != 'NoSuchKey':
+                raise ex
     if data is None:
         for command in commands:
             env.run_command(command)
     else:
         model_from_cache = True
 
-    major, minor = env.version.replace('_R3', '').split('.')
-    with open(out_path, 'rb+') as f:
-        f.seek(60)
-        f.write(int(major).to_bytes(4, byteorder="little"))
-        f.write(int(minor).to_bytes(4, byteorder="little"))
+    major, minor = env.version.replace('_R3', '').replace('_RVC3', '').split('.')
 
-        if not download_ir and not model_from_cache:
-            f.seek(0)
-            print(f"Uploading final blob {req_hash} to the cache...")
-            bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+
+    if not env.version in ["2022.3_RVC3"]:
+        with open(out_path, 'rb+') as f:
+            f.seek(60)
+            f.write(int(major).to_bytes(4, byteorder="little"))
+            f.write(int(minor).to_bytes(4, byteorder="little"))
+
+            if AWS_CACHE:
+                if not download_ir and not model_from_cache:
+                    f.seek(0)
+                    print(f"Uploading final blob {req_hash} to the cache...")
+                    bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
     if download_ir:
         zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
@@ -436,12 +473,21 @@ def handle_invalid_usage(error):
 
 @app.route("/zoo_models", methods=['GET'])
 def get_zoo_models():
+    # TODO: Add RVC3 models for Intel zoo
     env = EnvResolver()
     if env.version == "2022.1" and env.model_zoo_type == "intel":
         with open('./models/openvino_2022_1.json', 'r') as file:
+            data = json.loads(file.read())  # format to new style for now
+            return format_model_list(data["available"], [], [])
+    elif env.version == "2022.3_RVC3" and env.model_zoo_type == "depthai":
+        with open('./models/depthai_2022_1_RVC3_new.json', 'r') as file:
             return file.read()
+    elif env.version == "2022.3_RVC3" and env.model_zoo_type == "intel":
+        with open('./models/intel_2022_1_RVC3_new.json', 'r') as file:
+            return file.read()  # proper format
     _, stdout, _ = env.run_command(f"{env.executable} {env.downloader_path} --model_root {env.model_zoo_path} --print_all")
-    return jsonify(available=stdout.decode().split())
+    
+    return format_model_list(stdout.decode().split(), [], [])
 
 
 @app.route("/update", methods=['GET'])

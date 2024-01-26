@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/person-attributes-recognition-crossroad-0230.xml
-    size: 278034
-    checksum: 4a4ed27a1c883dc35b50225fbb40cb48850bfae215ff81855a281dcf809cd281ce04478c607802d0f9123aebec8ffded
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230.xml
-  - name: FP16/person-attributes-recognition-crossroad-0230.bin
-    size: 1469622
-    checksum: 31f45dc55b3e4ccd272cdc3f544a4f8055ce10121f128dbeffc334933f3e4f55ba5926293853282fde978a30f81fbd81
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230.bin
-
-framework: dldt 
-        
+- checksum: 4a4ed27a1c883dc35b50225fbb40cb48850bfae215ff81855a281dcf809cd281ce04478c607802d0f9123aebec8ffded
+  name: FP16/person-attributes-recognition-crossroad-0230.xml
+  size: 278034
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230.xml
+- checksum: 31f45dc55b3e4ccd272cdc3f544a4f8055ce10121f128dbeffc334933f3e4f55ba5926293853282fde978a30f81fbd81
+  name: FP16/person-attributes-recognition-crossroad-0230.bin
+  size: 1469622
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230.bin
+- checksum: d09f548bb031643ff5fde2a09cc23c9219f2e9d7cb7e11529f2635aaf3fe2e26dfb1fffc51f0c83dbc417bea2b05e384
+  name: FP16-INT8/person-attributes-recognition-crossroad-0230.xml
+  size: 491305
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230-int8.xml
+- checksum: 124d1d7d8cfb0ab470c43a48201792eecce60f5a7770f9d51701ca3976b8b712016a968396ad2d12b9d21e1dd8abfba4
+  name: FP16-INT8/person-attributes-recognition-crossroad-0230.bin
+  size: 753574
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/person-attributes-recognition-crossroad-0230/person-attributes-recognition-crossroad-0230-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

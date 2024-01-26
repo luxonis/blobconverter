@@ -15,6 +15,7 @@ import requests
 
 
 class Versions:
+    v2022_3_RVC3 = "2022.3_RVC3"
     v2022_1 = "2022.1"
     v2021_4 = "2021.4"
     v2021_3 = "2021.3"
@@ -33,6 +34,10 @@ def show_progress(curr, max):
     done = int(50 * curr / max)
     sys.stdout.write("\r[{}{}]".format('=' * done, ' ' * (50-done)) )
     sys.stdout.flush()
+
+
+def is_valid_name(name):
+    return name.count(".") <= 1 and name.count("=") == 0
 
 
 class ConfigBuilder:
@@ -121,7 +126,7 @@ def __init_s3():
         bucket = s3.Bucket('blobconverter')
         s3.meta.client.head_bucket(Bucket=bucket.name)
     except botocore.exceptions.EndpointConnectionError:
-        # region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
+        # Region must be pinned to prevent boto3 specifying a bucket/region that doesn't exist
         s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED), region_name='us-east-1')
         bucket = s3.Bucket('blobconverter')
         s3.meta.client.head_bucket(Bucket=bucket.name)
@@ -368,6 +373,11 @@ def from_caffe(proto, model, data_type=None, optimizer_params=None, proto_size=N
 
     proto_name = get_filename(proto)
     model_name = get_filename(model)
+
+    # print(f"CAFFE {proto_name} {model_name}")
+    if not is_valid_name(proto_name) or not is_valid_name(model_name):
+        raise ValueError("Input model files must not contain '.' or '=' characters!")
+
     files = {}
     builder = ConfigBuilder()\
         .task_type("detection")\
@@ -403,6 +413,10 @@ def from_onnx(model, data_type=None, optimizer_params=None, model_size=None, mod
     files = {}
     model_name = get_filename(model)
 
+    # print(f"ONNX {model_name}")
+    if not is_valid_name(model_name):
+        raise ValueError("Input model file must not contain '.' or '=' characters!")
+
     builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("onnx")\
@@ -432,6 +446,10 @@ def from_tf(frozen_pb, data_type=None, optimizer_params=None, frozen_pb_size=Non
     files = {}
     frozen_pb_name = get_filename(frozen_pb)
 
+    # print(f"TF {frozen_pb_name}")
+    if not is_valid_name(frozen_pb_name):
+        raise ValueError("Input model file must not contain '.' or '=' characters!")
+
     builder = ConfigBuilder()\
         .task_type("detection")\
         .framework("tf")\
@@ -456,6 +474,10 @@ def from_openvino(xml, bin, xml_size=None, xml_sha256=None, bin_size=None, bin_s
         .framework("dldt")
     xml_name = get_filename(xml)
     bin_name = get_filename(bin)
+
+    # print(f"IR {xml_name} {bin_name}")
+    if not is_valid_name(xml_name) or not is_valid_name(bin_name):
+        raise ValueError("Input model files must not contain '.' or '=' characters!")
 
     if str(xml).startswith("http"):
         builder = builder.with_file(name=xml_name, url=xml, size=xml_size, sha256=xml_sha256)
@@ -489,6 +511,8 @@ def zoo_list(version=None, url=None, zoo_type='intel'):
         url = __defaults["url"]
     if version is None:
         version = __defaults["version"]
+    if zoo_type is None:
+        zoo_type = __defaults["zoo_type"]
 
     url_params = {
         'version': version,

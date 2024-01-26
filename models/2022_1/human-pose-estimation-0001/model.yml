@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/human-pose-estimation-0001.xml
-    size: 248520
-    checksum: e3e2e4910ccdc4216d1f601b58cabe334fe9ee82c2cbc3e68b90141d546b772f500c34f9448a291465070696a5f0d30a
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.xml
-  - name: FP16/human-pose-estimation-0001.bin
-    size: 8197356
-    checksum: 2a6e2987d88220a1b852bf22cfce07bc9415623f68972a7663e5fb25c319848f63a70c6ba9a7a0c7b4a06fa6ce16dda3
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.bin
-
-framework: dldt 
-        
+- checksum: e3e2e4910ccdc4216d1f601b58cabe334fe9ee82c2cbc3e68b90141d546b772f500c34f9448a291465070696a5f0d30a
+  name: FP16/human-pose-estimation-0001.xml
+  size: 248520
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.xml
+- checksum: 2a6e2987d88220a1b852bf22cfce07bc9415623f68972a7663e5fb25c319848f63a70c6ba9a7a0c7b4a06fa6ce16dda3
+  name: FP16/human-pose-estimation-0001.bin
+  size: 8197356
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001.bin
+- checksum: f2c890b36f3fd45c81b6a8c7bc952977b1b60748c036a1e48eed7bf0fcae9d8372a6d897ba65ebde27529fe1ab56ce3d
+  name: FP16-INT8/human-pose-estimation-0001.xml
+  size: 426156
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001-int8.xml
+- checksum: c8fd0eea004648dc2e52805757c4e5ba26c5900096c71e46571ac6578e22f88f4e12c8cf07cf5f08810421821a19f6f1
+  name: FP16-INT8/human-pose-estimation-0001.bin
+  size: 4170034
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/human-pose-estimation-0001/human-pose-estimation-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

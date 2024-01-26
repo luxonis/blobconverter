@@ -1,11 +1,24 @@
-$text-color: #e1f6ff;
-$text-color-secondary: #bed1d9;
-$form-dark: #0f1923;
-$form-light: #20272d;
+$text-color: #101828;
+$text-color-secondary: #667085;
+$form-dark: #060507;
+$form-light: #14374D;
+$color-luxonis: #4e38ed;
 @mixin form-bg {
-  background: linear-gradient(to bottom, $form-dark, $form-light, $form-dark);
-  border-radius: 20px;
-  box-shadow: 0 0 10px 2px rgba(53, 69, 79, 0.7)
+  background: #fff; //linear-gradient(to bottom, $form-dark, $form-light, $form-dark);
+  border-radius: 10px;
+  border: 1px solid #eaecf0;
+  width: 90vw;
+  //box-shadow: 0 0 10px 2px rgba(53, 69, 79, 0.7)
+}
+
+.btn-outline-luxonis {
+  color: $color-luxonis;
+  border-color: $color-luxonis;
+}
+
+.btn-outline-luxonis:hover {
+  background-color: $color-luxonis;
+  color: white;
 }
 
 a {
@@ -29,14 +42,44 @@ a {
   }
 }
 
-input, select {
-  background-color: #1b2936;
-  border-color: #17232f;
-  outline-color: #17232f;
+/*textarea {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  outline-color: #ccc;
   outline-style: none;
   box-shadow: none;
-  color: #e1f6ff;
+  color: $text-color-secondary;
   font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 14px;
+}*/
+
+/*input, select {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  outline-color: #ccc;
+  outline-style: none;
+  box-shadow: none;
+  color: $text-color-secondary;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 14px;
+}*/
+input {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  outline-color: #ccc;
+  outline-style: none;
+  box-shadow: none;
+  color: $text-color-secondary;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 14px;
+}
+
+//select {
+//  font-size: 14px;
+//}
+
+.form-control, input, textarea {
+  background-color: #f5f5f5;
   font-size: 14px;
 }
 
@@ -52,7 +95,7 @@ input, select {
 
   text-align: center;
   background-size: cover;
-  background-color: #181515;
+  background-color: #f5f5f5;;
   background-position: center center;
   position: relative;
   width: 100vw;
@@ -62,21 +105,32 @@ input, select {
   overflow-y: scroll;
 
   .jumbo {
+
+    h1 img {
+      height: 60px;
+      margin-right: 15px;
+    }
+
+
     h1 {
       margin: 40px 0;
       font-size: 56px;
       font-weight: 700;
+      line-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     h3 {
-      margin-bottom: 150px;
+      margin-bottom: 50px;
       color: $text-color-secondary;
     }
   }
 
   .type-chooser {
     @include form-bg;
-    padding: 40px 60px;
+    padding: 40px 10px 10px 10px;
 
     .cta {
       h2 {
@@ -95,29 +149,31 @@ input, select {
       }
 
       .btn {
-        background-color: $form-dark;
-        border-color: #35454F;
-        font-size: 28px;
+        background-color: #f6fcfe;
+        border-color: $color-luxonis;
+        margin-bottom: 10px;
+        color: $text-color-secondary;
+        font-size: 16px;
 
         &:hover {
-          background-color: #15222d;
+          background-color: $color-luxonis;
+          color: #fff;
         }
 
         &:active, &.active {
-          background-color: #2a3a49;
+          background-color: $color-luxonis;
+          color: #fff;
         }
 
         &.default {
           position: relative;
+          border-width: 3px;
+
           .default-label {
             position: absolute;
-            top: -5px;
-            left: -10px;
-
-            img {
-              width: 135px;
-              height: 68px;
-            }
+            top: 45px;
+            left: 0px;
+            color: gray;
 
             p {
               font-size: 11px;
@@ -125,6 +181,17 @@ input, select {
           }
         }
       }
+    }
+  }
+
+  .info {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 40px;
+
+    a {
+      text-decoration: underline;
+      text-orientation: sideways;
     }
   }
 
@@ -141,18 +208,18 @@ input, select {
 
   .params-form {
     display: flex;
-    height: 400px;
+    height: 420px;
     @include form-bg;
     width: 880px;
     transition: width 500ms ease-in-out;
 
     &.expanded {
-      width: 1550px
+      width: 95vw; //1550px
     }
 
     .upper-border, .lower-border {
       height: 40px;
-      background: $form-light;
+      background: #fff;
       overflow: hidden;
 
       a {
@@ -173,12 +240,12 @@ input, select {
     }
 
     .form, .steps, .advanced-options {
-      height: 320px;
+      height: 330px;
     }
 
     .params-form-paths {
       width: 350px;
-      border-right: 2px solid #293239;
+      border-right: 2px solid #eaecf0;
 
       .upper-border {
         border-radius: 20px 0 0 0;
@@ -219,7 +286,7 @@ input, select {
 
     .params-form-steps {
       width: 500px;
-      border-right: 2px solid #293239;
+      border-right: 2px solid #eaecf0;
 
       .steps {
         padding: 25px;
@@ -234,10 +301,10 @@ input, select {
           height: 80px;
 
           .step-label {
-            position: absolute;
-            top: 15px;
-            left: 30px;
-            font-size: 36px;
+            //position: absolute;
+            //top: 10px;
+            //left: 30px;
+            font-size: 40px;
             font-family: "Helvetica Neue", sans-serif;
           }
 
@@ -265,6 +332,9 @@ input, select {
       }
 
       .lower-border {
+        .btn {
+          margin-bottom: 10px;
+        }
         .btn + .btn {
           margin-left: 100px;
         }
@@ -297,11 +367,11 @@ input, select {
       }
 
       .expander {
-        border-radius: 0 0 20px 20px;
-        width: 400px;
+        border-radius: 0 0 10px 10px;
+        width: 420px;
         height: 30px;
-        background: $form-light;
-        color: rgba($text-color, 1);
+        background: $color-luxonis;
+        color: rgba(#fff, 1);
         cursor: pointer;
         position: absolute;
         line-height: 30px;
@@ -315,13 +385,14 @@ input, select {
         flex-direction: column;
         justify-content: space-around;
         align-items: flex-start;
-        padding: 35px 55px 35px 25px;
+        padding: 35px 55px 5px 25px;
 
         .advanced-option {
           text-align: left;
           display: flex;
           flex-direction: column;
           width: 100%;
+          margin-top: 5px;
           label {
             span {
               font-weight: 700;
@@ -338,15 +409,16 @@ input, select {
 }
 
 .modal-content {
-  background-color: $form-dark;
+  background-color: #fff;
   color: $text-color;
 
   .modal-header, .modal-footer {
-    background-color: $form-light;
+    background-color: $color-luxonis;
+    color: white;
   }
 
   .modal-header {
-    border-bottom: 1px solid #293239;
+    border-bottom: 1px solid #eaecf0;
 
     .modal-title {
       font-weight: 700;
@@ -363,7 +435,7 @@ input, select {
     }
     pre {
       margin-top: 10px;
-      background-color: black;
+      background-color: #f5f5f5;
       color: $text-color;
       font-family: "Courier New", monospace;
       padding: 10px;
@@ -373,7 +445,7 @@ input, select {
   }
 
   .modal-footer {
-    border-top: 1px solid #293239;
+    border-top: 1px solid #eaecf0;
     display: flex;
     justify-content: space-between;
   }

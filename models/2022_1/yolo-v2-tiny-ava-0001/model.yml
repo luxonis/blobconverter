@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/yolo-v2-tiny-ava-0001.xml
-    size: 62731
-    checksum: d31f4394dc05d8659224c9e61e3c660d63f3c408559ec783e9967f2cbc03047e690125a4200f3d4144b1371ef47b2325
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.xml
-  - name: FP16/yolo-v2-tiny-ava-0001.bin
-    size: 31717480
-    checksum: 0c4fda488487df145da316623cc83a630bfb5ac2b26174f21109c06fdc15d86418f5ec81977047f6bde2b2ab0302a506
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.bin
-
-framework: dldt 
-        
+- checksum: d31f4394dc05d8659224c9e61e3c660d63f3c408559ec783e9967f2cbc03047e690125a4200f3d4144b1371ef47b2325
+  name: FP16/yolo-v2-tiny-ava-0001.xml
+  size: 62731
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.xml
+- checksum: 0c4fda488487df145da316623cc83a630bfb5ac2b26174f21109c06fdc15d86418f5ec81977047f6bde2b2ab0302a506
+  name: FP16/yolo-v2-tiny-ava-0001.bin
+  size: 31717480
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001.bin
+- checksum: 1d995298cf8db513a4196be5b02f13fec5905fefe9056c7f38fbe6c14f6f1ebe0464a3b6b98832221392616e2ac34a92
+  name: FP16-INT8/yolo-v2-tiny-ava-0001.xml
+  size: 76415
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001-int8.xml
+- checksum: 88919d7d8d1ef93b8cc68e163a42bca1b021a72cd3247f73af60fa3f489f0e3d7bb6de5d8a4b0f4ae0ad718c625fb30a
+  name: FP16-INT8/yolo-v2-tiny-ava-0001.bin
+  size: 15874674
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/yolo-v2-tiny-ava-0001/yolo-v2-tiny-ava-0001-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

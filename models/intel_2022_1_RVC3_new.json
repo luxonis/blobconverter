@@ -1,0 +1,363 @@
+{
+    "version": "2",
+    "available": [
+        {
+            "name": "action-recognition-0001-encoder",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "densenet-121",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "dla-34",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "driver-action-recognition-adas-0002-encoder",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "efficientnet-b0",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "efficientnet-b0-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "efficientnet-v2-b0",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "efficientnet-v2-s",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "face-reidentification-retail-0095",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "gaze-estimation-adas-0002",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "googlenet-v3-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "head-pose-estimation-adas-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "human-pose-estimation-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "human-pose-estimation-3d-0001",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "landmarks-regression-retail-0009",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "license-plate-recognition-barrier-0001",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mixnet-l",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mobilefacedet-v1-mxnet",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mobilenet-v2-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "mobilenet-yolo-v4-syg",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "nfnet-f0",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "open-closed-eye-0001",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "person-attributes-recognition-crossroad-0230",
+            "data_types": [
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "person-vehicle-bike-detection-crossroad-yolov3-1020",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "regnetx-3.2gf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "repvgg-a0",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "repvgg-b1",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "repvgg-b3",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "resnet-18-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "resnet-34-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "resnet-50-pytorch",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "shufflenet-v2-x0.5",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "shufflenet-v2-x1.0",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "single-image-super-resolution-1032",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "single-image-super-resolution-1033",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "sphereface",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "text-detection-0003",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "text-detection-0004",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "text-image-super-resolution-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "text-spotting-0005-recognizer-encoder",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "weld-porosity-detection-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v1-tiny-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v2-ava-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-ava-sparse-35-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-ava-sparse-70-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v2-tiny-ava-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-tiny-ava-sparse-30-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-tiny-ava-sparse-60-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v2-tiny-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v2-tiny-vehicle-detection-0001",
+            "data_types": [
+                "FP16",
+                "FP16-INT8"
+            ]
+        },
+        {
+            "name": "yolo-v3-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v3-tiny-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v4-tf",
+            "data_types": [
+                "FP16"
+            ]
+        },
+        {
+            "name": "yolo-v4-tiny-tf",
+            "data_types": [
+                "FP16"
+            ]
+        }
+    ],
+    "unavailable": [
+        "colorization-siggraph",
+        "face-recognition-resnet100-arcface-onnx",
+        "formula-recognition-medium-scan-0001-im2latex-encoder",
+        "inception-resnet-v2-tf",
+        "wavernn-rnn"
+    ]
+}

@@ -1,9 +1,11 @@
 import os
 import subprocess
-import sys
 from pathlib import Path
+import argparse
+
 
 versions = {
+    "2022_3_RVC3" : Path("/opt/intel/openvino2022_3_RVC3/python/python3.8/requirements.txt"),
     "2022_1": Path("/opt/intel/openvino2022_1/tools/requirements.txt"),
     "2021_4": Path("/opt/intel/openvino2021_4/deployment_tools/model_optimizer/requirements.txt"),
     "2021_3": Path("/opt/intel/openvino2021_3/deployment_tools/model_optimizer/requirements.txt"),
@@ -11,8 +13,6 @@ versions = {
     "2021_1": Path("/opt/intel/openvino2021_1/deployment_tools/model_optimizer/requirements.txt"),
     "2020_4": Path("/opt/intel/openvino2020_4/deployment_tools/model_optimizer/requirements.txt"),
 }
-
-
 additional_packages = ["pyyaml"]
 
 
@@ -21,7 +21,7 @@ def abs_str(path: Path):
 
 
 def create_venv(name: str, req_path: Path, interpreter):
- 
+
     venv_path = Path("/app") / "venvs" / ("venv"+name)
     venv_python_path = venv_path / "bin" / "python"
     venv_path.parent.mkdir(parents=True, exist_ok=True)
@@ -39,9 +39,16 @@ def create_venv(name: str, req_path: Path, interpreter):
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2021.4.2", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2021.4.2", "protobuf==3.15.6"], env=new_env)
     if name in ["2022_1"]:
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2022.1.0", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2022.1.0", "protobuf==3.15.6"], env=new_env)
+    if name in ["2022_3_RVC3"]:
+        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev==2022.3", "protobuf==3.15.6"], env=new_env)
 
 
 if __name__ == "__main__":
-    for env_name, base_path in versions.items():
-        create_venv(env_name, base_path, "python3.8")
+    parser = argparse.ArgumentParser(description="A setup container script")
+    parser.add_argument("version", choices=["2022_3_RVC3", "2022_1", "2021_4", "2021_3", "2021_2", "2021_1", "2020_4"], help="Choose OpenVINO version")
+
+    args = parser.parse_args()
+    env_name = args.version
+
+    create_venv(env_name, versions[env_name], "python3.8")
 
