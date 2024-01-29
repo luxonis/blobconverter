@@ -35,14 +35,23 @@ function readAsJson(blob) {
   })
 }
 
+function isValidName(name) {
+  return name.split('.').length <= 2 && name.split('=').length === 1;
+}
+
 function* fetchModels() {
   try {
     const modelSource = yield select(modelSourceSelector);
-    if (modelSource !== 'zoo') {
+    if (modelSource !== 'zoo' && modelSource !== 'zoo-depthai') {
       return;
     }
+    let zooType = "intel"
+    if (modelSource === 'zoo-depthai') {
+      zooType = "depthai"
+    }
+
     const openVinoVersion = yield select(openVinoVersionSelector);
-    const response = yield request(GET, 'zoo_models', {}, {params: {version: openVinoVersion}});
+    const response = yield request(GET, 'zoo_models', {}, {params: {version: openVinoVersion, zoo_type: zooType}});
     yield put({type: actionTypes.FETCH_ZOO_MODELS_SUCCESS, payload: response.data});
   } catch (error) {
     console.error(error);
@@ -51,6 +60,7 @@ function* fetchModels() {
 }
 
 function* convertModel({payload}) {
+  console.log(payload);
   try {
     const modelSource = yield select(modelSourceSelector);
     const openVinoVersion = yield select(openVinoVersionSelector);
@@ -59,6 +69,11 @@ function* convertModel({payload}) {
     if(modelSource === "zoo") {
       data.append('name', payload["zoo-name"]);
       data.append('use_zoo', "true");
+      data.append('zoo_type', "intel")
+    } else if(modelSource === "zoo-depthai") {
+      data.append('name', payload["zoo-name"]);
+      data.append('use_zoo', "true");
+      data.append('zoo_type', "depthai")
     } else if(modelSource === "file") {
       data.append('config', payload["config-file"]);
       data.append('name', payload["config-name"]);
@@ -66,26 +81,40 @@ function* convertModel({payload}) {
     } else {
       let framework = "";
       let optimizer_additional = "";
+      let valid_names = true;
       switch (modelSource) {
         case 'caffe': {
           framework = "caffe";
+          // Check for valid name
+          valid_names = isValidName(payload['caffe-model'].name) && isValidName(payload['caffe-proto'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['caffe-model'].name} --input_proto=$dl_dir/${precision}/${payload['caffe-proto'].name}`
           break;
         }
         case 'openvino': {
           framework = "dldt";
+          // Check for valid name
+          valid_names = isValidName(payload['openvino-bin'].name) && isValidName(payload['openvino-xml'].name)
           break;
         }
         case 'tf': {
           framework = "tf";
+          // Check for valid name
+          valid_names = isValidName(payload['tf-model'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['tf-model'].name}`
           break;
         }
         case 'onnx': {
           framework = "onnx";
+          // Check for valid name
+          valid_names = isValidName(payload['onnx-model'].name)
           optimizer_additional = ` --input_model=$dl_dir/${precision}/${payload['onnx-model'].name}`
           break;
         }
+      }
+      if (!valid_names) {
+        yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: {"message": "Input model file names must not contain '.' or '=' characters!"}});
+        yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});
+        return;
       }
       const filenames = Object.values(payload).map(item => item.name).filter(item => !!item)
       const yml = generateYaml({
@@ -104,6 +133,14 @@ function* convertModel({payload}) {
     
     data.append('myriad_shaves', payload["advanced-option-input-shaves"]);
     data.append('myriad_params_advanced', payload["advanced-option-input-compiler"]);
+
+    console.log(openVinoVersion)
+    console.log(openVinoVersion.includes("RVC3"))
+    if(openVinoVersion.includes("RVC3")){
+      data.append('quantization_domain', payload["advanced-option-input-quantization"]);
+      data.append('data_type', payload["advanced-option-input-int8"] !== undefined ? payload["advanced-option-input-int8"] : "FP16")
+    }
+
     const response = yield request(
       POST,
       'compile',
@@ -121,6 +158,7 @@ function* convertModel({payload}) {
   } catch (error) {
     console.error(error);
     if (_.has(error, 'response')) {
+      console.log(error.response.data);
       const data = yield readAsJson(error.response.data);
       yield put({type: actionTypes.CONVERT_MODEL_FAILED, error: data});
       yield put({type: actionTypes.CHANGE_MODAL, payload: {error_modal: {open: true}}});

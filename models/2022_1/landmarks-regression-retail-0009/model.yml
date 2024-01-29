@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/landmarks-regression-retail-0009.xml
-    size: 73873
-    checksum: d39a98cd182ecb72b7b2cc578325a8f310c2b4f0b5041ecb0ae003866db97d7f479abf1e358fce6352680a849073d3bd
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009.xml
-  - name: FP16/landmarks-regression-retail-0009.bin
-    size: 381232
-    checksum: 295b2defa639a0ecc21caa506733cb0507c18fb885495a4b88691b1c7d54bc7d78f7aa503e02611080f6368814d9d05c
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009.bin
-
-framework: dldt 
-        
+- checksum: d39a98cd182ecb72b7b2cc578325a8f310c2b4f0b5041ecb0ae003866db97d7f479abf1e358fce6352680a849073d3bd
+  name: FP16/landmarks-regression-retail-0009.xml
+  size: 73873
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009.xml
+- checksum: 295b2defa639a0ecc21caa506733cb0507c18fb885495a4b88691b1c7d54bc7d78f7aa503e02611080f6368814d9d05c
+  name: FP16/landmarks-regression-retail-0009.bin
+  size: 381232
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009.bin
+- checksum: 0333f00bcda3cf638b2643e568eb02c930e1a7d0825bf01460d8e04fe659d91a4e1b3652cd1352702d6907325709e314
+  name: FP16-INT8/landmarks-regression-retail-0009.xml
+  size: 88757
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009-int8.xml
+- checksum: 5275de63086681c874f56e6818510ce4c1482fe729d46e1f0842b8d57b01c04c29a04b430ae05f0f84410318d7829822
+  name: FP16-INT8/landmarks-regression-retail-0009.bin
+  size: 196426
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/landmarks-regression-retail-0009/landmarks-regression-retail-0009-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

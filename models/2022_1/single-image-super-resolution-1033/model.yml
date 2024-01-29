@@ -1,16 +1,21 @@
-
 description: empty
-license: empty        
-task_type: object_attributes
 files:
-  - name: FP16/single-image-super-resolution-1033.xml
-    size: 79229
-    checksum: c42d6ece769741a3552da75e9bc1f92bb504f8bb33b5bf6b322b77b890683c946fc88ba7791d15dd995fd5c14e85f3b2
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.xml
-  - name: FP16/single-image-super-resolution-1033.bin
-    size: 60938
-    checksum: a944b9287810c9d054a1fe7614f6e827fca275c956c1c0e1f32e17bb1daf9a32463bbc1a13f6f2dca1c8b9ccb0334795
-    source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.bin
-
-framework: dldt 
-        
+- checksum: c42d6ece769741a3552da75e9bc1f92bb504f8bb33b5bf6b322b77b890683c946fc88ba7791d15dd995fd5c14e85f3b2
+  name: FP16/single-image-super-resolution-1033.xml
+  size: 79229
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.xml
+- checksum: a944b9287810c9d054a1fe7614f6e827fca275c956c1c0e1f32e17bb1daf9a32463bbc1a13f6f2dca1c8b9ccb0334795
+  name: FP16/single-image-super-resolution-1033.bin
+  size: 60938
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033.bin
+- checksum: 8f2d2e65b37e99d0fcd559d86fbf7e56ec04c22e6ffd46816ecc3f569b4f955eb9a21e716f779c67d77070015ae8fe6b
+  name: FP16-INT8/single-image-super-resolution-1033.xml
+  size: 139173
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033-int8.xml
+- checksum: 871e869422db03f938ef603093f808f46a2f41b6940788de1e76ed09b76ab56ef99c3e43497547627e03f549876559d9
+  name: FP16-INT8/single-image-super-resolution-1033.bin
+  size: 31672
+  source: https://blobconverter.nyc3.cdn.digitaloceanspaces.com/intel/2022_1/single-image-super-resolution-1033/single-image-super-resolution-1033-int8.bin
+framework: dldt
+license: empty
+task_type: object_attributes

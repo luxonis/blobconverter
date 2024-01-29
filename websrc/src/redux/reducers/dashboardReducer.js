@@ -31,6 +31,7 @@ const dashboardReducer = (state = DEFAULT_STATE, action) => {
         ...state,
         availableZooModels: [],
         openVinoVersion: action.payload,
+        modelSource: null
       }
     }
     case actionTypes.CONVERT_MODEL: {

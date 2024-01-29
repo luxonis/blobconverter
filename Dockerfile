@@ -7,6 +7,8 @@ RUN yarn build
 
 FROM openvino/ubuntu20_dev:2022.1.0
 
+WORKDIR /
+COPY openvino_files/openvino2022_3_RVC3/ /opt/intel/openvino2022_3_RVC3/
 COPY --from=openvino/ubuntu20_dev:2022.1.0 /opt/intel/openvino /opt/intel/openvino2022_1
 COPY --from=openvino/ubuntu20_dev:2021.4.2 /opt/intel/openvino /opt/intel/openvino2021_4
 COPY --from=openvino/ubuntu20_dev:2021.3 /opt/intel/openvino /opt/intel/openvino2021_3
@@ -15,7 +17,7 @@ COPY --from=openvino/ubuntu18_dev:2021.1 /opt/intel/openvino /opt/intel/openvino
 COPY --from=openvino/ubuntu18_dev:2020.4 /opt/intel/openvino /opt/intel/openvino2020_4
 
 USER root
-RUN apt-get update && apt-get install -y software-properties-common
+RUN apt-get update && apt-get install -y software-properties-common libpugixml-dev libtbb2
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get install -y python3-dev nano git python3.7 python3.7-venv
@@ -28,7 +30,14 @@ USER openvino
 ENV PYTHONUNBUFFERED 1
 
 ADD setup_container.py .
-RUN python3 setup_container.py
+RUN python3 setup_container.py 2022_3_RVC3
+RUN python3 setup_container.py 2022_1
+RUN python3 setup_container.py 2021_4
+RUN python3 setup_container.py 2021_3
+RUN python3 setup_container.py 2021_2
+RUN python3 setup_container.py 2021_1
+RUN python3 setup_container.py 2020_4
+RUN mkdir git
 ADD docker_scheduled.sh .
 ADD requirements.txt .
 ADD model_compiler model_compiler
