@@ -40,7 +40,7 @@ def create_venv(name: str, req_path: Path, interpreter):
     if name in ["2022_1"]:
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2022.1.0", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2022.1.0", "protobuf==3.15.6"], env=new_env)
     if name in ["2022_3_RVC3"]:
-        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev==2022.3", "protobuf==3.15.6"], env=new_env)
+        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2022.3.0", "openvino-dev[tensorflow2,mxnet,pytorch]==2022.3.0", "protobuf==3.15.6"], env=new_env)
 
 
 if __name__ == "__main__":
