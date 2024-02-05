@@ -524,7 +524,7 @@ def __run_cli__():
     parser.add_argument('-sh', '--shaves', type=int, default=4, choices=range(1, 17), help="Specifies number of SHAVE cores that converted model will use")
     parser.add_argument('-dt', '--data-type', help="Specifies model data type")
     parser.add_argument('-o', '--output-dir', help="Directory where the output blob should be saved")
-    parser.add_argument('-v', '--version', help="OpenVINO version to use for conversion")
+    parser.add_argument('-v', '--version', choices=[Versions.v2021_2, Versions.v2021_3, Versions.v2021_4, Versions.v2022_1, Versions.v2022_3_RVC3], help=f"OpenVINO version to use for conversion. To export model for RVC3, you must set OpenVINO version to '{Versions.v2022_3_RVC3}'.")
     parser.add_argument('--optimizer-params', help="Additional params to use when converting a model to OpenVINO IR")
     parser.add_argument('--compile-params', help="Additional params to use when compiling a model to MyriadX blob")
     parser.add_argument('--converter-url', dest="url", help="URL to BlobConverter API endpoint used for conversion")
