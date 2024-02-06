@@ -11,9 +11,16 @@ python3 -m pip install blobconverter
 ## Usage
 
 ```
-usage: blobconverter [-h] [-zn ZOO_NAME] [-zt ZOO_TYPE] [-onnx ONNX_MODEL] [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB] [-ox OPENVINO_XML] [-ob OPENVINO_BIN]
-                     [-rawn RAW_NAME] [-rawc RAW_CONFIG] [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}] [-dt DATA_TYPE] [-o OUTPUT_DIR] [-v VERSION]
-                     [--optimizer-params OPTIMIZER_PARAMS] [--compile-params COMPILE_PARAMS] [--converter-url URL] [--no-cache] [--zoo-list] [--download-ir]
+usage: blobconverter [-h] [-zn ZOO_NAME] [-zt ZOO_TYPE] [-onnx ONNX_MODEL]
+                     [-cp CAFFE_PROTO] [-cm CAFFE_MODEL] [-tf TENSORFLOW_PB]
+                     [-ox OPENVINO_XML] [-ob OPENVINO_BIN] [-rawn RAW_NAME]
+                     [-rawc RAW_CONFIG]
+                     [-sh {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}]
+                     [-dt DATA_TYPE] [-o OUTPUT_DIR]
+                     [-v {2021.2,2021.3,2021.4,2022.1,2022.3_RVC3}]
+                     [--optimizer-params OPTIMIZER_PARAMS]
+                     [--compile-params COMPILE_PARAMS] [--converter-url URL]
+                     [--no-cache] [--dry] [--zoo-list] [--download-ir]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -43,14 +50,17 @@ optional arguments:
                         Specifies model data type
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         Directory where the output blob should be saved
-  -v VERSION, --version VERSION
-                        OpenVINO version to use for conversion
+  -v {2021.2,2021.3,2021.4,2022.1,2022.3_RVC3}, --version {2021.2,2021.3,2021.4,2022.1,2022.3_RVC3}
+                        OpenVINO version to use for conversion. To export
+                        model for RVC3, you must set OpenVINO version to
+                        '2022.3_RVC3'.
   --optimizer-params OPTIMIZER_PARAMS
                         Additional params to use when converting a model to OpenVINO IR
   --compile-params COMPILE_PARAMS
                         Additional params to use when compiling a model to MyriadX blob
   --converter-url URL   URL to BlobConverter API endpoint used for conversion
   --no-cache            Omit .cache directory and force new compilation of the blob
+  --dry                 Instead of compiling the blob, return compilation commands (for manual conversion)
   --zoo-list            List all models available in OpenVINO Model Zoo
   --download-ir         Downloads OpenVINO IR files used to compile the blob. Result path points to a result ZIP archive
 ```
