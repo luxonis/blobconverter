@@ -1,4 +1,4 @@
-FROM node:10.16 as web
+FROM node:18 as web
 
 COPY websrc/ websrc/
 WORKDIR websrc/

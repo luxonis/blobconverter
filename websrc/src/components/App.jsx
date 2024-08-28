@@ -4,7 +4,6 @@ import {makeAction} from "../redux/actions/makeAction";
 import {FETCH_ZOO_MODELS} from "../redux/actions/actionTypes";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import Particles from "react-particles-js";
 import Content from "./Content";
 import ErrorModal from "./ErrorModal";
 import ApiDocs from "./ApiDocs";
