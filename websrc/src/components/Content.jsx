@@ -10,10 +10,10 @@ const Content = () => {
     <>
     <Alert variant="danger" className="text-center">
       <p className="mb-1">
-        <strong>⚠️ DEPRECATED ⚠️</strong>
+        <strong>⚠️ DEPRECATION NOTICE (v3) ⚠️</strong>
       </p>
       <p className="mb-1">
-        This tool is no longer maintained. The conversion results are not compatible with our newer devices and DepthAI V3.
+        This tool is no longer maintained. Results should remain compatible with older devices and DepthAI v2, but may not work with newer devices or DepthAI v3.
       </p>
       <p className="mb-0">
         Please refer to{' '}
