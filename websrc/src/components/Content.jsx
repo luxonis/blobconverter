@@ -17,11 +17,11 @@ const Content = () => {
       </p>
       <p className="mb-0">
         Please refer to{' '}
-        <a href="https://rvc4.docs.luxonis.com/cloud/hubai/features/model-conversion/" target="_blank" rel="noopener noreferrer" className="text-white text-decoration-underline">
+        <a href="https://docs.luxonis.com/cloud/hubai/features/model-conversion/" target="_blank" rel="noopener noreferrer" className="text-white text-decoration-underline">
           HubAI Model Conversion
         </a>{' '}
-        to get the most up-to-date results, or read more about the conversion process in our{' '}
-        <a href="https://rvc4.docs.luxonis.com/software/ai-inference/conversion/" target="_blank" rel="noopener noreferrer" className="text-white text-decoration-underline">
+        to get the most up-to-date results. You can read more about the migration from BlobConverter Python API in our {' '}
+        <a href="https://docs.luxonis.com/software-v3/ai-inference/conversion/rvc-conversion/online/hubai/#HubAI-Migration%20from%20BlobConverter" target="_blank" rel="noopener noreferrer" className="text-white text-decoration-underline">
           documentation
         </a>.
       </p>
