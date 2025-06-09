@@ -2,6 +2,8 @@
 openvino_files/openvino2022_1_RVC3/*
 openvino_files/openvino2022_3_RVC3
 !openvino_files/openvino2022_1_RVC3/empty.txt
+openvino_2022_3_vpux_drop_patched
+openvino_2022_3_vpux_drop_patched.tar.gz
 
 test_scripts/*
 test_scripts/

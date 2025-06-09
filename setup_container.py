@@ -36,9 +36,29 @@ def create_venv(name: str, req_path: Path, interpreter):
     subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", *additional_packages], env=new_env)
 
     if name in ["2021_4"]:
-        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2021.4.2", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2021.4.2", "protobuf==3.15.6"], env=new_env)
+        # Pre-pin tokenizers to avoid broken dependency
+        subprocess.check_call([
+            abs_str(venv_python_path), "-m", "pip", "install", "tokenizers<0.11"
+        ], env=new_env)
+        
+        subprocess.check_call([
+            abs_str(venv_python_path), "-m", "pip", "install",
+            "openvino-dev[all]==2021.4.2",
+            "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2021.4.2",
+            "protobuf==3.15.6"
+        ], env=new_env)
     if name in ["2022_1"]:
-        subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev[all]==2022.1.0", "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2022.1.0", "protobuf==3.15.6"], env=new_env)
+        # Pre-pin tokenizers to avoid broken dependency
+        subprocess.check_call([
+            abs_str(venv_python_path), "-m", "pip", "install", "tokenizers<0.11"
+        ], env=new_env)
+        
+        subprocess.check_call([
+            abs_str(venv_python_path), "-m", "pip", "install",
+            "openvino-dev[all]==2022.1.0",
+            "openvino-dev[tensorflow2,mxnet,caffe,pytorch]==2022.1.0",
+            "protobuf==3.15.6"
+        ], env=new_env)
     if name in ["2022_3_RVC3"]:
         subprocess.check_call([abs_str(venv_python_path), "-m", "pip", "install", "openvino-dev==2022.3", "protobuf==3.15.6"], env=new_env)
 
