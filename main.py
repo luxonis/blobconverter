@@ -324,143 +324,143 @@ def format_model_list(models_available_fp16, models_available_int8, models_unava
 
 @app.route("/compile", methods=['GET', 'POST'])
 def compile():
-    env = EnvResolver()
-    name = request.values.get('name', '')
-    if len(name) == 0:
-        return "Parameter \"name\" is empty!", 400
-    myriad_shaves = int(request.values.get('myriad_shaves', '6'))
-    myriad_params_advanced = request.values.get('myriad_params_advanced', '-ip U8')
-    config_path = env.workdir / name / "model.yml"
-    config_path.parent.mkdir(parents=True, exist_ok=True)
-    config_file = request.files.get("config", None)
-    use_zoo = request.values.get('use_zoo', False)
-    data_type = request.values.get('data_type', "FP16")
-    download_ir = request.values.get('download_ir', "false").lower() == "true"
-    no_cache = request.args.get('no_cache', "false") == "true"
-    quantization_domain = request.args.get('quantization_domain', "ABC")
+    try:
+        env = EnvResolver()
+        name = request.values.get('name', '')
+        if len(name) == 0:
+            return "Parameter \"name\" is empty!", 400
+        myriad_shaves = int(request.values.get('myriad_shaves', '6'))
+        myriad_params_advanced = request.values.get('myriad_params_advanced', '-ip U8')
+        config_path = env.workdir / name / "model.yml"
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_file = request.files.get("config", None)
+        use_zoo = request.values.get('use_zoo', False)
+        data_type = request.values.get('data_type', "FP16")
+        download_ir = request.values.get('download_ir', "false").lower() == "true"
+        no_cache = request.args.get('no_cache', "false") == "true"
+        quantization_domain = request.args.get('quantization_domain', "ABC")
 
-    print(f"GOT QUANTIZATION DOMAIN: {quantization_domain}")
+        print(f"GOT QUANTIZATION DOMAIN: {quantization_domain}")
 
-    if (LOG_URL is not None):
-        content = f"{name}, Params: {myriad_params_advanced}"
-        requests.post(LOG_URL, json={"text": content })
+        if (LOG_URL is not None):
+            content = f"{name}, Params: {myriad_params_advanced}"
+            requests.post(LOG_URL, json={"text": content })
 
-    if config_file is None:
-        if use_zoo:
-            zoo_path = fetch_from_zoo(env, name)
-            if zoo_path is None:
-                return "Model {} not found in model zoo".format(name), 400
-            with zoo_path.open() as in_f, config_path.open("w") as out_f:
-                out_f.write(in_f.read())
+        if config_file is None:
+            if use_zoo:
+                zoo_path = fetch_from_zoo(env, name)
+                if zoo_path is None:
+                    return "Model {} not found in model zoo".format(name), 400
+                with zoo_path.open() as in_f, config_path.open("w") as out_f:
+                    out_f.write(in_f.read())
+            else:
+                return "File named \"config\" must be present in the request form", 400
         else:
-            return "File named \"config\" must be present in the request form", 400
-    else:
-        config_file.save(config_path)
-        with open(config_path) as f:
-            raw_config = f.read()
+            config_file.save(config_path)
+            with open(config_path) as f:
+                raw_config = f.read()
 
-    file_paths = {}
-    for form_name, file in request.files.items():
-        if form_name == "config":
-            continue
-        path = env.workdir / name / data_type / secure_filename(file.filename)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        file_paths[form_name] = path
-        file.save(path)
+        file_paths = {}
+        for form_name, file in request.files.items():
+            if form_name == "config":
+                continue
+            path = env.workdir / name / data_type / secure_filename(file.filename)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            file_paths[form_name] = path
+            file.save(path)
 
-    config = parse_config(config_path, name, data_type, env)
-    compile_config_path = prepare_compile_config(myriad_shaves, env)
-    commands = []
-    xml_path = env.workdir / name / data_type / (name + ".xml")
-    if len(file_paths) == 0:
-        commands.append(
-            f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path / data_type} --num_attempts 5 --name {name} --model_root {env.workdir}"
-        )
-        print(commands)
-    if use_zoo:
-        preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
-        if preconvert_script is not None:
+        config = parse_config(config_path, name, data_type, env)
+        compile_config_path = prepare_compile_config(myriad_shaves, env)
+        commands = []
+        xml_path = env.workdir / name / data_type / (name + ".xml")
+        if len(file_paths) == 0:
             commands.append(
-                f"{env.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
+                f"{env.executable} {env.downloader_path} --precisions {data_type} --output_dir {env.workdir} --cache_dir {env.cache_path / data_type} --num_attempts 5 --name {name} --model_root {env.workdir}"
+            )
+            print(commands)
+        if use_zoo:
+            preconvert_script = next(env.model_zoo_path.rglob(f"**/{name}/pre-convert.py"), None)
+            if preconvert_script is not None:
+                commands.append(
+                    f"{env.executable} {preconvert_script} {env.workdir / name} {env.workdir / name}"
+                )
+
+        if config["framework"] != "dldt":
+            commands.append(
+                f"{env.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
             )
 
-    if config["framework"] != "dldt":
-        commands.append(
-            f"{env.executable} {env.converter_path} --precisions {data_type} --output_dir {env.workdir} --download_dir {env.workdir} --name {name} --model_root {env.workdir}"
-        )
+        out_path = xml_path.with_suffix('.blob')
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        if env.version == "2022.3_RVC3":
+            commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -d VPUX.3400 {myriad_params_advanced}")
 
-    out_path = xml_path.with_suffix('.blob')
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    if env.version == "2022.3_RVC3":
-        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -d VPUX.3400 {myriad_params_advanced}")
+        elif env.version == "2022.1":
+            commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
+        else:
+            commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
+        hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.values)}).encode())
+        if config_file is not None:
+            hash_obj.update(raw_config.encode())
+        for file_path in list(file_paths.values()):
+            with open(file_path, 'rb') as f:
+                hash_obj.update(f.read())
+        req_hash = hash_obj.hexdigest()
 
-    elif env.version == "2022.1":
-        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} -d MYRIAD {myriad_params_advanced}")
-    else:
-        commands.append(f"{env.compiler_path} -m {xml_path} -o {out_path} -c {compile_config_path} {myriad_params_advanced}")
-    hash_obj = hashlib.sha256(json.dumps({**dict(request.args), **dict(request.values)}).encode())
-    if config_file is not None:
-        hash_obj.update(raw_config.encode())
-    for file_path in list(file_paths.values()):
-        with open(file_path, 'rb') as f:
-            hash_obj.update(f.read())
-    req_hash = hash_obj.hexdigest()
+        if request.args.get("dry", "false") == "true":
+            return jsonify(commands)
 
-    if request.args.get("dry", "false") == "true":
-        return jsonify(commands)
+        data = None
+        model_from_cache = False
+        if AWS_CACHE:
+            try:
+                if not no_cache or not download_ir:
+                    print(f"Trying to get blob {req_hash} from cache...")
+                    data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
+                    with out_path.open("wb") as f:
+                        f.write(data)
+                    print(f"Data {req_hash} found in cache...")
+                    
+            except botocore.exceptions.ClientError as ex:
+                print(f"Data {req_hash} not found in cache...")
+                if ex.response['Error']['Code'] != 'NoSuchKey':
+                    raise ex
+        if data is None:
+            for command in commands:
+                env.run_command(command)
+        else:
+            model_from_cache = True
 
-    data = None
-    model_from_cache = False
-    if AWS_CACHE:
-        try:
-            if not no_cache or not download_ir:
-                print(f"Trying to get blob {req_hash} from cache...")
-                data = bucket.Object("{}.blob".format(req_hash)).get()['Body'].read()
-                with out_path.open("wb") as f:
-                    f.write(data)
-                print(f"Data {req_hash} found in cache...")
-                
-        except botocore.exceptions.ClientError as ex:
-            print(f"Data {req_hash} not found in cache...")
-            if ex.response['Error']['Code'] != 'NoSuchKey':
-                raise ex
-    if data is None:
-        for command in commands:
-            env.run_command(command)
-    else:
-        model_from_cache = True
-
-    major, minor = env.version.replace('_R3', '').replace('_RVC3', '').split('.')
+        major, minor = env.version.replace('_R3', '').replace('_RVC3', '').split('.')
 
 
-    if not env.version in ["2022.3_RVC3"]:
-        with open(out_path, 'rb+') as f:
-            f.seek(60)
-            f.write(int(major).to_bytes(4, byteorder="little"))
-            f.write(int(minor).to_bytes(4, byteorder="little"))
+        if not env.version in ["2022.3_RVC3"]:
+            with open(out_path, 'rb+') as f:
+                f.seek(60)
+                f.write(int(major).to_bytes(4, byteorder="little"))
+                f.write(int(minor).to_bytes(4, byteorder="little"))
 
-            if AWS_CACHE:
-                if not download_ir and not model_from_cache:
-                    f.seek(0)
-                    print(f"Uploading final blob {req_hash} to the cache...")
-                    bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
+                if AWS_CACHE:
+                    if not download_ir and not model_from_cache:
+                        f.seek(0)
+                        print(f"Uploading final blob {req_hash} to the cache...")
+                        bucket.put_object(Body=f.read(), Key='{}.blob'.format(req_hash))
 
-    if download_ir:
-        zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
-        zipf.write(xml_path, xml_path.name)
-        zipf.write(xml_path.with_suffix('.bin'), xml_path.with_suffix('.bin').name)
-        zipf.write(out_path, out_path.name)
-        zipf.close()
-        out_path = out_path.with_suffix('.zip')
+        if download_ir:
+            zipf = zipfile.ZipFile(out_path.with_suffix('.zip'), 'w', zipfile.ZIP_DEFLATED)
+            zipf.write(xml_path, xml_path.name)
+            zipf.write(xml_path.with_suffix('.bin'), xml_path.with_suffix('.bin').name)
+            zipf.write(out_path, out_path.name)
+            zipf.close()
+            out_path = out_path.with_suffix('.zip')
 
-    @after_this_request
-    def remove_dir(response):
-        shutil.rmtree(env.workdir, ignore_errors=True)
+        response = make_response(send_file(out_path, as_attachment=True, attachment_filename=out_path.name))
+        response.headers['X-HASH'] = req_hash
         return response
+    finally:
+        shutil.rmtree(env.workdir, ignore_errors=True)
 
-    response = make_response(send_file(out_path, as_attachment=True, attachment_filename=out_path.name))
-    response.headers['X-HASH'] = req_hash
-    return response
+
 
 
 @app.errorhandler(CommandFailed)
