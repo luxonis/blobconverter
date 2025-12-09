@@ -17,7 +17,7 @@ const Content = () => {
       </p>
       <p className="mb-0">
         Please refer to{' '}
-        <a href="https://docs.luxonis.com/cloud/hubai/features/model-conversion/" target="_blank" rel="noopener noreferrer" className="text-black text-decoration-underline">
+        <a href="https://docs.luxonis.com/cloud/hubai/quick-conversion/" target="_blank" rel="noopener noreferrer" className="text-black text-decoration-underline">
           <strong>HubAI Model Conversion</strong>
         </a>{' '}
         to get the most up-to-date results. You can read more about the migration from BlobConverter Python API in our {' '}
